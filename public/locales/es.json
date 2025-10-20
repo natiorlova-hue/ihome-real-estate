@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "forYou": "Para Ti",
+    "properties": "Propiedades",
+    "services": "Servicios",
+    "guides": "Guías e Historias",
+    "ourWay": "Nuestra Manera",
+    "letsTalk": "¡Hablemos!"
+  },
+  "hero": {
+    "title": "Encuéntrate en la Costa del Sol",
+    "subtitle": "Escapa de la niebla a través de una cálida historia de vida bajo el sol—con calidad en la que puedes confiar, justo aquí: accesible y fácil de vivir.",
+    "exploreLifestyles": "Explorar Estilos de Vida",
+    "getGuidance": "Obtener Orientación"
+  },
+  "lifestyle": {
+    "title": "Encuentra Tu Estilo de Vida Perfecto",
+    "subtitle": "Elige lo que más te importa",
+    "families": "Familias Relocalizándose",
+    "nomads": "Nómadas Digitales",
+    "golden": "Años Dorados",
+    "golf": "Golf y Vida Tranquila",
+    "secondHome": "Segunda Casa junto al Mar",
+    "investment": "Buscadores de Inversión"
+  },
+  "common": {
+    "viewAll": "Ver Todo",
+    "readMore": "Leer Más",
+    "learnMore": "Aprender Más",
+    "contact": "Contacto",
+    "submit": "Enviar",
+    "loading": "Cargando..."
+  }
+}
