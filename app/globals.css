@@ -1,182 +1,33 @@
-/* ============================================
-   FONTS
-   ============================================ */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
-
+/* app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================
-   CSS VARIABLES (Brand Colors)
-   ============================================ */
-:root {
-  /* Terracotta (Primary) */
-  --color-terracotta-main: #d87a4e;
-  --color-terracotta-light: #ffe6d5;
-  --color-terracotta-dark: #9c2a10;
-
-  /* Mediterranean (Secondary) */
-  --color-mediterranean-main: #0ea5e9;
-  --color-mediterranean-light: #cff9fe;
-  --color-mediterranean-dark: #155b75;
-
-  /* Neutrals */
-  --color-gray-50: #f9fafb;
-  --color-gray-900: #101828;
-
-  /* Status */
-  --color-success: #12b76a;
-  --color-error: #f04438;
-  --color-warning: #f79009;
-}
-
-/* ============================================
-   BASE STYLES
-   ============================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-family: "Inter", system-ui, sans-serif;
-  color: var(--color-gray-900);
-  background-color: white;
-  line-height: 1.5;
-}
-
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-/* ============================================
-   TEXT STITCH ANIMATION (Hero Effect)
-   ============================================ */
-@keyframes textStitch {
-  from {
-    opacity: 0;
-    letter-spacing: 0.5em;
-    transform: translateY(10px);
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
-  to {
-    opacity: 1;
-    letter-spacing: normal;
-    transform: translateY(0);
+
+  body {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    color: #101828;
+    background: white;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-playfair), Georgia, serif;
   }
 }
 
-.text-stitch {
-  animation: textStitch 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.text-stitch span {
-  display: inline-block;
-  opacity: 0;
-  animation: textStitch 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* ============================================
-   UTILITIES
-   ============================================ */
-.container-custom {
-  width: 100%;
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-@media (min-width: 640px) {
-  .container-custom {
-    padding-left: 2rem;
-    padding-right: 2rem;
+@layer components {
+  .btn-primary {
+    @apply bg-terracotta-500 hover:bg-terracotta-600 text-white px-6 py-3 rounded-lg font-medium transition-colors;
   }
-}
-
-/* ============================================
-   ACCESSIBILITY
-   ============================================ */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Focus visible for keyboard navigation */
-:focus-visible {
-  outline: 2px solid var(--color-terracotta-main);
-  outline-offset: 2px;
-}
-
-/* ============================================
-   CUSTOM SCROLLBAR
-   ============================================ */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-gray-50);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-terracotta-main);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-terracotta-dark);
-}
-
-/* ============================================
-   SELECTION
-   ============================================ */
-::selection {
-  background-color: var(--color-terracotta-light);
-  color: var(--color-gray-900);
-}
-
-/* ============================================
-   IMAGE OPTIMIZATION
-   ============================================ */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* ============================================
-   BUTTONS (Base)
-   ============================================ */
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
 }

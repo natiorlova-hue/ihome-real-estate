@@ -1,7 +1,12 @@
-export default function Home() {
+// app/[locale]/page.tsx - ТИМЧАСОВА ВЕРСІЯ
+
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+
   return (
-    <main className="min-h-screen flex items-center justify-center text-center">
-      <h1 className="text-3xl font-serif">iHome Realty — project foundation ready.</h1>
-    </main>
+    <div style={{ padding: "100px", textAlign: "center" }}>
+      <h1 style={{ fontSize: "48px" }}>HOME PAGE</h1>
+      <p>Locale: {locale}</p>
+    </div>
   )
 }
