@@ -1,22 +1,3 @@
-Perfect ⚡️ — here’s your ready-to-commit `README.md` that documents your branching strategy and initial project setup so any future collaborator (or client) knows exactly how this repo works.
-
-You can copy this whole block and save it as:
-
-```bash
-touch README.md
-code README.md
-```
-
-Then paste ↓ and commit:
-
-```bash
-git add README.md
-git commit -m "docs: add project setup and branching workflow guide"
-git push origin feature/init-scaffold
-```
-
----
-
 ## 📘 README.md — iHome Realty Web Platform
 
 ### 🏡 Overview
@@ -158,7 +139,3 @@ Merge once Vercel preview builds successfully.
 - Optional: protect `dev` (no force-push).
 - Every push to `main` auto-deploys to Production via Vercel.
 - Every push to `dev` or `feature/*` auto-deploys a Preview.
-
----
-
-Would you like me to add the small `.env.example` next (so your repo is ready for Sanity / Firebase / Resend before the next commit)?
