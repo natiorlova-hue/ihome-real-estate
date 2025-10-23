@@ -10,7 +10,14 @@ interface HeaderProps {
   locale: string
 }
 
-const translations: Record<string, any> = {
+const translations: Record<string, {
+  home: string
+  properties: string
+  services: string
+  guides: string
+  ourWay: string
+  letsTalk: string
+}> = {
   en: {
     home: "Home",
     properties: "Properties",
