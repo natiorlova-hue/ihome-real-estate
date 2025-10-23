@@ -150,7 +150,8 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       categories[]-> {
         _ref,
         title
-      }
+      },
+      content
     }
   `
   
@@ -167,13 +168,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       publishedAt,
       featured,
       image,
-      content[] {
-        ...,
-        _type == "image" => {
-          ...,
-          asset->
-        }
-      },
+      content,
       categories[]-> {
         _ref,
         title
@@ -197,7 +192,8 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
       categories[]-> {
         _ref,
         title
-      }
+      },
+      content
     }
   `
   

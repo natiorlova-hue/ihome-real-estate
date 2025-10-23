@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getBlogPost, getBlogPosts } from '@/lib/blog'
+import { getBlogPost, getBlogPosts, getLocalizedText, getLocalizedRichText } from '@/lib/blog'
 import { urlFor } from '@/sanity/lib/image'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
@@ -16,6 +16,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) {
     notFound()
   }
+
+  // Get localized content
+  const title = getLocalizedText(post.title, locale)
+  const description = getLocalizedText(post.description, locale)
+  const content = getLocalizedRichText(post.content, locale)
 
   return (
     <div className="min-h-screen bg-white">
@@ -45,11 +50,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            {post.title}
+            {title}
           </h1>
           
           <p className="text-xl text-gray-600 mb-6">
-            {post.description}
+            {description}
           </p>
           
           <div className="flex flex-wrap gap-2">
@@ -58,7 +63,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 key={index}
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
               >
-                {category.title || 'Category'}
+                {getLocalizedText(category.title, locale) || 'Category'}
               </span>
             ))}
           </div>
@@ -70,7 +75,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Image
             src={urlFor(post.image).width(800).height(400).url()}
-            alt={post.title}
+            alt={title}
             width={800}
             height={400}
             className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
@@ -81,16 +86,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="prose prose-lg max-w-none">
-          {post.content && (
+          {content && content.length > 0 && (
             <PortableText
-              value={post.content}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              value={content as any}
               components={{
                 types: {
                   image: ({ value }) => (
                     <div className="my-8">
                       <Image
                         src={urlFor(value).width(800).height(400).url()}
-                        alt={value.alt || 'Blog post image'}
+                        alt={value.alt || title}
                         width={800}
                         height={400}
                         className="rounded-lg shadow-lg w-full h-auto"
