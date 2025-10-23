@@ -55,8 +55,8 @@ const categories = [
 const posts = [
   {
     _type: 'post',
-    title: 'Getting Started with Next.js 15',
-    description: 'Learn the fundamentals of Next.js 15 and how to build modern web applications with the latest features and improvements.',
+    title: 'Finding Your Dream Home in Barcelona',
+    description: 'A complete guide to navigating the Barcelona real estate market, from neighborhoods to legal requirements.',
     content: [
       {
         _type: 'block',
@@ -66,7 +66,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'intro-text',
-            text: 'Next.js 15 brings exciting new features and improvements that make building React applications even more powerful and efficient. In this comprehensive guide, we\'ll explore the key features and how to get started.',
+            text: 'Barcelona offers an incredible variety of housing options, from historic apartments in the Gothic Quarter to modern penthouses overlooking the Mediterranean. This guide will help you navigate the market and find your perfect home.',
             marks: [],
           },
         ],
@@ -79,60 +79,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'h2-text',
-            text: 'What\'s New in Next.js 15?',
-            marks: [],
-          },
-        ],
-      },
-      {
-        _type: 'block',
-        _key: 'features',
-        style: 'normal',
-        children: [
-          {
-            _type: 'span',
-            _key: 'features-text',
-            text: 'Some of the key improvements include better performance, enhanced developer experience, and new built-in optimizations.',
-            marks: [],
-          },
-        ],
-      },
-    ],
-    slug: {
-      _type: 'slug',
-      current: 'getting-started-nextjs-15',
-    },
-    publishedAt: '2024-01-15T10:00:00Z',
-    featured: true,
-    categorySlug: 'life-in-spain', // Will be replaced with actual category reference
-  },
-  {
-    _type: 'post',
-    title: 'Building Scalable React Applications',
-    description: 'Best practices and patterns for creating maintainable and scalable React applications that can grow with your team.',
-    content: [
-      {
-        _type: 'block',
-        _key: 'intro',
-        style: 'normal',
-        children: [
-          {
-            _type: 'span',
-            _key: 'intro-text',
-            text: 'As your React application grows, maintaining code quality and performance becomes increasingly important. Here are the essential patterns and practices you need to know.',
-            marks: [],
-          },
-        ],
-      },
-      {
-        _type: 'block',
-        _key: 'heading1',
-        style: 'h2',
-        children: [
-          {
-            _type: 'span',
-            _key: 'h2-text',
-            text: 'Component Architecture',
+            text: 'Best Neighborhoods for Expats',
             marks: [],
           },
         ],
@@ -145,7 +92,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'content-text',
-            text: 'Designing your components with scalability in mind is crucial for long-term maintainability.',
+            text: 'Each neighborhood in Barcelona has its own unique character and advantages. Consider your lifestyle, budget, and priorities when choosing.',
             marks: [],
           },
         ],
@@ -153,7 +100,60 @@ const posts = [
     ],
     slug: {
       _type: 'slug',
-      current: 'building-scalable-react-applications',
+      current: 'finding-dream-home-barcelona',
+    },
+    publishedAt: '2024-01-15T10:00:00Z',
+    featured: true,
+    categorySlug: 'life-in-spain',
+  },
+  {
+    _type: 'post',
+    title: 'Sarah\'s Relocation Success Story',
+    description: 'How Sarah moved from London to Madrid with her family and found the perfect apartment in just 3 weeks.',
+    content: [
+      {
+        _type: 'block',
+        _key: 'intro',
+        style: 'normal',
+        children: [
+          {
+            _type: 'span',
+            _key: 'intro-text',
+            text: 'Sarah and her family decided to relocate from London to Madrid for a better work-life balance. Here\'s how we helped them find their perfect home in just three weeks.',
+            marks: [],
+          },
+        ],
+      },
+      {
+        _type: 'block',
+        _key: 'heading1',
+        style: 'h2',
+        children: [
+          {
+            _type: 'span',
+            _key: 'h2-text',
+            text: 'The Challenge',
+            marks: [],
+          },
+        ],
+      },
+      {
+        _type: 'block',
+        _key: 'content',
+        style: 'normal',
+        children: [
+          {
+            _type: 'span',
+            _key: 'content-text',
+            text: 'Sarah needed a 3-bedroom apartment near international schools, with a budget of €2,500/month, and they had to move within a month.',
+            marks: [],
+          },
+        ],
+      },
+    ],
+    slug: {
+      _type: 'slug',
+      current: 'sarah-relocation-success-story',
     },
     publishedAt: '2024-01-20T14:30:00Z',
     featured: true,
@@ -161,8 +161,8 @@ const posts = [
   },
   {
     _type: 'post',
-    title: 'Modern CSS Techniques for Better UX',
-    description: 'Explore advanced CSS techniques and modern approaches to create stunning user interfaces and better user experiences.',
+    title: 'Budget Planning for Your Spanish Move',
+    description: 'Everything you need to know about the costs involved in relocating to Spain, from visas to property taxes.',
     content: [
       {
         _type: 'block',
@@ -172,7 +172,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'intro-text',
-            text: 'CSS has evolved significantly over the years, and modern techniques can dramatically improve both developer experience and user interface quality.',
+            text: 'Moving to Spain involves various costs beyond just the property price. This comprehensive guide breaks down all the expenses you need to consider.',
             marks: [],
           },
         ],
@@ -185,7 +185,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'h2-text',
-            text: 'CSS Grid and Flexbox',
+            text: 'Initial Costs Breakdown',
             marks: [],
           },
         ],
@@ -198,7 +198,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'content-text',
-            text: 'These powerful layout systems have revolutionized how we create responsive and flexible designs.',
+            text: 'From visa applications to property transfer taxes, here\'s what you can expect to pay when moving to Spain.',
             marks: [],
           },
         ],
@@ -206,69 +206,16 @@ const posts = [
     ],
     slug: {
       _type: 'slug',
-      current: 'modern-css-techniques-better-ux',
+      current: 'budget-planning-spanish-move',
     },
     publishedAt: '2024-01-25T09:15:00Z',
     featured: false,
-    categorySlug: 'interior-lifestyle',
-  },
-  {
-    _type: 'post',
-    title: 'TypeScript Best Practices for React',
-    description: 'Learn how to effectively use TypeScript with React to build type-safe applications with better developer experience.',
-    content: [
-      {
-        _type: 'block',
-        _key: 'intro',
-        style: 'normal',
-        children: [
-          {
-            _type: 'span',
-            _key: 'intro-text',
-            text: 'TypeScript and React make a powerful combination for building robust applications. Here are the best practices you should follow.',
-            marks: [],
-          },
-        ],
-      },
-      {
-        _type: 'block',
-        _key: 'heading1',
-        style: 'h2',
-        children: [
-          {
-            _type: 'span',
-            _key: 'h2-text',
-            text: 'Type Definitions',
-            marks: [],
-          },
-        ],
-      },
-      {
-        _type: 'block',
-        _key: 'content',
-        style: 'normal',
-        children: [
-          {
-            _type: 'span',
-            _key: 'content-text',
-            text: 'Proper type definitions are the foundation of a well-typed React application.',
-            marks: [],
-          },
-        ],
-      },
-    ],
-    slug: {
-      _type: 'slug',
-      current: 'typescript-best-practices-react',
-    },
-    publishedAt: '2024-01-30T16:45:00Z',
-    featured: true,
     categorySlug: 'budget-relocation',
   },
   {
     _type: 'post',
-    title: 'Performance Optimization Strategies',
-    description: 'Comprehensive guide to optimizing your web applications for better performance and user experience.',
+    title: 'Spanish Interior Design Trends 2024',
+    description: 'Discover the latest interior design trends popular in Spanish homes, from Mediterranean minimalism to modern rustic.',
     content: [
       {
         _type: 'block',
@@ -278,7 +225,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'intro-text',
-            text: 'Performance is crucial for user experience and SEO. Learn the most effective strategies to optimize your applications.',
+            text: 'Spanish interior design combines traditional Mediterranean elements with contemporary aesthetics. Here are the trends that are defining Spanish homes in 2024.',
             marks: [],
           },
         ],
@@ -291,7 +238,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'h2-text',
-            text: 'Code Splitting and Lazy Loading',
+            text: 'Mediterranean Minimalism',
             marks: [],
           },
         ],
@@ -304,7 +251,7 @@ const posts = [
           {
             _type: 'span',
             _key: 'content-text',
-            text: 'These techniques can significantly reduce initial bundle size and improve loading times.',
+            text: 'Clean lines, natural materials, and a focus on light and space characterize this popular trend.',
             marks: [],
           },
         ],
@@ -312,7 +259,60 @@ const posts = [
     ],
     slug: {
       _type: 'slug',
-      current: 'performance-optimization-strategies',
+      current: 'spanish-interior-design-trends-2024',
+    },
+    publishedAt: '2024-01-30T16:45:00Z',
+    featured: true,
+    categorySlug: 'interior-lifestyle',
+  },
+  {
+    _type: 'post',
+    title: 'The Johnson Family\'s Costa del Sol Adventure',
+    description: 'How the Johnson family found their perfect villa on the Costa del Sol and adapted to Spanish coastal living.',
+    content: [
+      {
+        _type: 'block',
+        _key: 'intro',
+        style: 'normal',
+        children: [
+          {
+            _type: 'span',
+            _key: 'intro-text',
+            text: 'The Johnson family dreamed of coastal living in Spain. After months of searching, they found their perfect villa in Marbella. Here\'s their story.',
+            marks: [],
+          },
+        ],
+      },
+      {
+        _type: 'block',
+        _key: 'heading1',
+        style: 'h2',
+        children: [
+          {
+            _type: 'span',
+            _key: 'h2-text',
+            text: 'The Search Process',
+            marks: [],
+          },
+        ],
+      },
+      {
+        _type: 'block',
+        _key: 'content',
+        style: 'normal',
+        children: [
+          {
+            _type: 'span',
+            _key: 'content-text',
+            text: 'Finding the right property on the Costa del Sol required patience and local knowledge. We visited over 20 properties before finding the perfect match.',
+            marks: [],
+          },
+        ],
+      },
+    ],
+    slug: {
+      _type: 'slug',
+      current: 'johnson-family-costa-del-sol-adventure',
     },
     publishedAt: '2024-02-05T11:20:00Z',
     featured: false,

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getBlogPost, getBlogPosts } from '@/lib/blog'
 import { urlFor } from '@/sanity/lib/image'
 import { PortableText } from '@portabletext/react'
+import Image from 'next/image'
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string; locale: string }>
@@ -67,9 +68,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Featured Image */}
       {post.image && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <img
+          <Image
             src={urlFor(post.image).width(800).height(400).url()}
             alt={post.title}
+            width={800}
+            height={400}
             className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
           />
         </div>
@@ -82,6 +85,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <PortableText
               value={post.content}
               components={{
+                types: {
+                  image: ({ value }) => (
+                    <div className="my-8">
+                      <Image
+                        src={urlFor(value).width(800).height(400).url()}
+                        alt={value.alt || 'Blog post image'}
+                        width={800}
+                        height={400}
+                        className="rounded-lg shadow-lg w-full h-auto"
+                      />
+                      {value.caption && (
+                        <p className="text-sm text-gray-600 mt-2 text-center italic">
+                          {value.caption}
+                        </p>
+                      )}
+                    </div>
+                  ),
+                },
                 block: {
                   h1: ({ children }) => (
                     <h1 className="text-3xl font-bold text-gray-900 mt-8 mb-4">
@@ -102,6 +123,54 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <p className="text-gray-700 leading-relaxed mb-4">
                       {children}
                     </p>
+                  ),
+                  blockquote: ({ children }) => (
+                    <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-600 my-6">
+                      {children}
+                    </blockquote>
+                  ),
+                },
+                marks: {
+                  strong: ({ children }) => (
+                    <strong className="font-bold text-gray-900">{children}</strong>
+                  ),
+                  em: ({ children }) => (
+                    <em className="italic">{children}</em>
+                  ),
+                  code: ({ children }) => (
+                    <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">
+                      {children}
+                    </code>
+                  ),
+                  link: ({ children, value }) => (
+                    <a
+                      href={value.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 underline"
+                    >
+                      {children}
+                    </a>
+                  ),
+                },
+                list: {
+                  bullet: ({ children }) => (
+                    <ul className="list-disc list-inside mb-4 space-y-2">
+                      {children}
+                    </ul>
+                  ),
+                  number: ({ children }) => (
+                    <ol className="list-decimal list-inside mb-4 space-y-2">
+                      {children}
+                    </ol>
+                  ),
+                },
+                listItem: {
+                  bullet: ({ children }) => (
+                    <li className="text-gray-700">{children}</li>
+                  ),
+                  number: ({ children }) => (
+                    <li className="text-gray-700">{children}</li>
                   ),
                 },
               }}

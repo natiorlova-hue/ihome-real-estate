@@ -18,7 +18,21 @@ export interface BlogPost {
     _ref: string
     title?: string
   }>
-  content?: any[]
+  content?: Array<{
+    _type: string
+    _key: string
+    children?: Array<{
+      _type: string
+      _key: string
+      text?: string
+      marks?: string[]
+    }>
+    asset?: {
+      _ref: string
+    }
+    alt?: string
+    caption?: string
+  }>
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
@@ -51,7 +65,13 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       publishedAt,
       featured,
       image,
-      content,
+      content[] {
+        ...,
+        _type == "image" => {
+          ...,
+          asset->
+        }
+      },
       categories[]-> {
         _ref,
         title
