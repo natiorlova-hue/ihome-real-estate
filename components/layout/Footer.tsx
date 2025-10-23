@@ -2,7 +2,6 @@
 "use client"
 
 import LanguageSwitcher from "./LanguageSwitcher"
-import Link from "next/link"
 
 interface FooterProps {
   locale: string
