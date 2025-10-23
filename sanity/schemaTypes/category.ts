@@ -8,7 +8,15 @@ export const category = defineType({
     {
       name: 'title',
       title: 'Title',
-      type: 'string',
+      type: 'internationalizedArrayString',
+      options: {
+        languages: [
+          { id: 'en', title: 'English' },
+          { id: 'es', title: 'Spanish' },
+          { id: 'ru', title: 'Russian' },
+        ],
+        defaultLanguages: ['en'],
+      },
       validation: (Rule) => Rule.required(),
     },
     {
@@ -24,8 +32,15 @@ export const category = defineType({
     {
       name: 'description',
       title: 'Description',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
+      options: {
+        languages: [
+          { id: 'en', title: 'English' },
+          { id: 'es', title: 'Spanish' },
+          { id: 'ru', title: 'Russian' },
+        ],
+        defaultLanguages: ['en'],
+      },
     },
     {
       name: 'color',
@@ -47,8 +62,22 @@ export const category = defineType({
   ],
   preview: {
     select: {
-      title: 'title',
-      subtitle: 'description',
+      titleArray: 'title',
+      descriptionArray: 'description',
     },
+    prepare(selection) {
+      const { titleArray, descriptionArray } = selection
+      
+      // Extract English title from the internationalized array
+      const englishTitle = titleArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'Untitled Category'
+      
+      // Extract English description from the internationalized array
+      const englishDescription = descriptionArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'No description'
+      
+      return {
+        title: englishTitle,
+        subtitle: englishDescription,
+      }
+    }
   },
 })

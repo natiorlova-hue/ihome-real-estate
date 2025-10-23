@@ -8,7 +8,15 @@ export const post = defineType({
     {
       name: 'title',
       title: 'Title',
-      type: 'string',
+      type: 'internationalizedArrayString',
+      options: {
+        languages: [
+          { id: 'en', title: 'English' },
+          { id: 'es', title: 'Spanish' },
+          { id: 'ru', title: 'Russian' },
+        ],
+        defaultLanguages: ['en'],
+      },
       validation: (Rule) => Rule.required(),
     },
     {
@@ -23,55 +31,21 @@ export const post = defineType({
     {
       name: 'description',
       title: 'Description',
-      type: 'text',
-      rows: 3,
+      type: 'internationalizedArrayText',
+      options: {
+        languages: [
+          { id: 'en', title: 'English' },
+          { id: 'es', title: 'Spanish' },
+          { id: 'ru', title: 'Russian' },
+        ],
+        defaultLanguages: ['en'],
+      },
       validation: (Rule) => Rule.required().max(200),
     },
     {
       name: 'content',
       title: 'Rich Content',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'H1', value: 'h1' },
-            { title: 'H2', value: 'h2' },
-            { title: 'H3', value: 'h3' },
-            { title: 'Quote', value: 'blockquote' },
-          ],
-          lists: [
-            { title: 'Bullet', value: 'bullet' },
-            { title: 'Number', value: 'number' },
-          ],
-          marks: {
-            decorators: [
-              { title: 'Strong', value: 'strong' },
-              { title: 'Emphasis', value: 'em' },
-              { title: 'Code', value: 'code' },
-            ],
-            annotations: [
-              {
-                title: 'URL',
-                name: 'link',
-                type: 'object',
-                fields: [
-                  {
-                    title: 'URL',
-                    name: 'href',
-                    type: 'url',
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          type: 'image',
-          options: { hotspot: true },
-        },
-      ],
+      type: 'localeBlock',
       validation: (Rule) => Rule.required(),
     },
     {
@@ -111,9 +85,24 @@ export const post = defineType({
   ],
   preview: {
     select: {
-      title: 'title',
-      subtitle: 'description',
+      titleArray: 'title',
+      descriptionArray: 'description',
       media: 'image',
     },
+    prepare(selection) {
+      const { titleArray, descriptionArray, media } = selection
+      
+      // Extract English title from the internationalized array
+      const englishTitle = titleArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'Untitled'
+      
+      // Extract English description from the internationalized array
+      const englishDescription = descriptionArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'No description'
+      
+      return {
+        title: englishTitle,
+        subtitle: englishDescription,
+        media: media,
+      }
+    }
   },
 })

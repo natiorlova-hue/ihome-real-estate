@@ -32,7 +32,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </div>
 
       {/* Blog Posts Grid */}
-      <BlogPostsGrid posts={posts} />
+      <BlogPostsGrid posts={posts} locale={locale} />
 
       {/* CTA Section */}
       <div className="bg-gray-50 py-16">
