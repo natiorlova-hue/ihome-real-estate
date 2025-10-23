@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
+    "@portabletext/react": "^4.0.3",
     "@sanity/client": "^7.12.0",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.11.0",
