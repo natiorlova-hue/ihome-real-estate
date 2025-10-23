@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { client } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { getLocalizedText } from '@/lib/blog'
+import Image from 'next/image'
 
 interface Post {
   _id: string
@@ -66,7 +66,7 @@ export default function BlogPostsGrid({ posts, locale = 'en' }: BlogPostsGridPro
               >
                 <div className="aspect-w-16 aspect-h-9 bg-gray-200">
                   {post.image ? (
-                    <img
+                    <Image
                       src={urlFor(post.image).width(400).height(225).url()}
                       alt={title}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"

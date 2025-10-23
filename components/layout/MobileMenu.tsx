@@ -3,7 +3,6 @@
 
 import { Fragment } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Dialog, Transition, Disclosure } from "@headlessui/react"
 import { ChevronDown, X } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -22,7 +21,6 @@ const propertyTypes = ["villa", "apartment", "penthouse", "townhouse", "plot"]
 const regions = ["marbella", "estepona", "benahavis", "mijas", "fuengirola"]
 
 export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps) {
-  const pathname = usePathname()
   const t = useTranslations("nav")
   const tMega = useTranslations("megaMenu")
 
