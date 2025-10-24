@@ -1,5 +1,5 @@
-import { getBlogPosts } from "@/lib/blog";
 import BlogPostsGrid from "@/components/blog/BlogPostsGrid";
+import { getBlogPosts } from "@/lib/blog";
 
 export default async function HomePage({
   params,
@@ -18,7 +18,7 @@ export default async function HomePage({
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Welcome to iHome Real Estate
+            We create spaces that make life more beautiful
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
             Your trusted partner for finding the perfect home in Spain. Discover

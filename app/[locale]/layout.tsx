@@ -53,7 +53,7 @@ export default async function RootLayout({
       className={`${notoSerif.variable} ${notoSans.variable} h-full`}
     >
       <body className="font-sans antialiased">
-        <main className="min-h-screen flex flex-col">
+        <main className="min-h-screen flex flex-col pt-16 md:pt-20">
           <Header locale={locale} />
           <div className="flex-grow">{children}</div>
           <Footer locale={locale} />
