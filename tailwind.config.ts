@@ -1,6 +1,8 @@
 import type { Config } from "tailwindcss"
+import tailwindcssAnimate from "tailwindcss-animate"
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,6 +11,43 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // ====================================
+        // SHADCN/UI CSS VARIABLES
+        // ====================================
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+
         // ====================================
         // BASE COLORS
         // ====================================
@@ -22,7 +61,7 @@ const config: Config = {
         // ====================================
         gray: {
           25: "#FCFCFD",
-          50: "#F9FAFB",
+          50: "#FAFAFA",
           100: "#F2F4F7",
           200: "#E4E7EC",
           300: "#D0D5DD",
@@ -236,6 +275,9 @@ const config: Config = {
       // BORDER RADIUS
       // ====================================
       borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
         "4xl": "2rem",
       },
 
@@ -255,6 +297,8 @@ const config: Config = {
       // ANIMATIONS
       // ====================================
       animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
         fadeIn: "fadeIn 0.6s ease-out",
         slideUp: "slideUp 0.6s ease-out",
         slideDown: "slideDown 0.4s ease-out",
@@ -263,6 +307,14 @@ const config: Config = {
       },
 
       keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -302,7 +354,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 }
 
 export default config
