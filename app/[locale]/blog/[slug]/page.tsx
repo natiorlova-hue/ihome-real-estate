@@ -73,13 +73,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Featured Image */}
       {post.image && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Image
-            src={urlFor(post.image).width(800).height(400).url()}
-            alt={title}
-            width={800}
-            height={400}
-            className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
-          />
+          {(() => {
+            try {
+              const imageUrl = urlFor(post.image).width(800).height(400).url()
+              return (
+                <Image
+                  src={imageUrl}
+                  alt={title}
+                  width={800}
+                  height={400}
+                  className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+                />
+              )
+            } catch (error) {
+              console.error('Error generating image URL:', error, 'Image data:', post.image)
+              return (
+                <div className="w-full h-64 md:h-96 bg-gray-200 rounded-lg shadow-lg flex items-center justify-center">
+                  <p className="text-gray-500">Image not available</p>
+                </div>
+              )
+            }
+          })()}
         </div>
       )}
 
@@ -92,22 +106,34 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               value={content as any}
               components={{
                 types: {
-                  image: ({ value }) => (
-                    <div className="my-8">
-                      <Image
-                        src={urlFor(value).width(800).height(400).url()}
-                        alt={value.alt || title}
-                        width={800}
-                        height={400}
-                        className="rounded-lg shadow-lg w-full h-auto"
-                      />
-                      {value.caption && (
-                        <p className="text-sm text-gray-600 mt-2 text-center italic">
-                          {value.caption}
-                        </p>
-                      )}
-                    </div>
-                  ),
+                  image: ({ value }) => {
+                    try {
+                      const imageUrl = urlFor(value).width(800).height(400)?.url()
+                      return (
+                        <div className="my-8">
+                          <Image
+                            src={imageUrl}
+                            alt={value.alt || title}
+                            width={800}
+                            height={400}
+                            className="rounded-lg shadow-lg w-full h-auto"
+                          />
+                          {value.caption && (
+                            <p className="text-sm text-gray-600 mt-2 text-center italic">
+                              {value.caption}
+                            </p>
+                          )}
+                        </div>
+                      )
+                    } catch (error) {
+                      console.error('Error generating image URL in content:', error, 'Image data:', value)
+                      return (
+                        <div className="my-8 w-full h-48 bg-gray-200 rounded-lg shadow-lg flex items-center justify-center">
+                          <p className="text-gray-500">Image not available</p>
+                        </div>
+                      )
+                    }
+                  },
                 },
                 block: {
                   h1: ({ children }) => (
