@@ -1,11 +1,11 @@
 // components/layout/Header.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 interface HeaderProps {
   locale: string;
@@ -84,15 +84,10 @@ export default function Header({ locale }: HeaderProps) {
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "backdrop-blur-lg shadow-md" : "bg-gray-50 shadow-sm"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
-            <Link href={`/${locale}`} className="flex items-center space-x-2">
+      <header className="fixed top-0 left-0 w-full z-50 bg-gray-50">
+        <div className="container">
+          <div className="flex items-center gap-6 h-16 md:h-20">
+            <Link href={`/${locale}`} className="flex items-center gap-2">
               <svg
                 width="35"
                 height="35"
@@ -105,14 +100,16 @@ export default function Header({ locale }: HeaderProps) {
                   fill="#EF651A"
                 />
               </svg>
-              <span>IHome ∙ Marbella</span>
+              <span className="text-xl font-medium text-terracotta-500">
+                {"IHome ∙ Marbella"}
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <nav className="hidden md:flex text-md items-center gap-6 font-semibold">
               <Link
                 href={`/${locale}`}
-                className={`text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   isActiveLink(`/${locale}`)
                     ? "text-terracotta-500"
                     : "text-gray-700 hover:text-terracotta-500"
@@ -123,7 +120,7 @@ export default function Header({ locale }: HeaderProps) {
 
               <Link
                 href={`/${locale}/properties`}
-                className={`text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   isActiveLink(`/${locale}/properties`)
                     ? "text-terracotta-500"
                     : "text-gray-700 hover:text-terracotta-500"
@@ -134,7 +131,7 @@ export default function Header({ locale }: HeaderProps) {
 
               <Link
                 href={`/${locale}/services`}
-                className={`text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   isActiveLink(`/${locale}/services`)
                     ? "text-terracotta-500"
                     : "text-gray-700 hover:text-terracotta-500"
@@ -145,7 +142,7 @@ export default function Header({ locale }: HeaderProps) {
 
               <Link
                 href={`/${locale}/guides`}
-                className={`text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   isActiveLink(`/${locale}/guides`)
                     ? "text-terracotta-500"
                     : "text-gray-700 hover:text-terracotta-500"
@@ -156,7 +153,7 @@ export default function Header({ locale }: HeaderProps) {
 
               <Link
                 href={`/${locale}/our-way`}
-                className={`text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   isActiveLink(`/${locale}/our-way`)
                     ? "text-terracotta-500"
                     : "text-gray-700 hover:text-terracotta-500"
@@ -167,13 +164,16 @@ export default function Header({ locale }: HeaderProps) {
             </nav>
 
             {/* Right Side */}
-            <div className="flex items-center space-x-4">
-              {/* Desktop CTA */}
+            <div className="flex items-center ml-auto space-x-4">
               <Button
                 asChild
-                variant="default"
-                className="hidden md:inline-block bg-terracotta-500 hover:bg-terracotta-600 text-white px-4 lg:px-5 py-2 lg:py-2.5 text-xs lg:text-sm font-medium"
+                className="hidden md:inline-block"
+                variant="outline"
               >
+                <Link href={`/${locale}/contact`}>Costal Clarithy Metod</Link>
+              </Button>
+
+              <Button asChild className="hidden md:inline-block">
                 <Link href={`/${locale}/contact`}>{t.letsTalk}</Link>
               </Button>
 
@@ -268,7 +268,7 @@ export default function Header({ locale }: HeaderProps) {
 
           <Link
             href={`/${locale}/contact`}
-            className="bg-terracotta-500 hover:bg-terracotta-600 text-white px-6 py-3 rounded-lg text-center font-medium transition-colors"
+            // className="bg-terracotta-500 hover:bg-terracotta-600 text-white px-6 py-3 rounded-lg text-center font-medium transition-colors"
           >
             {t.letsTalk}
           </Link>

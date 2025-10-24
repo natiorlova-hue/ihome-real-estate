@@ -1,20 +1,20 @@
 // app/[locale]/layout.tsx
-import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
-import { notFound } from "next/navigation";
-import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/header/header";
+import type { Metadata } from "next";
+import { Noto_Sans, Noto_Serif } from "next/font/google";
+import { notFound } from "next/navigation";
 import "../globals.css";
 
-const inter = Inter({
+const notoSerif = Noto_Serif({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-noto-serif",
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const notoSans = Noto_Sans({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-playfair",
+  variable: "--font-noto-sans",
   display: "swap",
 });
 
@@ -48,7 +48,10 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
+    <html
+      lang={locale}
+      className={`${notoSerif.variable} ${notoSans.variable}`}
+    >
       <body className="font-sans antialiased">
         {/* БЕЗ NextIntlClientProvider! */}
         <Header locale={locale} />

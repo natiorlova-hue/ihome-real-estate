@@ -84,7 +84,7 @@ const config: Config = {
           200: "#FFD6AE",
           300: "#FF9C66",
           400: "#FF692E",
-          500: "##EF651A", // 🔥 MAIN BRAND
+          500: "#EF651A", // 🔥 MAIN BRAND
           600: "#C2410C",
           700: "#9C2A10",
           800: "#7E1D0E",
@@ -245,8 +245,26 @@ const config: Config = {
       // TYPOGRAPHY
       // ====================================
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        serif: ["Playfair Display", "Georgia", "serif"],
+        sans: ["Noto Sans", "system-ui", "sans-serif"],
+        serif: ["Noto Serif", "Georgia", "serif"],
+        "noto-serif": ["Noto Serif", "Georgia", "serif"],
+        "noto-sans": ["Noto Sans", "system-ui", "sans-serif"],
+      },
+
+      // ====================================
+      // CONTAINER
+      // ====================================
+      container: {
+        center: true,
+        padding: "1rem", // 16px
+        screens: {
+          DEFAULT: "100%",
+          sm: "100%",
+          md: "100%",
+          lg: "100%",
+          xl: "1224px", // Custom max-width
+          "2xl": "1224px", // Same max-width for consistency
+        },
       },
 
       fontSize: {
