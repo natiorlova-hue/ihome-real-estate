@@ -1,11 +1,11 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Merge Tailwind classes without conflicts
  */
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -17,7 +17,7 @@ export function formatPrice(price: number): string {
     currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price)
+  }).format(price);
 }
 
 /**
@@ -28,15 +28,15 @@ export function formatDate(date: string | Date): string {
     month: "long",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(date))
+  }).format(new Date(date));
 }
 
 /**
  * Truncate text
  */
 export function truncate(str: string, length: number): string {
-  if (str.length <= length) return str
-  return str.slice(0, length) + "..."
+  if (str.length <= length) return str;
+  return str.slice(0, length) + "...";
 }
 
 /**
@@ -48,5 +48,5 @@ export function slugify(str: string): string {
     .trim()
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .replace(/^-+|-+$/g, "");
 }

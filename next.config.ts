@@ -1,7 +1,7 @@
-import type { NextConfig } from "next"
-import createNextIntlPlugin from "next-intl/plugin"
+import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin("./i18n.ts")
+const withNextIntl = createNextIntlPlugin("./i18n.ts");
 
 const nextConfig: NextConfig = {
   images: {
@@ -33,11 +33,11 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         ],
       },
-    ]
+    ];
   },
 
   async redirects() {
-    return [{ source: "/home", destination: "/", permanent: true }]
+    return [{ source: "/home", destination: "/", permanent: true }];
   },
 
   env: {
@@ -48,6 +48,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
-}
+};
 
-export default withNextIntl(nextConfig) // ✅ plugin applied correctly
+export default withNextIntl(nextConfig); // ✅ plugin applied correctly
