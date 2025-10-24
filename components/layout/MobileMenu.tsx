@@ -1,39 +1,43 @@
 // components/layout/MobileMenu.tsx
-"use client"
+"use client";
 
-import { Fragment } from "react"
-import Link from "next/link"
-import { Dialog, Transition, Disclosure } from "@headlessui/react"
-import { ChevronDown, X } from "lucide-react"
-import { useTranslations } from "next-intl"
-import Logo from "@/components/ui/Logo"
-import LanguageSwitcher from "./LanguageSwitcher"
+import { Fragment } from "react";
+import Link from "next/link";
+import { Dialog, Transition, Disclosure } from "@headlessui/react";
+import { ChevronDown, X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import Logo from "@/components/ui/Logo";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface MobileMenuProps {
-  isOpen: boolean
-  onClose: () => void
-  locale: string
+  isOpen: boolean;
+  onClose: () => void;
+  locale: string;
 }
 
-const lifestyleCategories = ["families", "nomads", "golden", "golf", "secondHome", "investment"]
+const lifestyleCategories = [
+  "families",
+  "nomads",
+  "golden",
+  "golf",
+  "secondHome",
+  "investment",
+];
 
-const propertyTypes = ["villa", "apartment", "penthouse", "townhouse", "plot"]
-const regions = ["marbella", "estepona", "benahavis", "mijas", "fuengirola"]
+const propertyTypes = ["villa", "apartment", "penthouse", "townhouse", "plot"];
+const regions = ["marbella", "estepona", "benahavis", "mijas", "fuengirola"];
 
-export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps) {
-  const t = useTranslations("nav")
-  const tMega = useTranslations("megaMenu")
+export default function MobileMenu({
+  isOpen,
+  onClose,
+  locale,
+}: MobileMenuProps) {
+  const t = useTranslations("nav");
+  const tMega = useTranslations("megaMenu");
 
   return (
-    <Transition.Root
-      show={isOpen}
-      as={Fragment}
-    >
-      <Dialog
-        as="div"
-        className="relative z-modal lg:hidden"
-        onClose={onClose}
-      >
+    <Transition.Root show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-modal lg:hidden" onClose={onClose}>
         {/* Backdrop */}
         <Transition.Child
           as={Fragment}
@@ -92,7 +96,7 @@ export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps)
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="pl-4 mt-1 space-y-1">
-                        {lifestyleCategories.map((category) => (
+                        {lifestyleCategories.map(category => (
                           <Link
                             key={category}
                             href={`/${locale}/live-your-way/${category}`}
@@ -123,7 +127,7 @@ export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps)
                           <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">
                             {tMega("propertyTypes")}
                           </p>
-                          {propertyTypes.map((type) => (
+                          {propertyTypes.map(type => (
                             <Link
                               key={type}
                               href={`/${locale}/properties?type=${type}`}
@@ -137,8 +141,10 @@ export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps)
 
                         {/* Regions */}
                         <div>
-                          <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">{tMega("regions")}</p>
-                          {regions.map((region) => (
+                          <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">
+                            {tMega("regions")}
+                          </p>
+                          {regions.map(region => (
                             <Link
                               key={region}
                               href={`/${locale}/properties?region=${region}`}
@@ -186,7 +192,9 @@ export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps)
               <div className="border-t border-gray-200 px-4 py-6 space-y-4">
                 {/* Language Switcher */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">{t("language")}</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    {t("language")}
+                  </span>
                   <LanguageSwitcher currentLocale={locale} />
                 </div>
 
@@ -204,5 +212,5 @@ export default function MobileMenu({ isOpen, onClose, locale }: MobileMenuProps)
         </div>
       </Dialog>
     </Transition.Root>
-  )
+  );
 }
