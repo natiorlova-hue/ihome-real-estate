@@ -76,8 +76,12 @@ export interface BlogPost {
   featured: boolean
   image?: {
     asset: {
+      _id: string
       _ref: string
+      url: string
     }
+    alt?: string
+    caption?: string
   }
   categories: Array<{
     _ref: string
@@ -146,7 +150,15 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       slug,
       publishedAt,
       featured,
-      image,
+      image {
+        asset-> {
+          _id,
+          _ref,
+          url
+        },
+        alt,
+        caption
+      },
       categories[]-> {
         _ref,
         title
@@ -167,7 +179,15 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
       slug,
       publishedAt,
       featured,
-      image,
+      image {
+        asset-> {
+          _id,
+          _ref,
+          url
+        },
+        alt,
+        caption
+      },
       content,
       categories[]-> {
         _ref,
@@ -188,7 +208,15 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
       slug,
       publishedAt,
       featured,
-      image,
+      image {
+        asset-> {
+          _id,
+          _ref,
+          url
+        },
+        alt,
+        caption
+      },
       categories[]-> {
         _ref,
         title
