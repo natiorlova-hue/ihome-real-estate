@@ -1,39 +1,39 @@
-'use client'
+"use client";
 
 /**
  * This configuration is used to for the Sanity Studio that's mounted on the `/app/studio/[[...tool]]/page.tsx` route
  */
 
-import {visionTool} from '@sanity/vision'
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {internationalizedArray} from 'sanity-plugin-internationalized-array'
+import { visionTool } from "@sanity/vision";
+import { defineConfig } from "sanity";
+import { internationalizedArray } from "sanity-plugin-internationalized-array";
+import { structureTool } from "sanity/structure";
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
-import {apiVersion, dataset, projectId} from './sanity/env'
-import {schema} from './sanity/schemaTypes'
-import {structure} from './sanity/structure'
+import { apiVersion, dataset, projectId } from "./sanity/env";
+import { schema } from "./sanity/schemaTypes";
+import { structure } from "./sanity/structure";
 
 export default defineConfig({
-  basePath: '/studio',
+  basePath: "/studio",
   projectId,
   dataset,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [
-    structureTool({structure}),
+    structureTool({ structure }),
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
-    visionTool({defaultApiVersion: apiVersion}),
+    visionTool({ defaultApiVersion: apiVersion }),
     // Internationalization plugin
     internationalizedArray({
       languages: [
-        { id: 'en', title: 'English' },
-        { id: 'es', title: 'Spanish' },
-        { id: 'ru', title: 'Russian' },
+        { id: "en", title: "English" },
+        { id: "es", title: "Spanish" },
+        { id: "ru", title: "Russian" },
       ],
-      defaultLanguages: ['en'],
-      fieldTypes: ['string', 'text'],
+      defaultLanguages: ["en"],
+      fieldTypes: ["string", "text"],
     }),
   ],
-})
+});

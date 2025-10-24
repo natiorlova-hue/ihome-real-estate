@@ -1,45 +1,50 @@
-import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { getBlogPost, getBlogPosts, getLocalizedText, getLocalizedRichText } from '@/lib/blog'
-import { urlFor } from '@/sanity/lib/image'
-import { PortableText } from '@portabletext/react'
-import Image from 'next/image'
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import {
+  getBlogPost,
+  getBlogPosts,
+  getLocalizedText,
+  getLocalizedRichText,
+} from "@/lib/blog";
+import { urlFor } from "@/sanity/lib/image";
+import { PortableText } from "@portabletext/react";
+import Image from "next/image";
 
 interface BlogPostPageProps {
-  params: Promise<{ slug: string; locale: string }>
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug, locale } = await params
-  const post = await getBlogPost(slug)
+  const { slug, locale } = await params;
+  const post = await getBlogPost(slug);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   // Get localized content
-  const title = getLocalizedText(post.title, locale)
-  const description = getLocalizedText(post.description, locale)
-  const content = getLocalizedRichText(post.content, locale)
+  const title = getLocalizedText(post.title, locale);
+  const description = getLocalizedText(post.description, locale);
+  const content = getLocalizedRichText(post.content, locale);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="bg-gray-50 border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Link 
+          <Link
             href={`/${locale}`}
             className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
           >
             ← Back to Home
           </Link>
-          
+
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm text-gray-500">
-              {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+              {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
               })}
             </span>
             {post.featured && (
@@ -48,22 +53,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </span>
             )}
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             {title}
           </h1>
-          
-          <p className="text-xl text-gray-600 mb-6">
-            {description}
-          </p>
-          
+
+          <p className="text-xl text-gray-600 mb-6">{description}</p>
+
           <div className="flex flex-wrap gap-2">
             {post.categories.map((category, index) => (
               <span
                 key={index}
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
               >
-                {getLocalizedText(category.title, locale) || 'Category'}
+                {getLocalizedText(category.title, locale) || "Category"}
               </span>
             ))}
           </div>
@@ -75,7 +78,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {(() => {
             try {
-              const imageUrl = urlFor(post.image).width(800).height(400).url()
+              const imageUrl = urlFor(post.image).width(800).height(400).url();
               return (
                 <Image
                   src={imageUrl}
@@ -84,14 +87,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   height={400}
                   className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
                 />
-              )
+              );
             } catch (error) {
-              console.error('Error generating image URL:', error, 'Image data:', post.image)
+              console.error(
+                "Error generating image URL:",
+                error,
+                "Image data:",
+                post.image
+              );
               return (
                 <div className="w-full h-64 md:h-96 bg-gray-200 rounded-lg shadow-lg flex items-center justify-center">
                   <p className="text-gray-500">Image not available</p>
                 </div>
-              )
+              );
             }
           })()}
         </div>
@@ -108,7 +116,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 types: {
                   image: ({ value }) => {
                     try {
-                      const imageUrl = urlFor(value).width(800).height(400)?.url()
+                      const imageUrl = urlFor(value)
+                        .width(800)
+                        .height(400)
+                        ?.url();
                       return (
                         <div className="my-8">
                           <Image
@@ -124,14 +135,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             </p>
                           )}
                         </div>
-                      )
+                      );
                     } catch (error) {
-                      console.error('Error generating image URL in content:', error, 'Image data:', value)
+                      console.error(
+                        "Error generating image URL in content:",
+                        error,
+                        "Image data:",
+                        value
+                      );
                       return (
                         <div className="my-8 w-full h-48 bg-gray-200 rounded-lg shadow-lg flex items-center justify-center">
                           <p className="text-gray-500">Image not available</p>
                         </div>
-                      )
+                      );
                     }
                   },
                 },
@@ -164,11 +180,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 },
                 marks: {
                   strong: ({ children }) => (
-                    <strong className="font-bold text-gray-900">{children}</strong>
+                    <strong className="font-bold text-gray-900">
+                      {children}
+                    </strong>
                   ),
-                  em: ({ children }) => (
-                    <em className="italic">{children}</em>
-                  ),
+                  em: ({ children }) => <em className="italic">{children}</em>,
                   code: ({ children }) => (
                     <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">
                       {children}
@@ -229,14 +245,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
-  const posts = await getBlogPosts()
-  
-  return posts.map((post) => ({
+  const posts = await getBlogPosts();
+
+  return posts.map(post => ({
     slug: post.slug.current,
-  }))
+  }));
 }

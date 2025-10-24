@@ -26,7 +26,7 @@ export const mainNavigation = {
     { id: "guides", href: "guides" },
     { id: "ourWay", href: "our-way" },
   ],
-}
+};
 
 export const footerNavigation = {
   navigation: [
@@ -43,4 +43,4 @@ export const footerNavigation = {
     { name: "terms", href: "terms-conditions" },
     { name: "sitemap", href: "sitemap.xml" },
   ],
-}
+};

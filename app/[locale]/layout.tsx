@@ -1,25 +1,25 @@
 // app/[locale]/layout.tsx
-import type { Metadata } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
-import { notFound } from "next/navigation"
-import Header from "@/components/layout/Header"
-import Footer from "@/components/layout/Footer"
-import "../globals.css"
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/header/header";
+import type { Metadata } from "next";
+import { Noto_Sans, Noto_Serif } from "next/font/google";
+import { notFound } from "next/navigation";
+import "../globals.css";
 
-const inter = Inter({
+const notoSerif = Noto_Serif({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-noto-serif",
   display: "swap",
-})
+});
 
-const playfair = Playfair_Display({
+const notoSans = Noto_Sans({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-playfair",
+  variable: "--font-noto-sans",
   display: "swap",
-})
+});
 
-const locales = ["en", "es", "ru"] as const
-type Locale = (typeof locales)[number]
+const locales = ["en", "es", "ru"] as const;
+type Locale = (typeof locales)[number];
 
 export const metadata: Metadata = {
   title: "iHome Realty - Premium Costa del Sol Properties",
@@ -28,29 +28,29 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico", // Path relative to public directory
   },
-}
+};
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
+  return locales.map(locale => ({ locale }));
 }
 
 export default async function RootLayout({
   children,
   params,
 }: {
-  children: React.ReactNode
-  params: Promise<{ locale: string }>
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params
+  const { locale } = await params;
 
   if (!locales.includes(locale as Locale)) {
-    notFound()
+    notFound();
   }
 
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`${notoSerif.variable} ${notoSans.variable}`}
     >
       <body className="font-sans antialiased">
         {/* БЕЗ NextIntlClientProvider! */}
@@ -59,5 +59,5 @@ export default async function RootLayout({
         <Footer locale={locale} />
       </body>
     </html>
-  )
+  );
 }
