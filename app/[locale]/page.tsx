@@ -41,6 +41,20 @@ export default async function HomePage({
         </div>
       </div>
 
+      {/* Video Section */}
+      <div className="w-full">
+        <div className="h-[29vw] min-w-[194px]">
+          <iframe
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="iHome Real Estate - Our Story"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="w-full h-full"
+          ></iframe>
+        </div>
+      </div>
+
       {/* Blog Posts Grid */}
       <BlogPostsGrid posts={posts} locale={locale} />
 

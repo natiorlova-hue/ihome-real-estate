@@ -80,6 +80,18 @@
     @apply text-serifmd md:text-seriflg;
   }
 
+  h3 {
+    @apply font-sans text-xl md:text-serifmd font-semibold;
+  }
+
+  h4 {
+    @apply font-sans text-lg font-semibold;
+  }
+
+  h5 {
+    @apply font-sans text-sm font-semibold;
+  }
+
   p {
     @apply text-sm md:text-xl text-tertiary-600;
   }

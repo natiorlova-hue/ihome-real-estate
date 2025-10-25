@@ -1,5 +1,6 @@
 import { getLocalizedText } from "@/lib/blog";
 import { urlFor } from "@/sanity/lib/image";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -53,30 +54,32 @@ export default function BlogPostsGrid({
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col gap-6 items-center text-center mb-12">
-          <h2>Latest Blog Posts</h2>
-          <p>Discover insights, tips, and stories about life in Spain</p>
+        <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
+          <h2>Live your way on the Costa del Sol.</h2>
+          <p className="text-tertiary-600 max-w-[640px]">
+            Very lifestyle has its perfect place. Choose yours — and we’ll show
+            you the neighborhoods, stories, and homes that fit.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
           {posts.map(post => {
             const title = getLocalizedText(post.title, locale);
-            const description = getLocalizedText(post.description, locale);
 
             return (
               <Link
                 key={post._id}
                 href={`/blog/${post.slug.current}`}
-                className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+                className="group bg-white duration-300 relative"
               >
-                <div className="aspect-w-16 aspect-h-9 bg-gray-200">
+                <div className="aspect-video bg-gray-200 overflow-hidden rounded-lg">
                   {post.image ? (
                     <Image
                       width={400}
                       height={225}
                       src={urlFor(post.image).width(400).height(225).url()}
                       alt={title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="w-full h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
@@ -87,45 +90,19 @@ export default function BlogPostsGrid({
                   )}
                 </div>
 
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-500">
-                      {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </span>
-                    {post.featured && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        Featured
-                      </span>
-                    )}
-                  </div>
-
-                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 mb-2">
+                <div className="pt-4 flex flex-col gap-1">
+                  {post.categories.slice(0, 2).map((category, index) => (
+                    <h5
+                      key={index}
+                      className="font-sans text-sm font-semibold text-terracotta-500"
+                    >
+                      {getLocalizedText(category.title, locale) || "Category"}
+                    </h5>
+                  ))}
+                  <h4 className="font-sans text-lg font-semibold text-primary-900 flex items-center gap-2 pr-7">
                     {title}
-                  </h3>
-
-                  <p className="text-gray-600 line-clamp-3">{description}</p>
-
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="flex flex-wrap gap-2">
-                      {post.categories.slice(0, 2).map((category, index) => (
-                        <span
-                          key={index}
-                          className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-                        >
-                          {getLocalizedText(category.title, locale) ||
-                            "Category"}
-                        </span>
-                      ))}
-                    </div>
-
-                    <span className="text-blue-600 font-medium group-hover:text-blue-800">
-                      Read more →
-                    </span>
-                  </div>
+                  </h4>
+                  <ArrowUpRight className="text-[24px] text-[#A4A7AE] absolute right-0 bottom-0 group-hover:text-black transition-colors duration-300" />
                 </div>
               </Link>
             );
