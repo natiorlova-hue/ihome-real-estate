@@ -282,15 +282,15 @@ const config: Config = {
         dxs: ["1.25rem", { lineHeight: "1.875rem" }],
         dsm: ["1.5rem", { lineHeight: "2rem" }],
         dmd: ["1.875rem", { lineHeight: "2.375rem" }],
-        dlg: ["2.25rem", { lineHeight: "2.75rem", letterSpacing: "-2%" }],
-        dxl: ["3rem", { lineHeight: "3.75rem", letterSpacing: "-2%" }],
-        d2xl: ["3.75rem", { lineHeight: "4.5rem", letterSpacing: "-2%" }],
+        dlg: ["2.25rem", { lineHeight: "2.75rem" }],
+        dxl: ["3rem", { lineHeight: "3.75rem" }],
+        d2xl: ["3.75rem", { lineHeight: "4.5rem" }],
         // serif
         serifsm: ["1.875rem", { lineHeight: "2.375rem" }],
-        serifmd: ["2.25rem", { lineHeight: "2.75rem", letterSpacing: "-2%" }],
-        seriflg: ["3rem", { lineHeight: "3.75rem", letterSpacing: "-2%" }],
-        serifxl: ["3.75rem", { lineHeight: "4.5rem", letterSpacing: "-2%" }],
-        serif2xl: ["4.5rem", { lineHeight: "6.625rem", letterSpacing: "-2%" }],
+        serifmd: ["2.25rem", { lineHeight: "2.75rem" }],
+        seriflg: ["3rem", { lineHeight: "3.75rem" }],
+        serifxl: ["3.75rem", { lineHeight: "4.5rem" }],
+        serif2xl: ["4.5rem", { lineHeight: "6.625rem" }],
       },
 
       // ====================================

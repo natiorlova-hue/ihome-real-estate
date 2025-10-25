@@ -1,14 +1,13 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
 import {
   getBlogPost,
   getBlogPosts,
-  getLocalizedText,
   getLocalizedRichText,
+  getLocalizedText,
 } from "@/lib/blog";
 import { urlFor } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -28,83 +27,52 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const content = getLocalizedRichText(post.content, locale);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div>
       {/* Header */}
-      <div className="bg-gray-50 border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Link
-            href={`/${locale}`}
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4"
-          >
-            ← Back to Home
-          </Link>
-
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-gray-500">
-              {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </span>
-            {post.featured && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                Featured
-              </span>
-            )}
+      <div className="flex flex-col md:flex-row">
+        {/* Featured Image */}
+        {post.image && (
+          <div className="w-1/2">
+            {(() => {
+              try {
+                const imageUrl = urlFor(post.image)
+                  .width(800)
+                  .height(400)
+                  .url();
+                return (
+                  <Image
+                    src={imageUrl}
+                    alt={title}
+                    width={800}
+                    height={400}
+                    className="w-full object-cover"
+                    style={{ height: "calc(100vh - 80px)" }}
+                  />
+                );
+              } catch (error) {
+                console.error(
+                  "Error generating image URL:",
+                  error,
+                  "Image data:",
+                  post.image
+                );
+                return (
+                  <div
+                    className="w-full bg-gray-200 rounded-lg shadow-lg flex items-center justify-center"
+                    style={{ height: "calc(100vh - 80px)" }}
+                  >
+                    <p className="text-gray-500">Image not available</p>
+                  </div>
+                );
+              }
+            })()}
           </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            {title}
-          </h1>
-
-          <p className="text-xl text-gray-600 mb-6">{description}</p>
-
-          <div className="flex flex-wrap gap-2">
-            {post.categories.map((category, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
-              >
-                {getLocalizedText(category.title, locale) || "Category"}
-              </span>
-            ))}
-          </div>
+        )}
+        <div className="w-1/2 py-16 px-16 flex flex-col gap-4">
+          <h1 className="h2">{title}</h1>
+          <p>{description}</p>
         </div>
       </div>
-
-      {/* Featured Image */}
-      {post.image && (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {(() => {
-            try {
-              const imageUrl = urlFor(post.image).width(800).height(400).url();
-              return (
-                <Image
-                  src={imageUrl}
-                  alt={title}
-                  width={800}
-                  height={400}
-                  className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
-                />
-              );
-            } catch (error) {
-              console.error(
-                "Error generating image URL:",
-                error,
-                "Image data:",
-                post.image
-              );
-              return (
-                <div className="w-full h-64 md:h-96 bg-gray-200 rounded-lg shadow-lg flex items-center justify-center">
-                  <p className="text-gray-500">Image not available</p>
-                </div>
-              );
-            }
-          })()}
-        </div>
-      )}
-
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="prose prose-lg max-w-none">
@@ -127,13 +95,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             alt={value.alt || title}
                             width={800}
                             height={400}
-                            className="rounded-lg shadow-lg w-full h-auto"
+                            className="rounded-lg shadow-lg w-full h-auto mb-4"
                           />
-                          {value.caption && (
-                            <p className="text-sm text-gray-600 mt-2 text-center italic">
-                              {value.caption}
-                            </p>
-                          )}
+                          {value.caption && <p>{value.caption}</p>}
                         </div>
                       );
                     } catch (error) {
@@ -152,28 +116,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   },
                 },
                 block: {
-                  h1: ({ children }) => (
-                    <h1 className="text-3xl font-bold text-gray-900 mt-8 mb-4">
-                      {children}
-                    </h1>
-                  ),
-                  h2: ({ children }) => (
-                    <h2 className="text-2xl font-bold text-gray-900 mt-6 mb-3">
-                      {children}
-                    </h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-xl font-bold text-gray-900 mt-4 mb-2">
-                      {children}
-                    </h3>
-                  ),
-                  normal: ({ children }) => (
-                    <p className="text-gray-700 leading-relaxed mb-4">
-                      {children}
-                    </p>
-                  ),
+                  h1: ({ children }) => <h1 className="h2">{children}</h1>,
+                  h2: ({ children }) => <h2>{children}</h2>,
+                  h3: ({ children }) => <h3>{children}</h3>,
+                  normal: ({ children }) => <p className="mb-4">{children}</p>,
                   blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-600 my-6">
+                    <blockquote className="font-semibold text-serifsm font-italic">
                       {children}
                     </blockquote>
                   ),
@@ -225,25 +173,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
           )}
         </div>
-      </div>
-
-      {/* Related Posts CTA */}
-      <div className="bg-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Want to Read More?
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Discover more insights about life in Spain and real estate tips.
-          </p>
-          <Link
-            href={`/${locale}`}
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
-          >
-            View All Posts
-          </Link>
-        </div>
-      </div>
+      </div>{" "}
     </div>
   );
 }
