@@ -1,4 +1,5 @@
 import BlogPostsGrid from "@/components/blog/BlogPostsGrid";
+import { Button } from "@/components/ui/button";
 import { getBlogPosts } from "@/lib/blog";
 
 export default async function HomePage({
@@ -15,22 +16,27 @@ export default async function HomePage({
   return (
     <div>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            We create spaces that make life more beautiful
+      <div className="container">
+        <div className="py-20 gap-12 flex flex-col text-center md:text-left">
+          <h1 className="leading-[1.1]">
+            We{" "}
+            <u className="decoration-terracotta-200 decoration-5">
+              create spaces
+            </u>
+            <br />
+            that make life more beautiful
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Your trusted partner for finding the perfect home in Spain. Discover
-            our latest insights, client stories, and relocation tips.
+          <p>
+            iHome is a boutique real estate agency helping clients from the CIS
+            find, buy, and design homes in Spain.
+            <br />
+            We combine aesthetics, comfort, and investment value.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              View Properties
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-              Get Started
-            </button>
+          <div className="flex gap-3 md:gap-4 justify-center md:justify-start">
+            <Button size="lg">Explore homes</Button>
+            <Button variant="outline" size="lg">
+              Book a consultation
+            </Button>
           </div>
         </div>
       </div>

@@ -69,6 +69,20 @@
   h6 {
     font-family: var(--font-noto-serif), Georgia, serif;
   }
+
+  /* headings */
+  h1 {
+    @apply text-serifmd md:text-serif2xl;
+  }
+
+  h2,
+  .h2 {
+    @apply text-serifmd md:text-seriflg;
+  }
+
+  p {
+    @apply text-sm md:text-xl text-tertiary-600;
+  }
 }
 
 @layer components {

@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { urlFor } from "@/sanity/lib/image";
 import { getLocalizedText } from "@/lib/blog";
+import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Post {
   _id: string;
@@ -53,13 +53,9 @@ export default function BlogPostsGrid({
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-            Latest Blog Posts
-          </h2>
-          <p className="mt-4 text-lg text-gray-600">
-            Discover insights, tips, and stories about life in Spain
-          </p>
+        <div className="flex flex-col gap-6 items-center text-center mb-12">
+          <h2>Latest Blog Posts</h2>
+          <p>Discover insights, tips, and stories about life in Spain</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
