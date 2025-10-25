@@ -52,8 +52,8 @@ export default function BlogPostsGrid({
   locale = "en",
 }: BlogPostsGridProps) {
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="py-8 md:py-16">
+      <div className="container">
         <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
           <h2>Live your way on the Costa del Sol.</h2>
           <p className="text-tertiary-600 max-w-[640px]">

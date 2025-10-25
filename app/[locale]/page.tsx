@@ -59,18 +59,10 @@ export default async function HomePage({
       <BlogPostsGrid posts={posts} locale={locale} />
 
       {/* CTA Section */}
-      <div className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Ready to Start Your Spanish Adventure?
-          </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Let us help you find your dream home in Spain. Our expert team is
-            here to guide you through every step of the process.
-          </p>
-          <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-            Contact Us Today
-          </button>
+      <div className="container">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-12">
+          <h3>Didn’t find what you’re looking for?</h3>
+          <Button size="xl">Contact Us Today</Button>
         </div>
       </div>
     </div>
