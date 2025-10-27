@@ -1,9 +1,9 @@
 // app/[locale]/layout.tsx
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header/header";
 import type { Metadata } from "next";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
+import Footer from "../../components/layout/footer";
+import Header from "../../components/layout/header/header";
 import "../globals.css";
 
 const notoSerif = Noto_Serif({
