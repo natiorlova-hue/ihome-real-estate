@@ -174,11 +174,15 @@ export default function Header({ locale }: HeaderProps) {
 
               {/* Right Side */}
               <div className="flex items-center flex-col xl:flex-row gap-4">
-                <Button asChild variant="outline">
+                <Button
+                  asChild
+                  className="hidden md:inline-block"
+                  variant="outline"
+                >
                   <Link href={`/${locale}/contact`}>Costal Clarithy Metod</Link>
                 </Button>
 
-                <Button asChild>
+                <Button asChild className="hidden md:inline-block">
                   <Link href={`/${locale}/contact`}>{t.letsTalk}</Link>
                 </Button>
               </div>

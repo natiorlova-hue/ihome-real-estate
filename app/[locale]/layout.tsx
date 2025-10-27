@@ -1,5 +1,5 @@
 // app/[locale]/layout.tsx
-import Footer from "@/components/layout/Footer";
+import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header/header";
 import type { Metadata } from "next";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
@@ -50,13 +50,14 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${notoSerif.variable} ${notoSans.variable}`}
+      className={`${notoSerif.variable} ${notoSans.variable} h-full`}
     >
       <body className="font-sans antialiased">
-        {/* БЕЗ NextIntlClientProvider! */}
-        <Header locale={locale} />
-        <main className="min-h-screen">{children}</main>
-        <Footer locale={locale} />
+        <main className="min-h-screen flex flex-col pt-16 md:pt-20">
+          <Header locale={locale} />
+          <div className="flex-grow">{children}</div>
+          <Footer locale={locale} />
+        </main>
       </body>
     </html>
   );

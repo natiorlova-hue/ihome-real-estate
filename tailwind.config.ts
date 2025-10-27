@@ -58,6 +58,10 @@ const config: Config = {
           black: "#000000",
         },
 
+        tertiary: {
+          600: "#535862",
+        },
+
         // ====================================
         // GRAY (Neutral)
         // ====================================
@@ -83,7 +87,7 @@ const config: Config = {
           25: "#FFFAF5",
           50: "#FFF4ED",
           100: "#FFE6D5",
-          200: "#FFD6AE",
+          200: "#FAD3AE",
           300: "#FF9C66",
           400: "#FF692E",
           500: "#EF651A", // 🔥 MAIN BRAND
@@ -270,16 +274,23 @@ const config: Config = {
       },
 
       fontSize: {
-        xs: ["0.75rem", { lineHeight: "1rem" }],
+        xs: ["0.75rem", { lineHeight: "1.125rem" }],
         sm: ["0.875rem", { lineHeight: "1.25rem" }],
         base: ["1rem", { lineHeight: "1.5rem" }],
-        lg: ["1.125rem", { lineHeight: "1.75rem" }],
-        xl: ["1.25rem", { lineHeight: "1.75rem" }],
-        "2xl": ["1.5rem", { lineHeight: "2rem" }],
-        "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
-        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
-        "5xl": ["3rem", { lineHeight: "1" }],
-        "6xl": ["3.75rem", { lineHeight: "1" }],
+        lg: ["1rem", { lineHeight: "1.5rem" }],
+        xl: ["1.125rem", { lineHeight: "1.75rem" }],
+        dxs: ["1.25rem", { lineHeight: "1.875rem" }],
+        dsm: ["1.5rem", { lineHeight: "2rem" }],
+        dmd: ["1.875rem", { lineHeight: "2.375rem" }],
+        dlg: ["2.25rem", { lineHeight: "2.75rem" }],
+        dxl: ["3rem", { lineHeight: "3.75rem" }],
+        d2xl: ["3.75rem", { lineHeight: "4.5rem" }],
+        // serif
+        serifsm: ["1.875rem", { lineHeight: "2.375rem" }],
+        serifmd: ["2.25rem", { lineHeight: "2.75rem" }],
+        seriflg: ["3rem", { lineHeight: "3.75rem" }],
+        serifxl: ["3.75rem", { lineHeight: "4.5rem" }],
+        serif2xl: ["4.5rem", { lineHeight: "6.625rem" }],
       },
 
       // ====================================
