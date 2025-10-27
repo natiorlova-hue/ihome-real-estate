@@ -1,11 +1,11 @@
 // components/layout/Header.tsx
 "use client";
 
-import { Button } from "../../ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button } from "../../ui/button";
 import styles from "./header.module.css";
 
 interface HeaderProps {
