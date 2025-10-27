@@ -1,6 +1,6 @@
-import BlogPostsGrid from "@/components/blog/BlogPostsGrid";
-import { Button } from "@/components/ui/button";
-import { getBlogPosts } from "@/lib/blog";
+import BlogPostsGrid from "../../components/blog/BlogPostsGrid";
+import { Button } from "../../components/ui/button";
+import { getBlogPosts } from "../../lib/blog";
 
 export default async function HomePage({
   params,
