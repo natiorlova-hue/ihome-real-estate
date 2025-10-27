@@ -10,9 +10,6 @@ export default async function HomePage({
   const { locale } = await params;
   const posts = await getBlogPosts();
 
-  // Use locale for future internationalization
-  console.log("Current locale:", locale);
-
   return (
     <div>
       {/* Hero Section */}
