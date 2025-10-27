@@ -1,7 +1,7 @@
 // components/layout/Header.tsx
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -174,11 +174,15 @@ export default function Header({ locale }: HeaderProps) {
 
               {/* Right Side */}
               <div className="flex items-center flex-col xl:flex-row gap-4">
-                <Button asChild variant="outline">
+                <Button
+                  asChild
+                  className="hidden md:inline-block"
+                  variant="outline"
+                >
                   <Link href={`/${locale}/contact`}>Costal Clarithy Metod</Link>
                 </Button>
 
-                <Button asChild>
+                <Button asChild className="hidden md:inline-block">
                   <Link href={`/${locale}/contact`}>{t.letsTalk}</Link>
                 </Button>
               </div>
