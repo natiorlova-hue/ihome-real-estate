@@ -1,6 +1,12 @@
-import BlogPostsGrid from "../../components/blog/BlogPostsGrid";
+import CTA from "@/components/cta";
+import dynamic from "next/dynamic";
+import Categories from "../../components/home/Categories";
+import RecentProperties from "../../components/RecentProperties";
 import { Button } from "../../components/ui/button";
-import { getBlogPosts } from "../../lib/blog";
+
+const LazyVideo = dynamic(() => import("../../components/home/LazyVideo"), {
+  ssr: true,
+});
 
 export default async function HomePage({
   params,
@@ -8,7 +14,6 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const posts = await getBlogPosts();
 
   return (
     <div>
@@ -39,27 +44,40 @@ export default async function HomePage({
       </div>
 
       {/* Video Section */}
-      <div className="w-full">
-        <div className="h-[29vw] min-w-[194px]">
-          <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="iHome Real Estate - Our Story"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            className="w-full h-full"
-          ></iframe>
-        </div>
-      </div>
+      <LazyVideo
+        src="/oceans.mp4"
+        title="iHome Real Estate - Our Story"
+        poster="/video-placeholder.jpg"
+      />
 
-      {/* Blog Posts Grid */}
-      <BlogPostsGrid posts={posts} locale={locale} />
+      {/* Categories */}
+      <Categories locale={locale} />
 
       {/* CTA Section */}
-      <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-12">
-          <h3>Didn’t find what you’re looking for?</h3>
-          <Button size="xl">Contact Us Today</Button>
+      <CTA />
+
+      {/* Recent Properties */}
+      <RecentProperties
+        title="Live your way on the Costa del Sol."
+        description="Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+      />
+
+      {/* CTA Section */}
+      <CTA />
+
+      <div className="bg-gray-50">
+        <div className="container">
+          <div className="flex flex-col justify-center items-center gap-8 py-16 md:py-28 text-center">
+            <h2 className="text-brandBlue-500 max-w-xl">
+              Curious where you’d feel at home?
+            </h2>
+            <p className="text-gray-700">
+              Take a short quiz to discover where you’d truly feel at home.
+            </p>
+            <Button variant="brandBlue" size="lg">
+              Take our short quiz
+            </Button>
+          </div>
         </div>
       </div>
     </div>
