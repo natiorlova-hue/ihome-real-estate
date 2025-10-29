@@ -1,13 +1,8 @@
+import CTA from "@/components/cta";
 import dynamic from "next/dynamic";
+import Categories from "../../components/home/Categories";
+import RecentProperties from "../../components/RecentProperties";
 import { Button } from "../../components/ui/button";
-import { getBlogPosts } from "../../lib/blog";
-
-const BlogPostsGrid = dynamic(
-  () => import("../../components/blog/BlogPostsGrid"),
-  {
-    ssr: true,
-  }
-);
 
 const LazyVideo = dynamic(() => import("../../components/home/LazyVideo"), {
   ssr: true,
@@ -19,7 +14,6 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const posts = await getBlogPosts();
 
   return (
     <div>
@@ -56,14 +50,34 @@ export default async function HomePage({
         poster="/video-placeholder.jpg"
       />
 
-      {/* Blog Posts Grid */}
-      <BlogPostsGrid posts={posts} locale={locale} />
+      {/* Categories */}
+      <Categories locale={locale} />
 
       {/* CTA Section */}
-      <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-12">
-          <h3>Didn’t find what you’re looking for?</h3>
-          <Button size="xl">Contact Us Today</Button>
+      <CTA />
+
+      {/* Recent Properties */}
+      <RecentProperties
+        title="Live your way on the Costa del Sol."
+        description="Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+      />
+
+      {/* CTA Section */}
+      <CTA />
+
+      <div className="bg-gray-50">
+        <div className="container">
+          <div className="flex flex-col justify-center items-center gap-8 py-16 md:py-28 text-center">
+            <h2 className="text-brandBlue-500 max-w-xl">
+              Curious where you’d feel at home?
+            </h2>
+            <p className="text-gray-700">
+              Take a short quiz to discover where you’d truly feel at home.
+            </p>
+            <Button variant="brandBlue" size="lg">
+              Take our short quiz
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,14 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { categories } from "../../../lib/categories";
 import { Button } from "../../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../../ui/dropdown-menu";
 import styles from "./header.module.css";
 
 interface HeaderProps {
@@ -16,8 +23,8 @@ const translations: Record<
   string,
   {
     home: string;
+    forYou: string;
     properties: string;
-    services: string;
     guides: string;
     ourWay: string;
     letsTalk: string;
@@ -25,16 +32,16 @@ const translations: Record<
 > = {
   en: {
     home: "Home",
+    forYou: "For you",
     properties: "Properties",
-    services: "Services",
     guides: "Guides & Stories",
     ourWay: "Our Way",
     letsTalk: "Let's talk!",
   },
   es: {
     home: "Inicio",
+    forYou: "Para Ti",
     properties: "Propiedades",
-    services: "Servicios",
     guides: "Guías",
     ourWay: "Nuestro Método",
     letsTalk: "¡Hablemos!",
@@ -42,7 +49,7 @@ const translations: Record<
   ru: {
     home: "Главная",
     properties: "Недвижимость",
-    services: "Услуги",
+    forYou: "Для Вас",
     guides: "Руководства",
     ourWay: "Наш Подход",
     letsTalk: "Поговорим!",
@@ -88,7 +95,7 @@ export default function Header({ locale }: HeaderProps) {
     <>
       <header className="fixed top-0 left-0 w-full z-50 bg-gray-50">
         <div className="container">
-          <div className="flex items-center gap-6 h-16 md:h-20">
+          <div className="flex items-center gap-6 h-16 md:h-auto">
             <Link href={`/${locale}`} className={styles.logo}>
               <svg
                 viewBox="0 0 35 35"
@@ -119,7 +126,7 @@ export default function Header({ locale }: HeaderProps) {
               <nav className="flex flex-col xl:flex-row text-md items-center gap-6 font-semibold">
                 <Link
                   href={`/${locale}`}
-                  className={`transition-colors ${
+                  className={`transition-colors md:h-20 flex items-center ${
                     isActiveLink(`/${locale}`)
                       ? "text-terracotta-500"
                       : "text-gray-700 hover:text-terracotta-500"
@@ -128,7 +135,42 @@ export default function Header({ locale }: HeaderProps) {
                   {t.home}
                 </Link>
 
-                <Link
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Link
+                      href={`/${locale}/properties`}
+                      className={`transition-colors md:h-20 flex items-center ${
+                        isActiveLink(`/${locale}/properties`)
+                          ? "text-terracotta-500"
+                          : "text-gray-700 hover:text-terracotta-500"
+                      }`}
+                    >
+                      {t.forYou}
+                    </Link>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[344px]">
+                    {categories.map(item => (
+                      <DropdownMenuItem key={item.name} className="px-4 py-2">
+                        <Link
+                          href={`/${locale}/${item.path}`}
+                          className="flex gap-3"
+                        >
+                          <span className="flex-shrink-0">{item.icon}</span>
+                          <div className="flex flex-col">
+                            <span className="text-md font-semibold">
+                              {item.name}
+                            </span>
+                            <span className="text-tertiary-600 text-sm">
+                              {item.description}
+                            </span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* <Link
                   href={`/${locale}/properties`}
                   className={`transition-colors ${
                     isActiveLink(`/${locale}/properties`)
@@ -137,22 +179,22 @@ export default function Header({ locale }: HeaderProps) {
                   }`}
                 >
                   {t.properties}
-                </Link>
+                </Link> */}
 
                 <Link
                   href={`/${locale}/services`}
-                  className={`transition-colors ${
+                  className={`transition-colors md:h-20 flex items-center ${
                     isActiveLink(`/${locale}/services`)
                       ? "text-terracotta-500"
                       : "text-gray-700 hover:text-terracotta-500"
                   }`}
                 >
-                  {t.services}
+                  {t.properties}
                 </Link>
 
                 <Link
                   href={`/${locale}/guides`}
-                  className={`transition-colors ${
+                  className={`transition-colors md:h-20 flex items-center ${
                     isActiveLink(`/${locale}/guides`)
                       ? "text-terracotta-500"
                       : "text-gray-700 hover:text-terracotta-500"
@@ -163,7 +205,7 @@ export default function Header({ locale }: HeaderProps) {
 
                 <Link
                   href={`/${locale}/our-way`}
-                  className={`transition-colors ${
+                  className={`transition-colors md:h-20 flex items-center ${
                     isActiveLink(`/${locale}/our-way`)
                       ? "text-terracotta-500"
                       : "text-gray-700 hover:text-terracotta-500"

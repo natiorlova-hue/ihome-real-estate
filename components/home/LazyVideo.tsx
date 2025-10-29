@@ -80,7 +80,7 @@ export default function LazyVideo({
 
   return (
     <div className="w-full">
-      <div className="h-[29vw] min-w-[194px]" ref={containerRef}>
+      <div className="h-[29vw] min-h-[194px]" ref={containerRef}>
         {shouldLoad ? (
           <div data-vjs-player className="h-full">
             <video
