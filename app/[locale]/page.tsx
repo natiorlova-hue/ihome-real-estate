@@ -1,6 +1,20 @@
-import BlogPostsGrid from "../../components/blog/BlogPostsGrid";
+import dynamic from "next/dynamic";
 import { Button } from "../../components/ui/button";
 import { getBlogPosts } from "../../lib/blog";
+
+const BlogPostsGrid = dynamic(
+  () => import("../../components/blog/BlogPostsGrid"),
+  {
+    ssr: true,
+  }
+);
+
+const LazyYouTubeVideo = dynamic(
+  () => import("../../components/home/LazyYouTubeVideo"),
+  {
+    ssr: false,
+  }
+);
 
 export default async function HomePage({
   params,
@@ -39,18 +53,10 @@ export default async function HomePage({
       </div>
 
       {/* Video Section */}
-      <div className="w-full">
-        <div className="h-[29vw] min-w-[194px]">
-          <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="iHome Real Estate - Our Story"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            className="w-full h-full"
-          ></iframe>
-        </div>
-      </div>
+      <LazyYouTubeVideo
+        videoId="dQw4w9WgXcQ"
+        title="iHome Real Estate - Our Story"
+      />
 
       {/* Blog Posts Grid */}
       <BlogPostsGrid posts={posts} locale={locale} />

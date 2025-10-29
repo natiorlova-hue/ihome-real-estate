@@ -4,7 +4,7 @@
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import styles from "./header.module.css";
 
@@ -50,16 +50,9 @@ const translations: Record<
 };
 
 export default function Header({ locale }: HeaderProps) {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const t = translations[locale] || translations.en;
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -76,12 +69,20 @@ export default function Header({ locale }: HeaderProps) {
     };
   }, [isMobileMenuOpen]);
 
-  const isActiveLink = (href: string) => {
-    return pathname === href || pathname.startsWith(href + "/");
-  };
+  const isActiveLink = useCallback(
+    (href: string) => {
+      return pathname === href || pathname.startsWith(href + "/");
+    },
+    [pathname]
+  );
 
-  console.log("Header rendered, locale:", locale);
-  console.log("Current pathname:", pathname);
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
 
   return (
     <>
@@ -189,7 +190,7 @@ export default function Header({ locale }: HeaderProps) {
             </div>
             {/* Mobile Menu Button */}
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={toggleMobileMenu}
               className="xl:hidden p-2 rounded-lg text-gray-700 transition-colors ml-auto"
               aria-label="Toggle menu"
             >
@@ -207,7 +208,7 @@ export default function Header({ locale }: HeaderProps) {
       {isMobileMenuOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 xl:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={closeMobileMenu}
         />
       )}
     </>
