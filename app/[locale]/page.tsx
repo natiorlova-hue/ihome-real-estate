@@ -9,12 +9,9 @@ const BlogPostsGrid = dynamic(
   }
 );
 
-const LazyYouTubeVideo = dynamic(
-  () => import("../../components/home/LazyYouTubeVideo"),
-  {
-    ssr: false,
-  }
-);
+const LazyVideo = dynamic(() => import("../../components/home/LazyVideo"), {
+  ssr: true,
+});
 
 export default async function HomePage({
   params,
@@ -53,9 +50,10 @@ export default async function HomePage({
       </div>
 
       {/* Video Section */}
-      <LazyYouTubeVideo
-        videoId="dQw4w9WgXcQ"
+      <LazyVideo
+        src="/oceans.mp4"
         title="iHome Real Estate - Our Story"
+        poster="/video-placeholder.jpg"
       />
 
       {/* Blog Posts Grid */}
