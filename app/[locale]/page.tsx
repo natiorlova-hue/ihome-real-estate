@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import Categories from "../../components/home/Categories";
+import RecentProperties from "../../components/RecentProperties";
 import { Button } from "../../components/ui/button";
 import { getBlogPosts } from "../../lib/blog";
 
@@ -67,6 +68,12 @@ export default async function HomePage({
           <Button size="xl">Contact Us Today</Button>
         </div>
       </div>
+
+      {/* Recent Properties */}
+      <RecentProperties
+        title="Live your way on the Costa del Sol."
+        description="Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+      />
     </div>
   );
 }
