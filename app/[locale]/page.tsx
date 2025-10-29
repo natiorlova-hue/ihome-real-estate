@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Categories from "../../components/home/Categories";
 import { Button } from "../../components/ui/button";
 import { getBlogPosts } from "../../lib/blog";
 
@@ -56,8 +57,8 @@ export default async function HomePage({
         poster="/video-placeholder.jpg"
       />
 
-      {/* Blog Posts Grid */}
-      <BlogPostsGrid posts={posts} locale={locale} />
+      {/* Categories */}
+      <Categories locale={locale} />
 
       {/* CTA Section */}
       <div className="container">
