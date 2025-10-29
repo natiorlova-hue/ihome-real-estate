@@ -11,7 +11,7 @@ interface BadgeProps {
 const Card = (props: {
   title: string;
   subtitle?: string;
-  description: string;
+  description?: string;
   link: string;
   image: string;
   topBadge?: BadgeProps;
