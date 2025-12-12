@@ -15,7 +15,35 @@
   },
   "lifestyle": {
     "title": "Live your way on the Costa del Sol.",
+    "description": "Every lifestyle has its perfect place. Choose yours — and we’ll show you the neighborhoods, stories, and homes that fit."
+  },
+  "featuredHomes": {
+    "title": "Featured Homes by iHome",
     "description": "Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+  },
+  "benefits": {
+    "title": "320 days of sun.One decision — for a lifetime",
+    "items": {
+      "climate": {
+        "title": "Climate & Health",
+        "desc": "Sunshine and clean air all year."
+      },
+      "safety": {
+        "title": "Safety & Ecology",
+        "desc": "Peaceful living and nature preserved."
+      },
+      "schools": {
+        "title": "Schools & Healthcare",
+        "desc": "International standards, trusted institutions."
+      },
+      "culture": {
+        "title": "Culture & Gastronomy",
+        "desc": "Mediterranean flavors, art, and festivals."
+      }
+    }
+  },
+  "journalSection": {
+    "title": "Journal iHome"
   },
   "quiz": {
     "title": "Curious where you’d feel at home?",

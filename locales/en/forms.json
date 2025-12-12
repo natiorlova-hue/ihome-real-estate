@@ -1,19 +1,26 @@
 {
   "contact": {
+    "kicker": "Contact us",
     "title": "Let's talk about your new home!",
-    "subtitle": "Leave a request and we will contact you.",
+    "subtitle": "Tell us your story — we’ll prepare a shortlist of options within 24 hours.",
     "labels": {
-      "name": "Name",
+      "firstName": "First name",
+      "lastName": "Last name",
       "phone": "Phone",
       "email": "E-mail",
       "message": "Message"
     },
     "placeholders": {
-      "name": "Your name",
+      "firstName": "Your first name",
+      "lastName": "Your last name",
       "phone": "+34 ...",
-      "email": "example@mail.com",
+      "email": "you@company.com",
       "message": "I'm interested in..."
     },
-    "submit": "Send request"
+    "privacy": {
+      "prefix": "You agree to our friendly",
+      "link": "privacy policy"
+    },
+    "submit": "Send message"
   }
 }

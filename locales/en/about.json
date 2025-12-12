@@ -1,0 +1,39 @@
+{
+  "about": {
+    "title": "About Us",
+    "intro": {
+      "line1": "We are a boutique real estate agency on the Costa del Sol.",
+      "line2": "Our mission is not just to find a property, but to discover a place that reflects your lifestyle and fulfills your dreams."
+    }
+  },
+
+  "approach": {
+    "title": "Our Approach: “I listen before I offer”",
+    "desc1": "At iHome, we believe every client is unique. That’s why we begin with listening — to your story, your dreams, your family’s needs, and your lifestyle.",
+    "desc2": "With over 10 years of experience in real estate, we know it’s not about square meters, but about life moments that truly matter.",
+    "cta": "Discover our services"
+  },
+
+  "team": {
+    "title": "Meet our team",
+    "subtitle": "Behind every successful relocation stands a dedicated professional who loves what they do.",
+
+    "members": [
+      {
+        "name": "Julia Ivanova",
+        "role": "Founder & Relocation Expert",
+        "bio": "Over 15 years on the Costa del Sol, Julia helps families settle with comfort. She knows every school, clinic, and neighborhood detail."
+      },
+      {
+        "name": "Alexey Petrov",
+        "role": "Investment Advisor",
+        "bio": "Alexey specializes in property investments. His expertise ensures your purchase brings not only a home but also a profitable asset."
+      },
+      {
+        "name": "Elena Sidorova",
+        "role": "Sales Specialist",
+        "bio": "Elena works with families and second-home seekers. She carefully selects homes that combine lifestyle, comfort, and long-term value."
+      }
+    ]
+  }
+}

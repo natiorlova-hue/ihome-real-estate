@@ -1,6 +1,20 @@
 {
-  "grid": {
-    "title": "Live your way on the Costa del Sol.",
-    "description": "Every lifestyle has its perfect place. Choose yours — and we’ll show you the neighborhoods, stories, and homes that fit."
+  "badges": {
+    "roi": "ROI {value}%",
+    "new": "New",
+    "featured": "Featured"
+  },
+  "units": {
+    "sqm": "m²"
+  },
+  "card": {
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "viewDetails": "View details"
+  },
+  "filters": {
+    "title": "Filters",
+    "clear": "Clear all",
+    "apply": "Apply filters"
   }
 }
