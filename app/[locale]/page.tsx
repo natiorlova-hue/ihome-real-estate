@@ -1,13 +1,9 @@
 import RecentProperties from "@/components/RecentProperties";
 import CTA from "@/components/cta";
 import Categories from "@/components/home/Categories";
+import HeroVisualSection from "@/components/home/HeroVisualSection";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import dynamic from "next/dynamic";
-
-const LazyVideo = dynamic(() => import("@/components/home/LazyVideo"), {
-  ssr: true,
-});
 
 export default function HomePage({
   params,
@@ -46,12 +42,8 @@ export default function HomePage({
         </div>
       </div>
 
-      {/* Video Section */}
-      <LazyVideo
-        src="/oceans.mp4"
-        title={t("video.title")}
-        poster="/video-placeholder.jpg"
-      />
+      {/* Hero Visual Section */}
+      <HeroVisualSection />
 
       {/* Categories Section */}
       <CategoriesWrapper params={params} />
