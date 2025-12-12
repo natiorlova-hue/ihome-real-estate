@@ -1,1 +1,20 @@
-{}
+{
+  "badges": {
+    "roi": "ROI {value}%",
+    "new": "Nuevo",
+    "featured": "Destacado"
+  },
+  "units": {
+    "sqm": "m²"
+  },
+  "card": {
+    "bedrooms": "Dormitorios",
+    "bathrooms": "Baños",
+    "viewDetails": "Ver detalles"
+  },
+  "filters": {
+    "title": "Filtros",
+    "clear": "Borrar todo",
+    "apply": "Aplicar filtros"
+  }
+}

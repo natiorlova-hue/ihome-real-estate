@@ -1,0 +1,74 @@
+{
+  "categoryLifestyle": {
+    "families": {
+      "title": "Familias que se trasladan",
+      "desc": "Encuentra el hogar perfecto para tu familia — con colegios, comodidad y seguridad."
+    },
+    "golf": {
+      "title": "Golf y vida tranquila",
+      "desc": "Viviendas rodeadas de zonas verdes, campos de golf y mañanas en calma."
+    },
+    "golden": {
+      "title": "Años dorados",
+      "desc": "Comodidad, serenidad y sol para la nueva etapa de tu vida en España."
+    },
+    "sea": {
+      "title": "Hogar junto al mar",
+      "desc": "Un refugio soleado para fines de semana, vacaciones o estancias de temporada."
+    },
+    "nomads": {
+      "title": "Nómadas digitales",
+      "desc": "Vive y trabaja junto al mar con excelente Wi-Fi, sol e inspiración."
+    },
+    "investment": {
+      "title": "Inversores",
+      "desc": "Propiedades con ROI sólido, promotores de confianza y alta demanda de alquiler."
+    }
+  },
+  "lifestyle": {
+    "tags": {
+      "schools": "Colegios",
+      "parks": "Parques",
+      "safety": "Seguridad",
+      "golf": "Golf",
+      "calm": "Tranquilidad",
+      "healthcare": "Sanidad",
+      "wifi": "Wi-Fi",
+      "cafes": "Cafés",
+      "coworking": "Coworking",
+      "roi": "ROI",
+      "trends": "Tendencias",
+      "opportunities": "Oportunidades"
+    },
+    "cards": {
+      "families": { "tagKeys": ["schools", "parks", "safety"] },
+      "golf": { "tagKeys": ["golf", "calm"] },
+      "golden": { "tagKeys": ["golf", "calm", "healthcare"] },
+      "sea": { "tagKeys": ["byTheBeach"] },
+      "nomads": { "tagKeys": ["wifi", "cafes", "coworking"] },
+      "investment": { "tagKeys": ["roi", "trends", "opportunities"] }
+    }
+  },
+  "guidesCategories": {
+    "clientStories": { "title": "Historias de clientes" },
+    "lifeInSpain": { "title": "Vida en España" },
+    "budgetRelocation": { "title": "Presupuesto y traslado" },
+    "interiorLifestyle": { "title": "Interior y estilo de vida" },
+    "guidesByRegion": { "title": "Guías por región" }
+  },
+  "regions": {
+    "sotogrande": { "title": "Sotogrande" },
+    "malaga": { "title": "Málaga" },
+    "manilva": { "title": "Manilva" },
+    "casaresCosta": { "title": "Casares Costa" },
+    "estepona": { "title": "Estepona" },
+    "benahavis": { "title": "Benahavís" },
+    "sanPedro": { "title": "San Pedro" },
+    "marbella": { "title": "Marbella" },
+    "eastMarbella": { "title": "Marbella Este" },
+    "mijas": { "title": "Mijas" },
+    "fuengirola": { "title": "Fuengirola" },
+    "benalmadena": { "title": "Benalmádena" },
+    "torremolinos": { "title": "Torremolinos" }
+  }
+}

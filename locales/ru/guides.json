@@ -1,6 +1,13 @@
 {
-  "grid": {
-    "title": "Живите по-своему на Коста-дель-Соль.",
-    "description": "Every lifestyle has its perfect place. Choose yours — and we’ll show you the neighborhoods, stories, and homes that fit."
+  "ui": {
+    "viewAll": "Смотреть все",
+    "read": "Читать статью",
+    "sort": {
+      "mostRecent": "Сначала новые"
+    }
+  },
+  "empty": {
+    "title": "Пока нет статей",
+    "subtitle": "Скоро здесь появятся новые материалы..."
   }
 }

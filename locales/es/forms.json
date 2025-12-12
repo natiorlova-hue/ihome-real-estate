@@ -1,19 +1,26 @@
 {
   "contact": {
-    "title": "¡Hablemos de tu nuevo hogar!",
-    "subtitle": "Deja tu solicitud y te contactaremos.",
+    "kicker": "Contáctanos",
+    "title": "Hablemos de tu nuevo hogar",
+    "subtitle": "Cuéntanos tu historia y prepararemos una selección de opciones en 24 horas.",
     "labels": {
-      "name": "Nombre",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
       "phone": "Teléfono",
-      "email": "E-mail",
+      "email": "Correo electrónico",
       "message": "Mensaje"
     },
     "placeholders": {
-      "name": "Tu nombre",
+      "firstName": "Tu nombre",
+      "lastName": "Tus apellidos",
       "phone": "+34 ...",
-      "email": "ejemplo@mail.com",
-      "message": "Estoy interesado en..."
+      "email": "tu@empresa.com",
+      "message": "Me interesa..."
     },
-    "submit": "Enviar solicitud"
+    "privacy": {
+      "prefix": "Aceptas nuestra",
+      "link": "política de privacidad"
+    },
+    "submit": "Enviar mensaje"
   }
 }

@@ -1,0 +1,32 @@
+{
+  "header": {
+    "brand": "iHome • Marbella",
+    "nav": {
+      "home": "Inicio",
+      "forYou": "Para ti",
+      "properties": "Propiedades",
+      "guides": "Guías e historias",
+      "ourWay": "Nuestra forma de trabajar"
+    },
+    "actions": {
+      "method": "Método Coastal Clarity",
+      "talk": "¡Hablemos!"
+    },
+    "dropdown": {
+      "properties": {
+        "sale": {
+          "title": "En venta",
+          "desc": "Descubre viviendas y villas cuidadosamente seleccionadas en toda la Costa del Sol."
+        },
+        "rent": {
+          "title": "En alquiler",
+          "desc": "Encuentra alquileres de larga duración y estancias de temporada junto al mar."
+        },
+        "sell": {
+          "title": "Vende tu propiedad",
+          "desc": "Publica tu vivienda con iHome y llega a compradores internacionales cualificados."
+        }
+      }
+    }
+  }
+}
