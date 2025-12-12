@@ -1,1 +1,19 @@
-{}
+{
+  "contact": {
+    "title": "¡Hablemos de tu nuevo hogar!",
+    "subtitle": "Deja tu solicitud y te contactaremos.",
+    "labels": {
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "email": "E-mail",
+      "message": "Mensaje"
+    },
+    "placeholders": {
+      "name": "Tu nombre",
+      "phone": "+34 ...",
+      "email": "ejemplo@mail.com",
+      "message": "Estoy interesado en..."
+    },
+    "submit": "Enviar solicitud"
+  }
+}

@@ -1,1 +1,19 @@
-{}
+{
+  "contact": {
+    "title": "Let's talk about your new home!",
+    "subtitle": "Leave a request and we will contact you.",
+    "labels": {
+      "name": "Name",
+      "phone": "Phone",
+      "email": "E-mail",
+      "message": "Message"
+    },
+    "placeholders": {
+      "name": "Your name",
+      "phone": "+34 ...",
+      "email": "example@mail.com",
+      "message": "I'm interested in..."
+    },
+    "submit": "Send request"
+  }
+}

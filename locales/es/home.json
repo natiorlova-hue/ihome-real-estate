@@ -1,1 +1,25 @@
-{}
+{
+  "hero": {
+    "titleBefore": "Creamos",
+    "titleHighlight": "espacios",
+    "titleAfter": "que hacen la vida más bella",
+    "subtitleLine1": "iHome es una agencia inmobiliaria boutique que ayuda a clientes de la CEI a encontrar, comprar y diseñar casas en España.",
+    "subtitleLine2": "Combinamos estética, comodidad y valor de inversión.",
+    "cta": {
+      "explore": "Explorar propiedades",
+      "book": "Reservar consulta"
+    }
+  },
+  "video": {
+    "title": "iHome Real Estate - Nuestra Historia"
+  },
+  "lifestyle": {
+    "title": "Vive a tu manera en la Costa del Sol.",
+    "description": "Selección curada de casas cuidadosamente elegidas por expertos de iHome por su calidad, ubicación y ROI."
+  },
+  "quiz": {
+    "title": "¿Curioso por saber dónde te sentirías como en casa?",
+    "subtitle": "Haz un breve test para descubrir dónde encajas realmente.",
+    "button": "Hacer el test"
+  }
+}

@@ -20,6 +20,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       properties: (await import(`./locales/${locale}/properties.json`)).default,
       guides: (await import(`./locales/${locale}/guides.json`)).default,
       forms: (await import(`./locales/${locale}/forms.json`)).default,
+      blog: (await import(`./locales/${locale}/properties.json`)).default,
     },
   };
 });

@@ -1,1 +1,19 @@
-{}
+{
+  "contact": {
+    "title": "Давайте обсудим ваш новый дом!",
+    "subtitle": "Оставьте заявку, и мы свяжемся с вами.",
+    "labels": {
+      "name": "Имя",
+      "phone": "Телефон",
+      "email": "E-mail",
+      "message": "Сообщение"
+    },
+    "placeholders": {
+      "name": "Ваше имя",
+      "phone": "+34 ...",
+      "email": "example@mail.com",
+      "message": "Меня интересует..."
+    },
+    "submit": "Отправить запрос"
+  }
+}

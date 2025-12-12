@@ -1,5 +1,7 @@
 // app/[locale]/layout.tsx
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
 import Footer from "../../components/layout/footer";
@@ -47,17 +49,21 @@ export default async function RootLayout({
     notFound();
   }
 
+  const messages = await getMessages();
+
   return (
     <html
       lang={locale}
       className={`${notoSerif.variable} ${notoSans.variable} h-full`}
     >
       <body className="font-sans antialiased">
-        <main className="min-h-screen flex flex-col pt-16 md:pt-20">
-          <Header locale={locale} />
-          <div className="flex-grow">{children}</div>
-          <Footer locale={locale} />
-        </main>
+        <NextIntlClientProvider messages={messages}>
+          <main className="min-h-screen flex flex-col pt-16 md:pt-20">
+            <Header locale={locale} />
+            <div className="flex-grow">{children}</div>
+            <Footer locale={locale} />
+          </main>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

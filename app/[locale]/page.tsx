@@ -1,19 +1,21 @@
+import RecentProperties from "@/components/RecentProperties";
 import CTA from "@/components/cta";
+import Categories from "@/components/home/Categories";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import Categories from "../../components/home/Categories";
-import RecentProperties from "../../components/RecentProperties";
-import { Button } from "../../components/ui/button";
 
-const LazyVideo = dynamic(() => import("../../components/home/LazyVideo"), {
+const LazyVideo = dynamic(() => import("@/components/home/LazyVideo"), {
   ssr: true,
 });
 
-export default async function HomePage({
+export default function HomePage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  // 1. Initialize translation hook
+  const t = useTranslations("home");
 
   return (
     <div>
@@ -21,23 +23,24 @@ export default async function HomePage({
       <div className="container">
         <div className="py-20 gap-12 flex flex-col text-center md:text-left">
           <h1 className="leading-[1.1]">
-            We{" "}
+            {/* Rich Text for Title: preserves <u> styling and <br> */}
+            {t("hero.titleBefore")}{" "}
             <u className="decoration-terracotta-200 decoration-5">
-              create spaces
+              {t("hero.titleHighlight")}
             </u>
             <br />
-            that make life more beautiful
+            {t("hero.titleAfter")}
           </h1>
+
           <p>
-            iHome is a boutique real estate agency helping clients from the CIS
-            find, buy, and design homes in Spain.
+            {t("hero.subtitleLine1")}
             <br />
-            We combine aesthetics, comfort, and investment value.
+            {t("hero.subtitleLine2")}
           </p>
           <div className="flex gap-3 md:gap-4 justify-center md:justify-start">
-            <Button size="lg">Explore homes</Button>
+            <Button size="lg">{t("hero.cta.explore")}</Button>
             <Button variant="outline" size="lg">
-              Book a consultation
+              {t("hero.cta.book")}
             </Button>
           </div>
         </div>
@@ -46,40 +49,47 @@ export default async function HomePage({
       {/* Video Section */}
       <LazyVideo
         src="/oceans.mp4"
-        title="iHome Real Estate - Our Story"
+        title={t("video.title")}
         poster="/video-placeholder.jpg"
       />
 
-      {/* Categories */}
-      <Categories locale={locale} />
+      {/* Categories Section */}
+      <CategoriesWrapper params={params} />
 
       {/* CTA Section */}
       <CTA />
 
       {/* Recent Properties */}
       <RecentProperties
-        title="Live your way on the Costa del Sol."
-        description="Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+        title={t("lifestyle.title")}
+        description={t("lifestyle.description")}
       />
 
       {/* CTA Section */}
       <CTA />
 
+      {/* Quiz Section */}
       <div className="bg-gray-50">
         <div className="container">
           <div className="flex flex-col justify-center items-center gap-8 py-16 md:py-28 text-center">
-            <h2 className="text-brandBlue-500 max-w-xl">
-              Curious where you’d feel at home?
-            </h2>
-            <p className="text-gray-700">
-              Take a short quiz to discover where you’d truly feel at home.
-            </p>
+            <h2 className="text-brandBlue-500 max-w-xl">{t("quiz.title")}</h2>
+            <p className="text-gray-700">{t("quiz.subtitle")}</p>
             <Button variant="brandBlue" size="lg">
-              Take our short quiz
+              {t("quiz.button")}
             </Button>
           </div>
         </div>
       </div>
     </div>
   );
+}
+
+// Wrapper to handle async params for client components if needed
+async function CategoriesWrapper({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return <Categories locale={locale} />;
 }

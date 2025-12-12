@@ -1,1 +1,25 @@
-{}
+{
+  "hero": {
+    "titleBefore": "We",
+    "titleHighlight": "create spaces",
+    "titleAfter": "that make life more beautiful",
+    "subtitleLine1": "iHome is a boutique real estate agency helping clients from the CIS find, buy, and design homes in Spain.",
+    "subtitleLine2": "We combine aesthetics, comfort, and investment value.",
+    "cta": {
+      "explore": "Explore homes",
+      "book": "Book a consultation"
+    }
+  },
+  "video": {
+    "title": "iHome Real Estate - Our Story"
+  },
+  "lifestyle": {
+    "title": "Live your way on the Costa del Sol.",
+    "description": "Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+  },
+  "quiz": {
+    "title": "Curious where you’d feel at home?",
+    "subtitle": "Take a short quiz to discover where you’d truly feel at home.",
+    "button": "Take our short quiz"
+  }
+}

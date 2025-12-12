@@ -1,1 +1,70 @@
-{}
+{
+  "header": {
+    "brand": "iHome • Marbella",
+    "nav": {
+      "home": "Home",
+      "forYou": "For you",
+      "properties": "Properties",
+      "guides": "Guides & Stories",
+      "ourWay": "Our Way"
+    },
+    "actions": {
+      "method": "Coastal Clarity Method",
+      "talk": "Let's talk!"
+    },
+    "dropdowns": {
+      "forYou": {
+        "families": {
+          "title": "Families relocating",
+          "desc": "Find the perfect home for your family — with schools, comfort, and safety."
+        },
+        "nomads": {
+          "title": "Digital Nomads",
+          "desc": "Live and work by the sea with great Wi-Fi, sunshine, and inspiration."
+        },
+        "golf": {
+          "title": "Golf & Slow Life",
+          "desc": "Homes surrounded by green views, golf courses, and peaceful mornings."
+        },
+        "goldenYears": {
+          "title": "Golden Years",
+          "desc": "Comfort, calm, and sunshine for your next chapter in Spain."
+        },
+        "secondHome": {
+          "title": "Second Home by the Sea",
+          "desc": "A sunny escape for weekends, holidays, or seasonal living."
+        },
+        "investment": {
+          "title": "Investment Seekers",
+          "desc": "Properties with solid ROI, trusted developers, and high rental demand."
+        }
+      },
+      "properties": {
+        "sale": {
+          "title": "For Sale",
+          "desc": "Explore hand-picked homes and villas available across Costa del Sol."
+        },
+        "rent": {
+          "title": "For Rent",
+          "desc": "Find elegant long-term rentals and seasonal stays by the sea."
+        },
+        "sell": {
+          "title": "Sell your property",
+          "desc": "List your home with iHome and reach qualified international buyers."
+        }
+      }
+    }
+  },
+  "footer": {
+    "rights": "© 2025 iHome Real Estate. All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "cookies": "Cookies Policy",
+      "terms": "Terms & Conditions"
+    }
+  },
+  "cta": {
+    "notFound": "Didn’t find what you’re looking for?",
+    "contact": "Contact Us Today"
+  }
+}
