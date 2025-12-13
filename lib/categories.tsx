@@ -6,7 +6,7 @@ export const categories: {
 }[] = [
   {
     key: "families",
-    path: "families",
+    path: "live-your-way/families",
     icon: (
       <svg
         width="20"
@@ -31,11 +31,11 @@ export const categories: {
         />
       </svg>
     ),
-    image: "/categories/families.jpg",
+    image: "/image-lifestyle/families.png",
   },
   {
     key: "nomads",
-    path: "nomads",
+    path: "live-your-way/nomads",
     icon: (
       <svg
         width="20"
@@ -60,11 +60,11 @@ export const categories: {
         />
       </svg>
     ),
-    image: "/categories/nomads.jpg",
+    image: "/image-lifestyle/nomads.png",
   },
   {
     key: "golf",
-    path: "golf",
+    path: "live-your-way/golf-slow-life",
     icon: (
       <svg
         width="20"
@@ -103,11 +103,11 @@ export const categories: {
         />
       </svg>
     ),
-    image: "/categories/golf.jpg",
+    image: "/image-lifestyle/golf-slow-life.png",
   },
   {
     key: "golden",
-    path: "golden-years",
+    path: "live-your-way/golden-years",
     icon: (
       <svg
         width="20"
@@ -181,11 +181,11 @@ export const categories: {
         />
       </svg>
     ),
-    image: "/categories/golden.jpg",
+    image: "/image-lifestyle/golden.png",
   },
   {
     key: "sea",
-    path: "second-home",
+    path: "live-your-way/second-home",
     icon: (
       <svg
         width="20"
@@ -217,11 +217,11 @@ export const categories: {
         />
       </svg>
     ),
-    image: "/categories/second-home.jpg",
+    image: "/image-lifestyle/second-home.png",
   },
   {
     key: "investment",
-    path: "investment",
+    path: "live-your-way/investment",
     icon: (
       <svg
         width="20"
@@ -239,6 +239,6 @@ export const categories: {
         />
       </svg>
     ),
-    image: "/categories/investment.jpg",
+    image: "/image-lifestyle/investment.png",
   },
 ];

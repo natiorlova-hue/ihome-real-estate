@@ -22,7 +22,7 @@ const samplePropertiesData: PropertyData[] = [
     title: "Marbella Hillside Villa",
     description:
       "Authentic style with historic charm and mountain views. A perfect blend of tradition and comfort in a quiet setting.",
-    image: "/categories/golf.jpg",
+    image: "/image-lifestyle/golf-slow-life.png",
     price: "€1,250,000",
     topBadge: {
       text: "ROI 6.3%",
@@ -37,7 +37,7 @@ const samplePropertiesData: PropertyData[] = [
     title: "Sunset Infinity Villa",
     description:
       "Modern design with sea views and a cozy terrace. A relaxing space with poolside comfort and full privacy.",
-    image: "/categories/golf.jpg",
+    image: "/image-lifestyle/golf-slow-life.png",
     price: "€780,000",
     topBadge: {
       text: "New",
@@ -52,7 +52,7 @@ const samplePropertiesData: PropertyData[] = [
     title: "Sunset Infinity Villa 2",
     description:
       "Spacious residence with mountain panorama and private garden. Andalusian spirit combined with a touch of ...",
-    image: "/categories/golf.jpg",
+    image: "/image-lifestyle/golf-slow-life.png",
     price: "€2,150,000",
     topBadge: {
       text: "Featured",
