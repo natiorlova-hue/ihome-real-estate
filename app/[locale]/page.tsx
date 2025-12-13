@@ -1,10 +1,10 @@
-import RecentProperties from "@/components/RecentProperties";
 import CTA from "@/components/cta";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import { Button } from "@/components/ui/button";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
+import FeaturedProperties from "../../components/home/FeaturedProperties";
 
 type HomePageProps = {
   params: Promise<{ locale: Locale }>;
@@ -22,7 +22,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <CTA />
 
-      <RecentProperties
+      <FeaturedProperties
         title={t("featuredHomes.title")}
         description={t("featuredHomes.description")}
       />
