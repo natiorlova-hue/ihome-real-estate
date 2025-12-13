@@ -1,70 +1,20 @@
 {
-  "header": {
-    "brand": "iHome • Marbella",
-    "nav": {
-      "home": "Inicio",
-      "forYou": "Para ti",
-      "properties": "Propiedades",
-      "guides": "Guías e Historias",
-      "ourWay": "Nuestro Método"
-    },
-    "actions": {
-      "method": "Método Coastal Clarity",
-      "talk": "¡Hablemos!"
-    },
-    "dropdowns": {
-      "forYou": {
-        "families": {
-          "title": "Familias",
-          "desc": "Encuentra el hogar perfecto para tu familia: colegios, confort y seguridad."
-        },
-        "nomads": {
-          "title": "Nómadas Digitales",
-          "desc": "Vive y trabaja junto al mar con buena conexión, sol e inspiración."
-        },
-        "golf": {
-          "title": "Golf y Vida Tranquila",
-          "desc": "Casas con vistas verdes, campos de golf y mañanas de paz."
-        },
-        "goldenYears": {
-          "title": "Jubilación Dorada",
-          "desc": "Confort, calma y sol para tu próximo capítulo en España."
-        },
-        "secondHome": {
-          "title": "Segunda Residencia",
-          "desc": "Un refugio soleado para fines de semana, vacaciones o temporadas."
-        },
-        "investment": {
-          "title": "Inversores",
-          "desc": "Propiedades con alto ROI, promotoras de confianza y gran demanda de alquiler."
-        }
-      },
-      "properties": {
-        "sale": {
-          "title": "En Venta",
-          "desc": "Explora nuestra selección de casas y villas en la Costa del Sol."
-        },
-        "rent": {
-          "title": "Alquiler",
-          "desc": "Encuentra alquileres elegantes de larga temporada y estancias estacionales."
-        },
-        "sell": {
-          "title": "Vende tu propiedad",
-          "desc": "Lista tu casa con iHome y llega a compradores internacionales cualificados."
-        }
-      }
+  "ctaRow": {
+    "notFound": "¿No encontraste lo que estabas buscando?",
+    "contact": "Contáctanos hoy",
+    "sendRequest": "Enviar solicitud"
+  },
+  "viewAll": "Ver todo",
+  "sellBanner": {
+    "title": "¿Quieres vender tu propiedad?",
+    "desc": "Déjanos tus datos y uno de nuestros agentes se pondrá en contacto contigo en breve.",
+    "privacy": {
+      "prefix": "Cuidamos tus datos conforme a nuestra",
+      "link": "política de privacidad"
     }
   },
-  "footer": {
-    "rights": "© 2025 iHome Real Estate. Todos los derechos reservados.",
-    "links": {
-      "privacy": "Política de Privacidad",
-      "cookies": "Política de Cookies",
-      "terms": "Términos y Condiciones"
-    }
-  },
-  "cta": {
-    "notFound": "¿No encuentras lo que buscas?",
-    "contact": "Contáctanos hoy"
+  "regionsGuide": {
+    "title": "Guía visual de regiones",
+    "subtitle": "Haz clic en las zonas que más te interesen del mapa de la Costa del Sol para descubrir su ambiente y las propiedades disponibles."
   }
 }

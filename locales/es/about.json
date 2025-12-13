@@ -1,0 +1,39 @@
+{
+  "about": {
+    "title": "Sobre nosotros",
+    "intro": {
+      "line1": "Somos una agencia inmobiliaria boutique en la Costa del Sol.",
+      "line2": "Nuestra misión no es solo encontrar una propiedad, sino descubrir un lugar que refleje tu estilo de vida y haga realidad tus sueños."
+    }
+  },
+
+  "approach": {
+    "title": "Nuestro enfoque: «Primero escuchamos, luego proponemos»",
+    "desc1": "En iHome creemos que cada cliente es único. Por eso empezamos escuchando: tu historia, tus sueños, las necesidades de tu familia y tu estilo de vida.",
+    "desc2": "Con más de 10 años de experiencia en el sector inmobiliario, sabemos que no se trata de metros cuadrados, sino de los momentos de vida que realmente importan.",
+    "cta": "Descubrir nuestros servicios"
+  },
+
+  "team": {
+    "title": "Conoce a nuestro equipo",
+    "subtitle": "Detrás de cada traslado exitoso hay un profesional comprometido que ama lo que hace.",
+
+    "members": [
+      {
+        "name": "Julia Ivanova",
+        "role": "Fundadora y experta en relocation",
+        "bio": "Con más de 15 años en la Costa del Sol, Julia ayuda a las familias a establecerse con comodidad. Conoce cada colegio, clínica y detalle de cada barrio."
+      },
+      {
+        "name": "Alexey Petrov",
+        "role": "Asesor de inversiones",
+        "bio": "Alexey está especializado en inversiones inmobiliarias. Su experiencia garantiza que tu compra sea no solo un hogar, sino también un activo rentable."
+      },
+      {
+        "name": "Elena Sidorova",
+        "role": "Especialista en ventas",
+        "bio": "Elena trabaja con familias y compradores de segunda residencia. Selecciona cuidadosamente viviendas que combinan estilo de vida, confort y valor a largo plazo."
+      }
+    ]
+  }
+}

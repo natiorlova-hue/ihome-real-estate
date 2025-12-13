@@ -1,1 +1,20 @@
-{}
+{
+  "badges": {
+    "roi": "ROI {value}%",
+    "new": "Новое",
+    "featured": "Избранное"
+  },
+  "units": {
+    "sqm": "м²"
+  },
+  "card": {
+    "bedrooms": "Спальни",
+    "bathrooms": "Ванные комнаты",
+    "viewDetails": "Смотреть детали"
+  },
+  "filters": {
+    "title": "Фильтры",
+    "clear": "Очистить всё",
+    "apply": "Применить фильтры"
+  }
+}
