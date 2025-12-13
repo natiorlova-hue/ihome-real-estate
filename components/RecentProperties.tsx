@@ -1,4 +1,4 @@
-import Card from "@/components/Card";
+import ContentCard from "@/components/content/ContentCard";
 import GridContainer from "@/components/GridContainer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -83,7 +83,7 @@ export default function RecentProperties({
         <GridContainer>
           {samplePropertiesData.map(item => {
             return (
-              <Card
+              <ContentCard
                 key={item.title}
                 title={item.title}
                 description={item.description}

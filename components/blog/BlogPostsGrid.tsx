@@ -1,8 +1,8 @@
 import { getLocalizedText } from "@/lib/blog";
 import { urlFor } from "@/sanity/lib/image";
 import { useTranslations } from "next-intl";
-import Card from "../Card";
 import GridContainer from "../GridContainer";
+import Card from "../content/ContentCard";
 
 interface Post {
   _id: string;

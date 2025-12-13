@@ -1,30 +1,35 @@
-// components/home/Categories.tsx
+// components/home/LifestyleSection.tsx
+import ContentCard from "@/components/content/ContentCard";
+import GridContainer from "@/components/GridContainer";
 import { categories as categoriesData } from "@/lib/categories";
+import { withLocale, type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
-import Card from "../Card";
-import GridContainer from "../GridContainer";
 
-export default async function Categories({ locale }: { locale: string }) {
+type LifestyleSectionProps = {
+  locale: Locale;
+};
+
+export default async function LifestyleSection({
+  locale,
+}: LifestyleSectionProps) {
+  const t = await getTranslations({ locale, namespace: "home" });
   const tax = await getTranslations({ locale, namespace: "taxonomy" });
 
   return (
-    <div className="py-8 md:py-16">
+    <section className="py-8 md:py-16" aria-labelledby="lifestyle-heading">
       <div className="container">
-        <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
-          <h2>Live your way on the Costa del Sol.</h2>
-          <p className="text-tertiary-600 max-w-[640px]">
-            Every lifestyle has its perfect place. Choose yours — and we’ll show
-            you the neighborhoods, stories, and homes that fit.
+        <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
+          <h2 id="lifestyle-heading">{t("lifestyle.title")}</h2>
+          <p className="max-w-[640px] text-tertiary-600">
+            {t("lifestyle.description")}
           </p>
         </div>
 
         <GridContainer>
           {categoriesData.map(item => {
-            // title/desc з taxonomy.categoryLifestyle
             const title = tax(`categoryLifestyle.${item.key}.title`);
             const description = tax(`categoryLifestyle.${item.key}.desc`);
 
-            // subtitle з taxonomy.lifestyle.tags + taxonomy.lifestyle.cards[KEY].tagKeys
             const tagKeys = tax.raw(`lifestyle.cards.${item.key}.tagKeys`) as
               | string[]
               | undefined;
@@ -34,12 +39,12 @@ export default async function Categories({ locale }: { locale: string }) {
               : undefined;
 
             return (
-              <Card
+              <ContentCard
                 key={item.key}
                 title={title}
                 subtitle={subtitle}
                 description={description}
-                link={`/${locale}/${item.path}`}
+                link={withLocale(locale, item.path)}
                 image={item.image}
                 imageAlt={title}
               />
@@ -47,6 +52,6 @@ export default async function Categories({ locale }: { locale: string }) {
           })}
         </GridContainer>
       </div>
-    </div>
+    </section>
   );
 }
