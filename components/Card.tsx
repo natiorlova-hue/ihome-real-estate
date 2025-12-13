@@ -14,6 +14,7 @@ const Card = (props: {
   description?: string;
   link: string;
   image: string;
+  imageAlt?: string;
   topBadge?: BadgeProps;
   bottomBadge?: BadgeProps;
   price?: string;
@@ -25,6 +26,7 @@ const Card = (props: {
     description,
     link,
     image,
+    imageAlt,
     topBadge,
     bottomBadge,
     price,
@@ -39,7 +41,7 @@ const Card = (props: {
             width={400}
             height={225}
             src={image}
-            alt={title}
+            alt={imageAlt ?? ""}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
