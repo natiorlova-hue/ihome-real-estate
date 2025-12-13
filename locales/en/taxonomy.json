@@ -38,13 +38,14 @@
       "coworking": "Coworking",
       "roi": "ROI",
       "trends": "Trends",
-      "opportunities": "Opportunities"
+      "opportunities": "Opportunities",
+      "holidayHomesByTheBeach": "Holiday homes by the beach"
     },
     "cards": {
       "families": { "tagKeys": ["schools", "parks", "safety"] },
       "golf": { "tagKeys": ["golf", "calm"] },
       "golden": { "tagKeys": ["golf", "calm", "healthcare"] },
-      "sea": { "tagKeys": ["byTheBeach"] },
+      "sea": { "tagKeys": ["holidayHomesByTheBeach"] },
       "nomads": { "tagKeys": ["wifi", "cafes", "coworking"] },
       "investment": { "tagKeys": ["roi", "trends", "opportunities"] }
     }

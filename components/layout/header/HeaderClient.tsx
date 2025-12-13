@@ -7,27 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { categories } from "@/lib/categories";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import MobileMenu from "../MobileMenu";
 import styles from "./header.module.css";
-
-type LifestyleKey =
-  | "families"
-  | "nomads"
-  | "golf"
-  | "golden"
-  | "sea"
-  | "investment";
-
-const FOR_YOU: { key: LifestyleKey; path: string }[] = [
-  { key: "families", path: "families" },
-  { key: "nomads", path: "nomads" },
-  { key: "golf", path: "golf" },
-  { key: "golden", path: "golden-years" },
-  { key: "sea", path: "second-home" },
-  { key: "investment", path: "investment" },
-];
 
 export default function HeaderClient({ locale }: { locale: string }) {
   const nav = useTranslations("navigation");
@@ -63,18 +47,22 @@ export default function HeaderClient({ locale }: { locale: string }) {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className="w-[344px]">
-                {FOR_YOU.map(item => (
-                  <DropdownMenuItem key={item.key} className="px-4 py-2">
+                {categories.map(cat => (
+                  <DropdownMenuItem key={cat.key} className="px-4 py-2">
                     <Link
-                      href={`/${locale}/${item.path}`}
+                      href={`/${locale}/${cat.path}`}
                       className="flex gap-3 w-full"
                     >
+                      {/* icon — з UI-конфігу */}
+                      <span className="flex-shrink-0">{cat.icon}</span>
+
                       <div className="flex flex-col">
+                        {/* тексти — з taxonomy */}
                         <span className="text-md font-semibold">
-                          {tax(`categoryLifestyle.${item.key}.title`)}
+                          {tax(`categoryLifestyle.${cat.key}.title`)}
                         </span>
                         <span className="text-tertiary-600 text-sm">
-                          {tax(`categoryLifestyle.${item.key}.desc`)}
+                          {tax(`categoryLifestyle.${cat.key}.desc`)}
                         </span>
                       </div>
                     </Link>
