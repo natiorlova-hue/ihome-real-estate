@@ -1,9 +1,9 @@
 // components/home/LifestyleSection.tsx
 import ContentCard from "@/components/content/ContentCard";
 import GridContainer from "@/components/GridContainer";
-import { categories as categoriesData } from "@/lib/categories";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
+import { getLifestyleIcon } from "@/components/content/lifestyle-icons";
 
 type LifestyleSectionProps = {
   locale: Locale;
@@ -26,11 +26,11 @@ export default async function LifestyleSection({
         </div>
 
         <GridContainer>
-          {categoriesData.map(item => {
-            const title = tax(`categoryLifestyle.${item.key}.title`);
-            const description = tax(`categoryLifestyle.${item.key}.desc`);
+          {getLifestyleIcon.map(item => {
+            const title = tax(`lifestyle.${item.key}.title`);
+            const description = tax(`lifestyle.${item.key}.desc`);
 
-            const tagKeys = tax.raw(`lifestyle.cards.${item.key}.tagKeys`) as
+            const tagKeys = tax.raw(`lifestyle.${item.key}.tagKeys`) as
               | string[]
               | undefined;
 
