@@ -1,60 +1,47 @@
 import RecentProperties from "@/components/RecentProperties";
 import CTA from "@/components/cta";
-import Categories from "@/components/home/Categories";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
+import LifestyleSection from "@/components/home/LifestyleSection";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
+import { type Locale } from "@/lib/locale-path";
+import { getTranslations } from "next-intl/server";
 
-export default function HomePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  // 1. Initialize translation hook
-  const t = useTranslations("home");
+type HomePageProps = {
+  params: Promise<{ locale: Locale }>;
+};
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home" });
 
   return (
     <div>
-      {/* Hero Section */}
       <HeroVisualSection />
 
-      {/* Categories Section */}
-      <CategoriesWrapper params={params} />
+      <LifestyleSection locale={locale} />
 
-      {/* CTA Section */}
       <CTA />
 
-      {/* Recent Properties */}
       <RecentProperties
-        title={t("lifestyle.title")}
-        description={t("lifestyle.description")}
+        title={t("featuredHomes.title")}
+        description={t("featuredHomes.description")}
       />
 
-      {/* CTA Section */}
       <CTA />
 
-      {/* Quiz Section */}
-      <div className="bg-gray-50">
+      <section className="bg-gray-50" aria-labelledby="quiz-heading">
         <div className="container">
-          <div className="flex flex-col justify-center items-center gap-8 py-16 md:py-28 text-center">
-            <h2 className="text-brandBlue-500 max-w-xl">{t("quiz.title")}</h2>
+          <div className="flex flex-col items-center justify-center gap-8 py-16 text-center md:py-28">
+            <h2 id="quiz-heading" className="max-w-xl text-brandBlue-500">
+              {t("quiz.title")}
+            </h2>
             <p className="text-gray-700">{t("quiz.subtitle")}</p>
             <Button variant="brandBlue" size="lg">
               {t("quiz.button")}
             </Button>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
-}
-
-// Wrapper to handle async params for client components if needed
-async function CategoriesWrapper({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  return <Categories locale={locale} />;
 }
