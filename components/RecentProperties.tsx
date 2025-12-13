@@ -87,7 +87,7 @@ export default function RecentProperties({
                 key={item.title}
                 title={item.title}
                 description={item.description}
-                link={`/`}
+                href={`/`}
                 image={`${item.image}`}
                 price={item.price}
                 topBadge={item.topBadge}

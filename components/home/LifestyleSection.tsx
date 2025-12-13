@@ -1,41 +1,39 @@
 // components/home/LifestyleSection.tsx
-import ContentCard from "@/components/content/ContentCard";
+
 import GridContainer from "@/components/GridContainer";
-import { withLocale, type Locale } from "@/lib/locale-path";
+import ContentCard from "@/components/content/ContentCard";
+import { getLifestyleIcon } from "@/components/content/LifestyleIcons";
+import { lifestyleItems } from "@/lib/lifestyle";
+import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
-import { getLifestyleIcon } from "@/components/content/lifestyle-icons";
 
-type LifestyleSectionProps = {
-  locale: Locale;
-};
-
-export default async function LifestyleSection({
-  locale,
-}: LifestyleSectionProps) {
-  const t = await getTranslations({ locale, namespace: "home" });
-  const tax = await getTranslations({ locale, namespace: "taxonomy" });
+export default async function LifestyleSection({ locale }: { locale: Locale }) {
+  const tHome = await getTranslations({ locale, namespace: "home" });
+  const tTax = await getTranslations({ locale, namespace: "taxonomy" });
 
   return (
-    <section className="py-8 md:py-16" aria-labelledby="lifestyle-heading">
+    <section className="py-8 md:py-16">
       <div className="container">
-        <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
-          <h2 id="lifestyle-heading">{t("lifestyle.title")}</h2>
-          <p className="max-w-[640px] text-tertiary-600">
-            {t("lifestyle.description")}
+        {/* Section header */}
+        <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
+          <h2>{tHome("lifestyle.title")}</h2>
+          <p className="text-tertiary-600 max-w-[640px]">
+            {tHome("lifestyle.description")}
           </p>
         </div>
 
+        {/* Cards */}
         <GridContainer>
-          {getLifestyleIcon.map(item => {
-            const title = tax(`lifestyle.${item.key}.title`);
-            const description = tax(`lifestyle.${item.key}.desc`);
+          {lifestyleItems.map(item => {
+            const title = tTax(`categoryLifestyle.${item.key}.title`);
+            const description = tTax(`categoryLifestyle.${item.key}.desc`);
 
-            const tagKeys = tax.raw(`lifestyle.${item.key}.tagKeys`) as
+            const tagKeys = tTax.raw(`lifestyle.cards.${item.key}.tagKeys`) as
               | string[]
               | undefined;
 
             const subtitle = tagKeys?.length
-              ? tagKeys.map(k => tax(`lifestyle.tags.${k}`)).join(" · ")
+              ? tagKeys.map(k => tTax(`lifestyle.tags.${k}`)).join(" · ")
               : undefined;
 
             return (
@@ -44,9 +42,10 @@ export default async function LifestyleSection({
                 title={title}
                 subtitle={subtitle}
                 description={description}
-                link={withLocale(locale, item.path)}
+                href={`/${locale}/${item.path}`}
                 image={item.image}
                 imageAlt={title}
+                icon={getLifestyleIcon(item.key)}
               />
             );
           })}

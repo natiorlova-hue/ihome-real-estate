@@ -72,7 +72,7 @@ export default function BlogPostsGrid({
                 key={post._id}
                 title={title}
                 subtitle={getLocalizedText(post.categories[0].title, locale)}
-                link={`/blog/${post.slug.current}`}
+                href={`/blog/${post.slug.current}`}
                 image={
                   post.image
                     ? urlFor(post.image).width(400).height(225).url()

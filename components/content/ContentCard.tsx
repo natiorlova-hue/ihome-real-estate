@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export type CardBadgeVariant = "pink" | "yellow" | "red" | "area";
 
@@ -15,7 +16,7 @@ export interface CardProps {
   title: string;
   subtitle?: string;
   description?: string;
-  link: string;
+  href: string;
   image: string;
   imageAlt?: string;
   topBadge?: CardBadge;
@@ -23,13 +24,14 @@ export interface CardProps {
   price?: string;
   isLink?: boolean;
   className?: string;
+  icon?: ReactNode;
 }
 
-export default function Card({
+export default function ContentCard({
   title,
   subtitle,
   description,
-  link,
+  href,
   image,
   imageAlt,
   topBadge,
@@ -37,9 +39,10 @@ export default function Card({
   price,
   isLink = false,
   className,
+  icon,
 }: CardProps) {
   return (
-    <Link href={link} className={cn("group relative bg-white", className)}>
+    <Link href={href} className={cn("group relative bg-white", className)}>
       <div className="aspect-video overflow-hidden rounded-lg bg-gray-200">
         {image ? (
           <Image
@@ -59,6 +62,9 @@ export default function Card({
       </div>
 
       <div className="flex flex-col items-start gap-1 pt-4">
+        {/* Render Icon if present */}
+        {icon && <div className="mb-2 text-primary-500">{icon}</div>}
+
         {topBadge ? (
           <BadgeComponent text={topBadge.text} variant={topBadge.variant} />
         ) : null}
