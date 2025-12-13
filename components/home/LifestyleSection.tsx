@@ -2,7 +2,6 @@
 
 import GridContainer from "@/components/GridContainer";
 import ContentCard from "@/components/content/ContentCard";
-import { getLifestyleIcon } from "@/components/content/LifestyleIcons";
 import { lifestyleItems } from "@/lib/lifestyle";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
@@ -45,7 +44,6 @@ export default async function LifestyleSection({ locale }: { locale: Locale }) {
                 href={`/${locale}/${item.path}`}
                 image={item.image}
                 imageAlt={title}
-                icon={getLifestyleIcon(item.key)}
               />
             );
           })}
