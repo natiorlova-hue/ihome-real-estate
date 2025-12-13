@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 const CTA = () => {
-  const t = useTranslations("common.cta");
+  const t = useTranslations("common.ctaRow");
 
   return (
     <section className="container">

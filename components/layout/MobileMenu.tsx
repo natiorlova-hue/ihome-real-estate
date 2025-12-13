@@ -20,7 +20,7 @@ const propertyKeys = ["sale", "rent", "sell"];
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
-  const t = useTranslations("common");
+  const t = useTranslations("navigation");
 
   return (
     <>

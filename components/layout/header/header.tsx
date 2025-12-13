@@ -16,7 +16,14 @@ interface HeaderProps {
 }
 
 export default async function Header({ locale }: HeaderProps) {
-  const t = await getTranslations({ locale, namespace: "common.header" });
+  const tNav = await getTranslations({
+    locale,
+    namespace: "navigation.header",
+  });
+  const tLifestyle = await getTranslations({
+    locale,
+    namespace: "taxonomy.categoryLifestyle",
+  });
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-gray-50/90 backdrop-blur-md border-b border-gray-100">
@@ -49,7 +56,7 @@ export default async function Header({ locale }: HeaderProps) {
               href={`/${locale}`}
               className="text-gray-700 hover:text-terracotta-500 transition-colors"
             >
-              {t("nav.home")}
+              {tNav("nav.home")}
             </Link>
 
             <DropdownMenu>
@@ -58,12 +65,12 @@ export default async function Header({ locale }: HeaderProps) {
                   href={`/${locale}/properties`}
                   className="flex items-center gap-1 cursor-pointer text-gray-700 hover:text-terracotta-500 transition-colors"
                 >
-                  {t("nav.forYou")}
+                  {tNav("nav.forYou")}
                 </Link>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[344px]">
                 {categories.map(item => (
-                  <DropdownMenuItem key={item.name} className="px-4 py-2">
+                  <DropdownMenuItem key={item.key} className="px-4 py-2">
                     <Link
                       href={`/${locale}/${item.path}`}
                       className="flex gap-3 w-full"
@@ -71,10 +78,10 @@ export default async function Header({ locale }: HeaderProps) {
                       <span className="flex-shrink-0">{item.icon}</span>
                       <div className="flex flex-col">
                         <span className="text-md font-semibold">
-                          {item.name}
+                          {tLifestyle(`${item.key}.title`)}
                         </span>
                         <span className="text-tertiary-600 text-sm">
-                          {item.description}
+                          {tLifestyle(`${item.key}.desc`)}
                         </span>
                       </div>
                     </Link>
@@ -87,32 +94,32 @@ export default async function Header({ locale }: HeaderProps) {
               href={`/${locale}/properties`}
               className="text-gray-700 hover:text-terracotta-500 transition-colors"
             >
-              {t("nav.properties")}
+              {tNav("nav.properties")}
             </Link>
 
             <Link
               href={`/${locale}/guides`}
               className="text-gray-700 hover:text-terracotta-500 transition-colors"
             >
-              {t("nav.guides")}
+              {tNav("nav.guides")}
             </Link>
 
             <Link
               href={`/${locale}/our-way`}
               className="text-gray-700 hover:text-terracotta-500 transition-colors"
             >
-              {t("nav.ourWay")}
+              {tNav("nav.ourWay")}
             </Link>
           </nav>
 
           {/* Right Side Actions */}
           <div className="hidden xl:flex items-center gap-4">
             <Button asChild variant="outline">
-              <Link href={`/${locale}/contact`}>{t("actions.method")}</Link>
+              <Link href={`/${locale}/contact`}>{tNav("actions.method")}</Link>
             </Button>
 
             <Button asChild>
-              <Link href={`/${locale}/contact`}>{t("actions.talk")}</Link>
+              <Link href={`/${locale}/contact`}>{tNav("actions.talk")}</Link>
             </Button>
           </div>
 

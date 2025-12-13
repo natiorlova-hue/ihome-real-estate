@@ -15,12 +15,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale,
     messages: {
+      about: (await import(`./locales/${locale}/about.json`)).default,
       common: (await import(`./locales/${locale}/common.json`)).default,
-      home: (await import(`./locales/${locale}/home.json`)).default,
-      properties: (await import(`./locales/${locale}/properties.json`)).default,
-      guides: (await import(`./locales/${locale}/guides.json`)).default,
+      footer: (await import(`./locales/${locale}/footer.json`)).default,
       forms: (await import(`./locales/${locale}/forms.json`)).default,
-      blog: (await import(`./locales/${locale}/properties.json`)).default,
+      guides: (await import(`./locales/${locale}/guides.json`)).default,
+      home: (await import(`./locales/${locale}/home.json`)).default,
+      navigation: (await import(`./locales/${locale}/navigation.json`)).default,
+      properties: (await import(`./locales/${locale}/properties.json`)).default,
+      taxonomy: (await import(`./locales/${locale}/taxonomy.json`)).default,
     },
   };
 });

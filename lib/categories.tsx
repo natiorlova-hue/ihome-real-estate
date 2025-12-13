@@ -1,17 +1,12 @@
 export const categories: {
+  key: string;
   path: string;
-  name: string;
-  description: string;
-  subtitle: string;
   icon: React.ReactNode;
   image: string;
 }[] = [
   {
+    key: "families",
     path: "families",
-    name: "Families relocating",
-    description:
-      "Find the perfect home for your family — with schools, comfort, and safety.",
-    subtitle: "Schools · Parks · Safety",
     icon: (
       <svg
         width="20"
@@ -39,11 +34,8 @@ export const categories: {
     image: "/categories/families.jpg",
   },
   {
+    key: "nomads",
     path: "nomads",
-    name: "Digital Nomads",
-    description:
-      "Live and work by the sea with great Wi-Fi, sunshine, and inspiration.",
-    subtitle: "Wifi · Cafés · Coworking",
     icon: (
       <svg
         width="20"
@@ -71,10 +63,8 @@ export const categories: {
     image: "/categories/nomads.jpg",
   },
   {
+    key: "golf",
     path: "golf",
-    name: "Golf & Slow Life",
-    description: "Comfort, calm, and sunshine for your next chapter in Spain.",
-    subtitle: "Villas near golf courses",
     icon: (
       <svg
         width="20"
@@ -116,10 +106,8 @@ export const categories: {
     image: "/categories/golf.jpg",
   },
   {
+    key: "golden",
     path: "golden-years",
-    name: "Golden Years",
-    description: "Comfort, calm, and sunshine for your next chapter in Spain.",
-    subtitle: "Golf · Calm · Healthcare",
     icon: (
       <svg
         width="20"
@@ -196,10 +184,8 @@ export const categories: {
     image: "/categories/golden.jpg",
   },
   {
+    key: "sea",
     path: "second-home",
-    name: "Second Home by the Sea",
-    description: "A sunny escape for weekends, holidays, or seasonal living.",
-    subtitle: "Holiday homes by the beach",
     icon: (
       <svg
         width="20"
@@ -234,11 +220,8 @@ export const categories: {
     image: "/categories/second-home.jpg",
   },
   {
+    key: "investment",
     path: "investment",
-    name: "Investment Seekers",
-    description:
-      "Properties with solid ROI, trusted developers, and high rental demand.",
-    subtitle: "ROI · Trends · Opportunities",
     icon: (
       <svg
         width="20"
