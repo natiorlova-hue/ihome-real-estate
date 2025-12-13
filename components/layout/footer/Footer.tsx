@@ -1,7 +1,7 @@
 import { MessageCircle, Send } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import LanguageSwitcher from "./LanguageSwitcher";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 interface FooterProps {
   locale: string;

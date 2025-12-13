@@ -27,6 +27,11 @@
           "desc": "List your home with iHome and reach qualified international buyers."
         }
       }
+    },
+    "a11y": {
+      "openMenu": "Open main menu",
+      "closeMenu": "Close menu",
+      "homeAria": "Go to homepage"
     }
   }
 }

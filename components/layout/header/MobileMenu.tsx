@@ -1,26 +1,64 @@
 "use client";
 
+import { withLocale, type Locale } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
-import { Dialog, Disclosure, Transition } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 
-// Keys matching common.json structure
-const forYouKeys = [
-  "families",
-  "nomads",
-  "golf",
-  "goldenYears",
-  "secondHome",
-  "investment",
-];
-const propertyKeys = ["sale", "rent", "sell"];
+type HeaderLabels = {
+  brand: string;
+  home: string;
+  forYou: string;
+  properties: string;
+  guides: string;
+  ourWay: string;
+  method: string;
+  talk: string;
 
-export default function MobileMenu() {
+  // a11y
+  openMenu: string;
+  closeMenu: string;
+  homeAria: string;
+};
+
+type ForYouItem = {
+  key: string;
+  title: string;
+  desc: string;
+  path: string;
+};
+
+type PropertiesItem = {
+  key: string;
+  title: string;
+  desc: string;
+  href: string;
+};
+
+type MobileMenuProps = {
+  locale: Locale;
+  labels: HeaderLabels;
+  dropdownForYou: ForYouItem[];
+  dropdownProperties: PropertiesItem[];
+};
+
+export default function MobileMenu({
+  locale,
+  labels,
+  dropdownForYou,
+  dropdownProperties,
+}: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const t = useTranslations("navigation");
 
   return (
     <>
@@ -29,13 +67,13 @@ export default function MobileMenu() {
         className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 xl:hidden"
         onClick={() => setOpen(true)}
       >
-        <span className="sr-only">Open main menu</span>
+        <span className="sr-only">{labels.openMenu}</span>
         <Menu className="h-6 w-6" aria-hidden="true" />
       </button>
 
-      <Transition.Root show={open} as={Fragment}>
+      <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={setOpen}>
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
             enterFrom="opacity-0"
@@ -45,10 +83,10 @@ export default function MobileMenu() {
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-gray-900/80" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-0 flex">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="transition ease-in-out duration-300 transform"
               enterFrom="translate-x-full"
@@ -57,24 +95,26 @@ export default function MobileMenu() {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full"
             >
-              <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white px-6 py-6 shadow-xl">
+              <DialogPanel className="relative ml-auto flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white px-6 py-6 shadow-xl">
                 <div className="flex items-center justify-between">
                   <Link
-                    href="/"
+                    href={withLocale(locale, "")}
+                    aria-label={labels.homeAria}
                     className="-m-1.5 p-1.5"
                     onClick={() => setOpen(false)}
                   >
-                    <span className="sr-only">iHome</span>
-                    <span className="text-xl font-serif font-bold text-orange-600">
-                      iHome
+                    <span className="sr-only">{labels.brand}</span>
+                    <span className="text-xl font-serif font-bold text-terracotta-500">
+                      {labels.brand}
                     </span>
                   </Link>
+
                   <button
                     type="button"
                     className="-m-2.5 rounded-md p-2.5 text-gray-700"
                     onClick={() => setOpen(false)}
                   >
-                    <span className="sr-only">Close menu</span>
+                    <span className="sr-only">{labels.closeMenu}</span>
                     <X className="h-6 w-6" aria-hidden="true" />
                   </button>
                 </div>
@@ -83,107 +123,106 @@ export default function MobileMenu() {
                   <div className="-my-6 divide-y divide-gray-500/10">
                     <div className="space-y-2 py-6">
                       <Link
-                        href="/"
+                        href={withLocale(locale, "")}
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
-                        {t("header.nav.home")}
+                        {labels.home}
                       </Link>
 
                       <Disclosure as="div" className="-mx-3">
-                        {({ open }) => (
+                        {({ open: isOpen }) => (
                           <>
-                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                              {t("header.nav.forYou")}
+                            <DisclosureButton className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                              {labels.forYou}
                               <ChevronDown
                                 className={cn(
-                                  open ? "rotate-180" : "",
+                                  isOpen ? "rotate-180" : "",
                                   "h-5 w-5 flex-none"
                                 )}
                                 aria-hidden="true"
                               />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="mt-2 space-y-2">
-                              {forYouKeys.map(key => (
-                                <Disclosure.Button
-                                  key={key}
-                                  as={Link}
-                                  href={`/lifestyle/${key}`}
+                            </DisclosureButton>
+
+                            <DisclosurePanel className="mt-2 space-y-2">
+                              {dropdownForYou.map(item => (
+                                <Link
+                                  key={item.key}
+                                  href={withLocale(locale, item.path)}
                                   className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
-                                  {t(`header.dropdowns.forYou.${key}.title`)}
-                                </Disclosure.Button>
+                                  {item.title}
+                                </Link>
                               ))}
-                            </Disclosure.Panel>
+                            </DisclosurePanel>
                           </>
                         )}
                       </Disclosure>
 
                       <Disclosure as="div" className="-mx-3">
-                        {({ open }) => (
+                        {({ open: isOpen }) => (
                           <>
-                            <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                              {t("header.nav.properties")}
+                            <DisclosureButton className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                              {labels.properties}
                               <ChevronDown
                                 className={cn(
-                                  open ? "rotate-180" : "",
+                                  isOpen ? "rotate-180" : "",
                                   "h-5 w-5 flex-none"
                                 )}
                                 aria-hidden="true"
                               />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="mt-2 space-y-2">
-                              {propertyKeys.map(key => (
-                                <Disclosure.Button
-                                  key={key}
-                                  as={Link}
-                                  href={`/properties/${key}`}
+                            </DisclosureButton>
+
+                            <DisclosurePanel className="mt-2 space-y-2">
+                              {dropdownProperties.map(item => (
+                                <Link
+                                  key={item.key}
+                                  href={item.href}
                                   className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
-                                  {t(
-                                    `header.dropdowns.properties.${key}.title`
-                                  )}
-                                </Disclosure.Button>
+                                  {item.title}
+                                </Link>
                               ))}
-                            </Disclosure.Panel>
+                            </DisclosurePanel>
                           </>
                         )}
                       </Disclosure>
 
                       <Link
-                        href="/guides"
+                        href={withLocale(locale, "guides")}
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
-                        {t("header.nav.guides")}
+                        {labels.guides}
                       </Link>
+
                       <Link
-                        href="/our-way"
+                        href={withLocale(locale, "our-way")}
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
-                        {t("header.nav.ourWay")}
+                        {labels.ourWay}
                       </Link>
                     </div>
 
                     <div className="py-6">
                       <Link
-                        href="/contact"
+                        href={withLocale(locale, "contact")}
                         className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
-                        {t("header.actions.talk")}
+                        {labels.talk}
                       </Link>
                     </div>
                   </div>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
     </>
   );
 }

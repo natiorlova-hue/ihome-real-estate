@@ -27,6 +27,11 @@
           "desc": "Publica tu vivienda con iHome y llega a compradores internacionales cualificados."
         }
       }
+    },
+    "a11y": {
+      "openMenu": "Abrir menú principal",
+      "closeMenu": "Cerrar menú",
+      "homeAria": "Ir a la página principal"
     }
   }
 }

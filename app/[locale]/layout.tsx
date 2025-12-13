@@ -1,11 +1,11 @@
 // app/[locale]/layout.tsx
+import Footer from "@/components/layout/footer/Footer";
+import Header from "@/components/layout/header/Header";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
-import Footer from "../../components/layout/footer";
-import Header from "../../components/layout/header/header";
 import "../globals.css";
 
 const notoSerif = Noto_Serif({

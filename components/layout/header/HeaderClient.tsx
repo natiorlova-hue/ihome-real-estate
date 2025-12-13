@@ -1,5 +1,6 @@
 "use client";
 
+import Logo from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,9 +8,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { withLocale, type Locale } from "@/lib/locale-path";
 import Link from "next/link";
-import MobileMenu from "../MobileMenu";
-import styles from "./header.module.css";
+import MobileMenu from "./MobileMenu";
 
 type HeaderLabels = {
   brand: string;
@@ -20,18 +21,22 @@ type HeaderLabels = {
   ourWay: string;
   method: string;
   talk: string;
+
+  openMenu: string;
+  closeMenu: string;
+  homeAria: string;
 };
 
 type DropdownItem = {
   key: string;
   title: string;
   desc: string;
-  path?: string; // for "For you" items
-  href?: string; // for "Properties" items
+  path?: string; // For you
+  href?: string; // Properties
 };
 
 type HeaderClientProps = {
-  locale: string;
+  locale: Locale;
   labels: HeaderLabels;
   dropdownForYou: Array<
     Required<Pick<DropdownItem, "key" | "title" | "desc" | "path">>
@@ -48,31 +53,33 @@ export default function HeaderClient({
   dropdownProperties,
 }: HeaderClientProps) {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-gray-50/90 backdrop-blur-md border-b border-gray-100">
+    <header className="fixed left-0 top-0 z-50 w-full border-b border-gray-100 bg-gray-50/90 backdrop-blur-md">
       <div className="container">
-        <div className="flex items-center gap-6 h-16 md:h-20 justify-between">
-          {/* Logo */}
-          <Link
-            href={`/${locale}`}
-            className={styles.logo}
-            aria-label="iHome Homepage"
-          >
-            <span className="text-base xl:text-xl">{labels.brand}</span>
-          </Link>
+        <div className="flex h-16 items-center justify-between gap-6 md:h-20">
+          {/* Brand */}
+          <Logo
+            locale={locale}
+            ariaLabel={labels.homeAria}
+            wordmark={labels.brand}
+            className="shrink-0"
+          />
 
           {/* Desktop Nav */}
-          <nav className="hidden xl:flex items-center gap-6 font-semibold">
+          <nav className="hidden items-center gap-6 font-semibold xl:flex">
             <Link
-              href={`/${locale}`}
-              className="text-gray-700 hover:text-terracotta-500 transition-colors"
+              href={withLocale(locale, "")}
+              className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.home}
             </Link>
 
-            {/* For you dropdown */}
+            {/* For dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-1 cursor-pointer text-gray-700 hover:text-terracotta-500 transition-colors">
+                <button
+                  type="button"
+                  className="flex cursor-pointer items-center gap-1 text-gray-700 transition-colors hover:text-terracotta-500"
+                >
                   {labels.forYou}
                 </button>
               </DropdownMenuTrigger>
@@ -81,14 +88,14 @@ export default function HeaderClient({
                 {dropdownForYou.map(item => (
                   <DropdownMenuItem key={item.key} className="px-4 py-2">
                     <Link
-                      href={`/${locale}/${item.path}`}
-                      className="flex gap-3 w-full"
+                      href={withLocale(locale, item.path)}
+                      className="flex w-full gap-3"
                     >
                       <div className="flex flex-col">
                         <span className="text-md font-semibold">
                           {item.title}
                         </span>
-                        <span className="text-tertiary-600 text-sm">
+                        <span className="text-sm text-tertiary-600">
                           {item.desc}
                         </span>
                       </div>
@@ -101,7 +108,10 @@ export default function HeaderClient({
             {/* Properties dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-1 cursor-pointer text-gray-700 hover:text-terracotta-500 transition-colors">
+                <button
+                  type="button"
+                  className="flex cursor-pointer items-center gap-1 text-gray-700 transition-colors hover:text-terracotta-500"
+                >
                   {labels.properties}
                 </button>
               </DropdownMenuTrigger>
@@ -109,12 +119,12 @@ export default function HeaderClient({
               <DropdownMenuContent className="w-[344px]">
                 {dropdownProperties.map(item => (
                   <DropdownMenuItem key={item.key} className="px-4 py-2">
-                    <Link href={item.href} className="flex gap-3 w-full">
+                    <Link href={item.href} className="flex w-full gap-3">
                       <div className="flex flex-col">
                         <span className="text-md font-semibold">
                           {item.title}
                         </span>
-                        <span className="text-tertiary-600 text-sm">
+                        <span className="text-sm text-tertiary-600">
                           {item.desc}
                         </span>
                       </div>
@@ -125,32 +135,37 @@ export default function HeaderClient({
             </DropdownMenu>
 
             <Link
-              href={`/${locale}/guides`}
-              className="text-gray-700 hover:text-terracotta-500 transition-colors"
+              href={withLocale(locale, "guides")}
+              className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.guides}
             </Link>
 
             <Link
-              href={`/${locale}/our-way`}
-              className="text-gray-700 hover:text-terracotta-500 transition-colors"
+              href={withLocale(locale, "our-way")}
+              className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.ourWay}
             </Link>
           </nav>
 
           {/* Actions */}
-          <div className="hidden xl:flex items-center gap-4">
+          <div className="hidden items-center gap-4 xl:flex">
             <Button asChild variant="outline">
-              <Link href={`/${locale}/contact`}>{labels.method}</Link>
+              <Link href={withLocale(locale, "contact")}>{labels.method}</Link>
             </Button>
 
             <Button asChild>
-              <Link href={`/${locale}/contact`}>{labels.talk}</Link>
+              <Link href={withLocale(locale, "contact")}>{labels.talk}</Link>
             </Button>
           </div>
 
-          <MobileMenu />
+          <MobileMenu
+            locale={locale}
+            labels={labels}
+            dropdownForYou={dropdownForYou}
+            dropdownProperties={dropdownProperties}
+          />
         </div>
       </div>
     </header>
