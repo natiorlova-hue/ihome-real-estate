@@ -1,6 +1,5 @@
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 import ContactForm from "./ContactForm";
 
 type ContactSectionProps = {
@@ -39,25 +38,14 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
   return (
     <section
       aria-labelledby="contact-heading"
-      className="relative overflow-hidden"
+      className="
+        relative overflow-hidden
+        bg-[url('/bg-form.svg')]
+        bg-no-repeat bg-top bg-cover
+      "
     >
-      {/* Decorative background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10"
-      >
-        <Image
-          src="/bg-form.svg"
-          alt=""
-          width={1280}
-          height={980}
-          sizes="100vw"
-          className="h-auto w-full"
-        />
-      </div>
-
       <div className="container">
-        <div className="mx-auto max-w-[560px] py-16 md:py-24 text-center">
+        <div className="mx-auto max-w-[560px] py-16 text-center md:py-24">
           <p className="text-xs font-semibold tracking-wide text-terracotta-500">
             {content.kicker}
           </p>

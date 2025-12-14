@@ -6,7 +6,7 @@
     "labels": {
       "firstName": "First name",
       "lastName": "Last name",
-      "phone": "Phone",
+      "phone": "Phone number",
       "email": "E-mail",
       "message": "Message"
     },
@@ -17,10 +17,26 @@
       "email": "you@company.com",
       "message": "I'm interested in..."
     },
+    "hints": {
+      "firstNameLettersOnly": "Only letters are allowed.",
+      "email": "We’ll use this to reply within 24 hours.",
+      "phoneDigitsOnly": "Numbers only. No letters."
+    },
+    "errors": {
+      "required": "This field is required.",
+      "firstNameLettersOnly": "Only letters are allowed.",
+      "emailInvalid": "Please enter a valid e-mail address.",
+      "phoneDigitsOnly": "Phone number can’t contain letters."
+    },
     "privacy": {
       "prefix": "You agree to our friendly",
       "link": "privacy policy"
     },
-    "submit": "Send message"
+    "submit": {
+      "idle": "Send message",
+      "sending": "Sending…",
+      "success": "Sent",
+      "error": "Something went wrong. Please try again."
+    }
   }
 }

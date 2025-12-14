@@ -1,18 +1,18 @@
 "use client";
 
+import { Mail, Phone, User } from "lucide-react";
+import Link from "next/link";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Link from "next/link";
-import { Mail, Phone, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 import { type Locale } from "@/lib/locale-path";
+import { cn } from "@/lib/utils";
 
 type ContactContent = {
   kicker: string;
@@ -67,7 +67,7 @@ function buildSchema() {
   });
 }
 
-export default function ContactForm({ content }: ContactFormProps) {
+export default function ContactForm({ locale, content }: ContactFormProps) {
   const schema = React.useMemo(() => buildSchema(), []);
   const [status, setStatus] = React.useState<
     "idle" | "submitting" | "success" | "error"
@@ -215,7 +215,6 @@ export default function ContactForm({ content }: ContactFormProps) {
       <div className="flex items-start gap-3">
         <Checkbox
           id="privacy"
-          invalid={Boolean(errors.privacy)}
           aria-invalid={Boolean(errors.privacy)}
           {...register("privacy")}
         />
@@ -242,12 +241,18 @@ export default function ContactForm({ content }: ContactFormProps) {
         {content.submit}
       </Button>
 
-      <div aria-live="polite" className="min-h-6 text-center text-sm">
+      <div className="min-h-6 text-center text-sm">
         {status === "success" ? (
-          <p className="text-success-700">✓</p>
+          <p role="status" className="text-success-700">
+            ✓
+          </p>
         ) : status === "error" ? (
-          <p className="text-error-700">×</p>
-        ) : null}
+          <p role="alert" className="text-error-700">
+            ×
+          </p>
+        ) : (
+          <span aria-hidden="true" />
+        )}
       </div>
     </form>
   );

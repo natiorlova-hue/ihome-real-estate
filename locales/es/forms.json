@@ -1,8 +1,8 @@
 {
   "contact": {
     "kicker": "Contáctanos",
-    "title": "Hablemos de tu nuevo hogar",
-    "subtitle": "Cuéntanos tu historia y prepararemos una selección de opciones en 24 horas.",
+    "title": "¡Hablemos de tu nuevo hogar!",
+    "subtitle": "Cuéntanos tu historia: prepararemos una lista de opciones en 24 horas.",
     "labels": {
       "firstName": "Nombre",
       "lastName": "Apellidos",
@@ -14,13 +14,29 @@
       "firstName": "Tu nombre",
       "lastName": "Tus apellidos",
       "phone": "+34 ...",
-      "email": "tu@empresa.com",
-      "message": "Me interesa..."
+      "email": "tucorreo@ejemplo.com",
+      "message": "Estoy interesado en..."
+    },
+    "hints": {
+      "firstNameLettersOnly": "Solo se permiten letras.",
+      "email": "Lo usaremos para responderte en 24 horas.",
+      "phoneDigitsOnly": "Solo números. Sin letras."
+    },
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "firstNameLettersOnly": "Solo se permiten letras.",
+      "emailInvalid": "Introduce un correo electrónico válido.",
+      "phoneDigitsOnly": "El teléfono no puede contener letras."
     },
     "privacy": {
       "prefix": "Aceptas nuestra",
       "link": "política de privacidad"
     },
-    "submit": "Enviar mensaje"
+    "submit": {
+      "idle": "Enviar mensaje",
+      "sending": "Enviando…",
+      "success": "Enviado",
+      "error": "Algo salió mal. Por favor, inténtalo de nuevo."
+    }
   }
 }
