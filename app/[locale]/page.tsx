@@ -1,3 +1,4 @@
+import ContactSection from "@/components/contact/ContactSection";
 import CTA from "@/components/cta";
 import BenefitsSection from "@/components/home/BenefitsSection";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
@@ -21,11 +22,11 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <LifestyleSection locale={locale} />
 
-      <CTA />
+      <CTA locale={locale} />
 
       <FeaturedProperties locale={locale} />
 
-      <CTA />
+      <CTA locale={locale} />
 
       <BenefitsSection locale={locale} />
 
@@ -42,6 +43,8 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
+
+      <ContactSection locale={locale} />
     </div>
   );
 }
