@@ -1,20 +1,35 @@
-import type { LatLngLiteral } from "@/lib/geo";
+import type { LatLngLiteral } from "@/lib/types/geo";
 
 export type RegionKey =
-  | "marbella"
-  | "estepona"
   | "sotogrande"
+  | "malaga"
+  | "manilva"
+  | "casaresCosta"
+  | "estepona"
+  | "benahavis"
+  | "sanPedro"
+  | "marbella"
+  | "eastMarbella"
   | "mijas"
-  | "benahavis";
+  | "fuengirola"
+  | "benalmadena"
+  | "torremolinos";
 
-export const regionsConfig: Array<{
+export const regionsConfig: {
   key: RegionKey;
   center: LatLngLiteral;
-}> = [
-  // TODO: replace centers with your coordinates (Variant B)
-  { key: "marbella", center: { lat: 36.5101, lng: -4.8825 } },
-  { key: "estepona", center: { lat: 36.4277, lng: -5.1459 } },
-  { key: "sotogrande", center: { lat: 36.2869, lng: -5.2795 } },
-  { key: "mijas", center: { lat: 36.5954, lng: -4.6373 } },
-  { key: "benahavis", center: { lat: 36.523, lng: -5.0463 } },
+}[] = [
+  { key: "sotogrande", center: { lat: 36.27833, lng: -5.29 } },
+  { key: "malaga", center: { lat: 36.719444, lng: -4.42 } },
+  { key: "manilva", center: { lat: 36.3764, lng: -5.2503 } },
+  { key: "casaresCosta", center: { lat: 36.4224, lng: -5.2544 } },
+  { key: "estepona", center: { lat: 36.4276, lng: -5.14589 } },
+  { key: "benahavis", center: { lat: 36.518, lng: -5.031 } },
+  { key: "sanPedro", center: { lat: 36.4867, lng: -4.992 } },
+  { key: "marbella", center: { lat: 36.5167, lng: -4.8833 } },
+  { key: "eastMarbella", center: { lat: 36.5, lng: -4.805 } },
+  { key: "mijas", center: { lat: 36.597, lng: -4.629 } },
+  { key: "fuengirola", center: { lat: 36.53998, lng: -4.62473 } },
+  { key: "benalmadena", center: { lat: 36.595, lng: -4.579 } },
+  { key: "torremolinos", center: { lat: 36.621, lng: -4.492 } },
 ];

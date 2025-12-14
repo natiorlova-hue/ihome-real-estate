@@ -1,8 +1,7 @@
 "use client";
 
-import type { LatLngLiteral } from "@/lib/geo";
 import { loadGoogleMaps } from "@/lib/google-maps-loader";
-import { type Locale } from "@/lib/locale-path";
+import type { LatLngLiteral } from "@/lib/geo";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
@@ -13,7 +12,6 @@ export type RegionMapItem = {
 };
 
 type Props = {
-  locale: Locale;
   items: RegionMapItem[];
   a11y: {
     tabsLabel: string;
@@ -24,9 +22,8 @@ type Props = {
 export default function RegionsMapClient({ items, a11y }: Props) {
   const [activeKey, setActiveKey] = React.useState(items[0]?.key ?? "");
   const mapRef = React.useRef<HTMLDivElement | null>(null);
-
-  const mapInstanceRef = React.useRef<google.maps.Map | null>(null);
-  const markersRef = React.useRef<Map<string, google.maps.Marker>>(new Map());
+  const mapInstance = React.useRef<google.maps.Map | null>(null);
+  const markers = React.useRef<Map<string, google.maps.Marker>>(new Map());
 
   const active = React.useMemo(
     () => items.find(i => i.key === activeKey) ?? items[0],
@@ -37,31 +34,27 @@ export default function RegionsMapClient({ items, a11y }: Props) {
     let cancelled = false;
 
     async function init() {
-      const googleMaps = await loadGoogleMaps();
+      const google = await loadGoogleMaps();
       if (cancelled) return;
-
       if (!mapRef.current) return;
 
-      if (!mapInstanceRef.current) {
-        mapInstanceRef.current = new googleMaps.maps.Map(mapRef.current, {
+      if (!mapInstance.current) {
+        mapInstance.current = new google.maps.Map(mapRef.current, {
           center: active.center,
-          zoom: 10,
-          mapTypeControl: true,
-          streetViewControl: false,
-          fullscreenControl: false,
+          zoom: 11,
+          disableDefaultUI: true,
         });
 
-        // markers once
         items.forEach(item => {
-          const marker = new googleMaps.maps.Marker({
+          const marker = new google.maps.Marker({
             position: item.center,
-            map: mapInstanceRef.current!,
+            map: mapInstance.current!,
             title: item.label,
           });
-          markersRef.current.set(item.key, marker);
+          markers.current.set(item.key, marker);
         });
       } else {
-        mapInstanceRef.current.setCenter(active.center);
+        mapInstance.current.setCenter(active.center);
       }
     }
 
@@ -70,38 +63,56 @@ export default function RegionsMapClient({ items, a11y }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [items, active.center, active.label]);
+  }, [active.center, items]);
 
   React.useEffect(() => {
-    const map = mapInstanceRef.current;
-    if (!map) return;
-    map.panTo(active.center);
+    if (!mapInstance.current) return;
+    mapInstance.current.panTo(active.center);
   }, [active.center]);
+
+  // 📌 Ref for tab elements
+  const tabRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+
+  // 📌 Keyboard nav (ArrowLeft / ArrowRight)
+  const onKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === "ArrowRight" && index < items.length - 1) {
+      tabRefs.current[index + 1]?.focus();
+      setActiveKey(items[index + 1].key);
+      e.preventDefault();
+    }
+    if (e.key === "ArrowLeft" && index > 0) {
+      tabRefs.current[index - 1]?.focus();
+      setActiveKey(items[index - 1].key);
+      e.preventDefault();
+    }
+  };
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Tabs */}
       <div
         role="tablist"
         aria-label={a11y.tabsLabel}
-        className="flex flex-wrap items-center justify-center gap-2"
+        className="flex flex-wrap gap-2 justify-center"
       >
-        {items.map(item => {
-          const isActive = item.key === activeKey;
-
+        {items.map((item, index) => {
+          const selected = item.key === activeKey;
           return (
             <button
+              ref={el => (tabRefs.current[index] = el)}
               key={item.key}
-              type="button"
               role="tab"
-              aria-selected={isActive}
+              aria-selected={selected}
+              aria-controls={`map-panel-${item.key}`}
+              id={`tab-${item.key}`}
+              tabIndex={selected ? 0 : -1}
               className={cn(
-                "rounded-full border px-4 py-2 text-sm transition",
-                "border-gray-200 bg-white text-gray-800 hover:bg-gray-50",
-                isActive &&
-                  "border-transparent bg-brandBlue-500 text-white hover:bg-brandBlue-500"
+                "px-4 py-2 rounded-full text-sm border transition-colors",
+                selected
+                  ? "bg-tertiary-700 text-white border-tertiary-700"
+                  : "bg-white text-tertiary-900 border-tertiary-300"
               )}
               onClick={() => setActiveKey(item.key)}
+              onKeyDown={e => onKeyDown(e, index)}
             >
               {item.label}
             </button>
@@ -109,12 +120,18 @@ export default function RegionsMapClient({ items, a11y }: Props) {
         })}
       </div>
 
-      {/* Map */}
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-gray-50">
+      <div
+        id={`map-panel-${active.key}`}
+        role="region"
+        aria-labelledby={`tab-${active.key}`}
+        className="overflow-hidden rounded-2xl border border-tertiary-200 bg-tertiary-50"
+      >
         <div
           ref={mapRef}
           aria-label={a11y.mapLabel}
-          className="h-[320px] w-full md:h-[420px]"
+          aria-live="polite"
+          aria-busy="false"
+          className="h-[340px] w-full md:h-[460px]"
         />
       </div>
     </div>
