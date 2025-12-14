@@ -1,46 +1,80 @@
 // lib/navigation.ts
-export const mainNavigation = {
+
+export type NavItem = {
+  id: string;
+  href: string;
+  status?: "active" | "comingSoon";
+  hasMegaMenu?: boolean;
+  children?: NavItem[];
+};
+
+export const mainNavigation: {
+  left: NavItem[];
+  right: NavItem[];
+} = {
   left: [
-    { id: "home", href: "" },
+    { id: "home", href: "", status: "active" },
+
     {
       id: "forYou",
       href: "live-your-way",
       hasMegaMenu: true,
+      status: "active",
       children: [
-        { id: "families", href: "live-your-way/families" },
-        { id: "nomads", href: "live-your-way/nomads" },
-        { id: "golden", href: "live-your-way/golden" },
-        { id: "golf", href: "live-your-way/golf" },
-        { id: "secondHome", href: "live-your-way/second-home" },
-        { id: "investment", href: "live-your-way/investment" },
+        {
+          id: "families",
+          href: "live-your-way/families",
+          status: "comingSoon",
+        },
+        { id: "nomads", href: "live-your-way/nomads", status: "comingSoon" },
+        { id: "golden", href: "live-your-way/golden", status: "comingSoon" },
+        { id: "golf", href: "live-your-way/golf", status: "comingSoon" },
+        {
+          id: "sea",
+          href: "live-your-way/second-home",
+          status: "comingSoon",
+        },
+        {
+          id: "investment",
+          href: "live-your-way/investment",
+          status: "comingSoon",
+        },
       ],
     },
+
     {
       id: "properties",
       href: "properties",
       hasMegaMenu: true,
+      status: "active",
     },
-    { id: "services", href: "services" },
+
+    {
+      id: "services",
+      href: "services",
+      status: "comingSoon",
+    },
   ],
+
   right: [
-    { id: "guides", href: "guides" },
-    { id: "ourWay", href: "our-way" },
+    { id: "guides", href: "guides", status: "comingSoon" },
+    { id: "ourWay", href: "our-way", status: "comingSoon" },
   ],
 };
 
 export const footerNavigation = {
   navigation: [
-    { name: "home", href: "" },
-    { name: "forYou", href: "live-your-way" },
-    { name: "properties", href: "properties" },
-    { name: "services", href: "services" },
-    { name: "guides", href: "guides" },
-    { name: "ourWay", href: "our-way" },
+    { name: "home", href: "", status: "active" },
+    { name: "forYou", href: "live-your-way", status: "active" },
+    { name: "properties", href: "properties", status: "active" },
+    { name: "services", href: "services", status: "comingSoon" },
+    { name: "guides", href: "guides", status: "comingSoon" },
+    { name: "ourWay", href: "our-way", status: "comingSoon" },
   ],
   legal: [
-    { name: "privacy", href: "privacy-policy" },
-    { name: "cookies", href: "cookie-policy" },
-    { name: "terms", href: "terms-conditions" },
-    { name: "sitemap", href: "sitemap.xml" },
+    { name: "privacy", href: "privacy-policy", status: "comingSoon" },
+    { name: "cookies", href: "cookie-policy", status: "comingSoon" },
+    { name: "terms", href: "terms-conditions", status: "comingSoon" },
+    { name: "sitemap", href: "sitemap.xml", status: "comingSoon" },
   ],
 };

@@ -1,4 +1,0 @@
-.logo {
-  composes: flex items-center gap-2 shrink-0 from global;
-  composes: font-medium text-terracotta-500 from global;
-}

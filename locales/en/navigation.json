@@ -1,0 +1,37 @@
+{
+  "header": {
+    "brand": "iHome • Marbella",
+    "nav": {
+      "home": "Home",
+      "forYou": "For you",
+      "properties": "Properties",
+      "guides": "Guides & Stories",
+      "ourWay": "Our Way"
+    },
+    "actions": {
+      "method": "Coastal Clarity Method",
+      "talk": "Let's talk!"
+    },
+    "dropdown": {
+      "properties": {
+        "sale": {
+          "title": "For Sale",
+          "desc": "Explore hand-picked homes and villas available across Costa del Sol."
+        },
+        "rent": {
+          "title": "For Rent",
+          "desc": "Find elegant long-term rentals and seasonal stays by the sea."
+        },
+        "sell": {
+          "title": "Sell your property",
+          "desc": "List your home with iHome and reach qualified international buyers."
+        }
+      }
+    },
+    "a11y": {
+      "openMenu": "Open main menu",
+      "closeMenu": "Close menu",
+      "homeAria": "Go to homepage"
+    }
+  }
+}

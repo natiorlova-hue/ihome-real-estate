@@ -81,7 +81,7 @@
   }
 
   h3 {
-    @apply font-sans text-xl md:text-serifmd font-semibold;
+    @apply font-sans text-xl font-semibold text-gray-950;
   }
 
   h4 {
@@ -93,12 +93,29 @@
   }
 
   p {
-    @apply text-sm md:text-xl text-tertiary-600;
+    @apply text-base text-tertiary-600;
+  }
+  small {
+    @apply text-sm text-tertiary-600;
   }
 }
 
 @layer components {
   .btn-primary {
     @apply bg-terracotta-500 hover:bg-terracotta-600 text-white px-6 py-3 rounded-lg font-medium transition-colors;
+  }
+}
+
+@layer utilities {
+  .benefits-card-title {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.875rem; /* 30px */
+    font-weight: 500;
+  }
+
+  .benefits-card-desc {
+    font-size: 1rem; /* 14px */
+    line-height: 1.5rem; /* 20px */
+    font-weight: 400;
   }
 }

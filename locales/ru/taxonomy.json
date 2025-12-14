@@ -1,0 +1,75 @@
+{
+  "categoryLifestyle": {
+    "families": {
+      "title": "Переезд с семьёй",
+      "desc": "Идеальные дома для семьи — с хорошими школами, комфортом и безопасной средой."
+    },
+    "golf": {
+      "title": "Гольф и спокойный ритм жизни",
+      "desc": "Дома среди зелёных пейзажей, гольф-полей и размеренных утренних часов."
+    },
+    "golden": {
+      "title": "Золотые годы",
+      "desc": "Комфорт, спокойствие и солнце для нового этапа жизни в Испании."
+    },
+    "sea": {
+      "title": "Дом у моря",
+      "desc": "Солнечное убежище для выходных, отдыха или сезонного проживания."
+    },
+    "nomads": {
+      "title": "Цифровые кочевники",
+      "desc": "Живите и работайте у моря с отличным Wi-Fi, солнцем и вдохновляющей атмосферой."
+    },
+    "investment": {
+      "title": "Инвестиции в недвижимость",
+      "desc": "Объекты с надёжным ROI, проверенные застройщики и высокий арендный спрос."
+    }
+  },
+  "lifestyle": {
+    "tags": {
+      "schools": "Школы",
+      "parks": "Парки",
+      "safety": "Безопасность",
+      "golf": "Гольф",
+      "calm": "Спокойствие",
+      "healthcare": "Медицина",
+      "wifi": "Wi-Fi",
+      "cafes": "Кафе",
+      "coworking": "Коворкинги",
+      "roi": "ROI",
+      "trends": "Тренды",
+      "opportunities": "Возможности",
+      "holidayHomesByTheBeach": "Дома для отдыха на берегу моря"
+    },
+    "cards": {
+      "families": { "tagKeys": ["schools", "parks", "safety"] },
+      "golf": { "tagKeys": ["golf", "calm"] },
+      "golden": { "tagKeys": ["golf", "calm", "healthcare"] },
+      "sea": { "tagKeys": ["holidayHomesByTheBeach"] },
+      "nomads": { "tagKeys": ["wifi", "cafes", "coworking"] },
+      "investment": { "tagKeys": ["roi", "trends", "opportunities"] }
+    }
+  },
+  "guidesCategories": {
+    "clientStories": { "title": "Истории клиентов" },
+    "lifeInSpain": { "title": "Жизнь в Испании" },
+    "budgetRelocation": { "title": "Бюджет и переезд" },
+    "interiorLifestyle": { "title": "Интерьер и стиль жизни" },
+    "guidesByRegion": { "title": "Гиды по регионам" }
+  },
+  "regions": {
+    "sotogrande": { "title": "Сотогранде" },
+    "malaga": { "title": "Малага" },
+    "manilva": { "title": "Манильва" },
+    "casaresCosta": { "title": "Коста-Касарес" },
+    "estepona": { "title": "Эстепона" },
+    "benahavis": { "title": "Бенахавис" },
+    "sanPedro": { "title": "Сан-Педро" },
+    "marbella": { "title": "Марбелья" },
+    "eastMarbella": { "title": "Восточная Марбелья" },
+    "mijas": { "title": "Михас" },
+    "fuengirola": { "title": "Фуэнхирола" },
+    "benalmadena": { "title": "Бенальмадена" },
+    "torremolinos": { "title": "Торремолинос" }
+  }
+}

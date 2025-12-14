@@ -1,0 +1,13 @@
+{
+  "ui": {
+    "viewAll": "Ver todo",
+    "read": "Leer artículo",
+    "sort": {
+      "mostRecent": "Más recientes"
+    }
+  },
+  "empty": {
+    "title": "Aún no hay artículos",
+    "subtitle": "Vuelve pronto..."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "hero": {
+    "titleBefore": "We",
+    "titleHighlight": "create spaces",
+    "titleAfter": "that make life more beautiful",
+    "subtitleLine1": "iHome is a boutique real estate agency helping clients from the CIS find, buy, and design homes in Spain.",
+    "subtitleLine2": "We combine aesthetics, comfort, and investment value.",
+    "cta": {
+      "explore": "Explore homes",
+      "book": "Book a consultation"
+    },
+    "imageAlt": "Marbella coastline and mountains — iHome Real Estate"
+  },
+  "lifestyle": {
+    "title": "Live your way on the Costa del Sol.",
+    "description": "Every lifestyle has its perfect place. Choose yours — and we’ll show you the neighborhoods, stories, and homes that fit."
+  },
+  "featuredHomes": {
+    "title": "Featured Homes by iHome",
+    "description": "Curated selection of homes carefully chosen by iHome experts for quality, location, and ROI."
+  },
+  "benefits": {
+    "title": "320 days of sun.One decision — for a lifetime",
+    "titleRich": "<primary>320 days of sun</primary>. <muted>One decision — for a lifetime</muted>",
+    "items": {
+      "climate": {
+        "title": "Climate & Health",
+        "desc": "Sunshine and clean air all year."
+      },
+      "safety": {
+        "title": "Safety & Ecology",
+        "desc": "Peaceful living and nature preserved."
+      },
+      "schools": {
+        "title": "Schools & Healthcare",
+        "desc": "International standards, trusted institutions."
+      },
+      "culture": {
+        "title": "Culture & Gastronomy",
+        "desc": "Mediterranean flavors, art, and festivals."
+      }
+    }
+  },
+  "journalSection": {
+    "title": "Journal iHome"
+  },
+  "quiz": {
+    "title": "Curious where you’d feel at home?",
+    "subtitle": "Take a short quiz to discover where you’d truly feel at home.",
+    "button": "Take our short quiz"
+  }
+}

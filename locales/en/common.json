@@ -1,0 +1,20 @@
+{
+  "ctaRow": {
+    "notFound": "Didn’t find what you’re looking for?",
+    "contact": "Contact Us Today",
+    "sendRequest": "Send Request"
+  },
+  "viewAll": "View All",
+  "sellBanner": {
+    "title": "Want to sell your property?",
+    "desc": "Submit your details and our agent will contact you shortly.",
+    "privacy": {
+      "prefix": "We care about your data in our",
+      "link": "privacy policy"
+    }
+  },
+  "regionsGuide": {
+    "title": "Visual guide to regions",
+    "subtitle": "Click on the most interesting areas on the Costa del Sol map to discover more about their atmosphere and available properties."
+  }
+}

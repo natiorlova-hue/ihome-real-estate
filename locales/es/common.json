@@ -1,0 +1,20 @@
+{
+  "ctaRow": {
+    "notFound": "¿No encontraste lo que estabas buscando?",
+    "contact": "Contáctanos hoy",
+    "sendRequest": "Enviar solicitud"
+  },
+  "viewAll": "Ver todo",
+  "sellBanner": {
+    "title": "¿Quieres vender tu propiedad?",
+    "desc": "Déjanos tus datos y uno de nuestros agentes se pondrá en contacto contigo en breve.",
+    "privacy": {
+      "prefix": "Cuidamos tus datos conforme a nuestra",
+      "link": "política de privacidad"
+    }
+  },
+  "regionsGuide": {
+    "title": "Guía visual de regiones",
+    "subtitle": "Haz clic en las zonas que más te interesen del mapa de la Costa del Sol para descubrir su ambiente y las propiedades disponibles."
+  }
+}

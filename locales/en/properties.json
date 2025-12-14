@@ -1,0 +1,36 @@
+{
+  "badges": {
+    "roi": "ROI {value}%",
+    "new": "New",
+    "featured": "Featured"
+  },
+  "units": {
+    "sqm": "m²"
+  },
+  "card": {
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "viewDetails": "View details"
+  },
+  "filters": {
+    "title": "Filters",
+    "clear": "Clear all",
+    "apply": "Apply filters"
+  },
+  "featured": {
+    "items": {
+      "p1": {
+        "title": "Marbella Hillside Villa",
+        "description": "Authentic style with historic charm and mountain views. A perfect blend of tradition and comfort in a quiet setting."
+      },
+      "p2": {
+        "title": "Sunset Infinity Villa",
+        "description": "Modern design with sea views and a cozy terrace. A relaxing space with poolside comfort and full privacy."
+      },
+      "p3": {
+        "title": "Sunset Infinity Villa 2",
+        "description": "Spacious residence with mountain panorama and private garden. Andalusian spirit combined with a touch of ..."
+      }
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import { getLocalizedText } from "@/lib/blog";
 import { urlFor } from "@/sanity/lib/image";
-import Card from "../Card";
+import { useTranslations } from "next-intl";
 import GridContainer from "../GridContainer";
+import Card from "../content/ContentCard";
 
 interface Post {
   _id: string;
@@ -50,14 +51,15 @@ export default function BlogPostsGrid({
   posts,
   locale = "en",
 }: BlogPostsGridProps) {
+  const t = useTranslations("blog");
+
   return (
     <div className="py-8 md:py-16">
       <div className="container">
         <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
-          <h2>Live your way on the Costa del Sol.</h2>
+          <h2>{t("grid.title")}</h2>
           <p className="text-tertiary-600 max-w-[640px]">
-            Very lifestyle has its perfect place. Choose yours — and we’ll show
-            you the neighborhoods, stories, and homes that fit.
+            {t("grid.description")}
           </p>
         </div>
 
@@ -70,7 +72,7 @@ export default function BlogPostsGrid({
                 key={post._id}
                 title={title}
                 subtitle={getLocalizedText(post.categories[0].title, locale)}
-                link={`/blog/${post.slug.current}`}
+                href={`/blog/${post.slug.current}`}
                 image={
                   post.image
                     ? urlFor(post.image).width(400).height(225).url()
