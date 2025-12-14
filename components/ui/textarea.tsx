@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cn } from "@/lib/utils";
+import * as React from "react";
 
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
@@ -9,7 +9,16 @@ const Textarea = React.forwardRef<
     <textarea
       ref={ref}
       className={cn(
-        "flex min-h-28 w-full resize-y rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        // base
+        "w-full min-h-[120px] resize-y rounded-md border border-input bg-white px-3 py-2 text-sm text-gray-950 shadow-sm transition-colors",
+        // placeholder
+        "placeholder:text-gray-400",
+        // focus
+        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        // disabled
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        // error via aria
+        "aria-[invalid=true]:border-error-500 aria-[invalid=true]:focus-visible:ring-error-500",
         className
       )}
       {...props}

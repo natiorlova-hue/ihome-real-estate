@@ -49,7 +49,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
         <Image
           src="/bg-form.svg"
           alt=""
-          width={1440}
+          width={1280}
           height={980}
           sizes="100vw"
           className="h-auto w-full"
