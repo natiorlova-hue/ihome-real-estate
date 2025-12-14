@@ -21,6 +21,7 @@
   },
   "benefits": {
     "title": "320 days of sun.One decision — for a lifetime",
+    "titleRich": "<primary>320 days of sun</primary>. <muted>One decision — for a lifetime</muted>",
     "items": {
       "climate": {
         "title": "Climate & Health",

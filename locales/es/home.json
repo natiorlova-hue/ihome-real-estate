@@ -21,6 +21,7 @@
   },
   "benefits": {
     "title": "320 días de sol. Una decisión — para toda la vida",
+    "titleRich": "<primary>320 días de sol.</primary> <muted>Una decisión — para toda la vida</muted>",
     "items": {
       "climate": {
         "title": "Clima y salud",

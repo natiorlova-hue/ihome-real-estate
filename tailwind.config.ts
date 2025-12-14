@@ -281,7 +281,10 @@ const config: Config = {
           "2xl": "1194px", // Same max-width for consistency
         },
       },
-
+      maxWidth: {
+        page: "1440px",
+        benefits: "1054px",
+      },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1.125rem" }],
         sm: ["0.875rem", { lineHeight: "1.25rem" }],
@@ -303,8 +306,6 @@ const config: Config = {
 
         // benefits tokens (Figma)
         benefitsHeading: ["3rem", { lineHeight: "3.75rem" }], // 48/60
-        benefitsTitle: ["1.25rem", { lineHeight: "1.875rem" }], // 20/30
-        benefitsDesc: ["0.875rem", { lineHeight: "1.25rem" }], // 14/20
       },
 
       // ====================================
