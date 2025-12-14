@@ -24,6 +24,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
       navigation: (await import(`./locales/${locale}/navigation.json`)).default,
       properties: (await import(`./locales/${locale}/properties.json`)).default,
       taxonomy: (await import(`./locales/${locale}/taxonomy.json`)).default,
+      comingSoon: (await import(`./locales/${locale}/coming-soon.json`))
+        .default,
     },
   };
 });

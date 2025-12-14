@@ -135,14 +135,14 @@ export default function HeaderClient({
             </DropdownMenu>
 
             <Link
-              href={withLocale(locale, "guides")}
+              href={withLocale(locale, "/coming-soon")}
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.guides}
             </Link>
 
             <Link
-              href={withLocale(locale, "our-way")}
+              href={withLocale(locale, "/coming-soon")}
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.ourWay}
