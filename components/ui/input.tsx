@@ -8,15 +8,16 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         ref={ref}
         type={type}
         className={cn(
-          // base
-          "flex h-11 w-full rounded-md border border-input bg-white px-3 text-base text-gray-950 shadow-xs",
-          "placeholder:text-gray-400",
-          // focus (matches design + visible on light backgrounds)
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          // disabled
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          // error via aria-invalid
-          "aria-[invalid=true]:border-error-500 aria-[invalid=true]:ring-error-500",
+          // base (stable across breakpoints)
+          "flex h-11 w-full rounded-md border bg-white px-3 text-base text-gray-950",
+          "border-gray-300 shadow-xs placeholder:text-gray-400",
+          // focus — brand blue (keyboard only)
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brandBlue-400",
+          "focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          // error — live & on submit via aria-invalid
+          "aria-[invalid=true]:border-error-500 aria-[invalid=true]:focus-visible:ring-error-500",
+          // disabled — neutral gray
+          "disabled:cursor-not-allowed disabled:bg-gray-100 disabled:border-gray-200 disabled:text-gray-400",
           className
         )}
         {...props}

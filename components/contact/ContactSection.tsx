@@ -32,7 +32,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
       link: t("contact.privacy.link"),
       href: `/${locale}/privacy-policy`,
     },
-    submit: t("contact.submit"),
+    submit: t("contact.submit.idle"),
   };
 
   return (
