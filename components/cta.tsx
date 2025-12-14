@@ -1,9 +1,14 @@
-import { useTranslations } from "next-intl";
+import { type Locale } from "@/lib/locale-path";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-const CTA = () => {
-  const t = useTranslations("common.ctaRow");
+type CTAProps = {
+  locale: Locale;
+};
+
+export default async function CTA({ locale }: CTAProps) {
+  const t = await getTranslations({ locale, namespace: "common.ctaRow" });
 
   return (
     <section className="container">
@@ -17,6 +22,4 @@ const CTA = () => {
       </div>
     </section>
   );
-};
-
-export default CTA;
+}

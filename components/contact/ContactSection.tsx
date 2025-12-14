@@ -57,7 +57,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
           <p className="mt-3 text-tertiary-600">{content.subtitle}</p>
 
           <div className="mt-10 text-left">
-            <ContactForm content={content} />
+            <ContactForm />
           </div>
         </div>
       </div>

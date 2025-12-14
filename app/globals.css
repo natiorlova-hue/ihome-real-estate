@@ -81,7 +81,7 @@
   }
 
   h3 {
-    @apply font-sans text-xl md:text-serifmd font-semibold;
+    @apply font-sans text-xl font-semibold text-gray-950;
   }
 
   h4 {
@@ -93,7 +93,10 @@
   }
 
   p {
-    @apply text-sm md:text-xl text-tertiary-600;
+    @apply text-base text-tertiary-600;
+  }
+  small {
+    @apply text-sm text-tertiary-600;
   }
 }
 

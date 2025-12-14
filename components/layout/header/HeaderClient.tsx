@@ -69,7 +69,7 @@ export default function HeaderClient({
           />
 
           {/* Desktop Nav */}
-          <nav className="hidden items-center gap-6 font-semibold xl:flex">
+          <nav className="hidden items-center gap-6 font-semibold xl:flex text-nowrap">
             <Link
               href={withLocale(locale, "")}
               className="text-gray-700 transition-colors hover:text-terracotta-500"

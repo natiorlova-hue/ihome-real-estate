@@ -247,6 +247,7 @@ const config: Config = {
         },
 
         brandBlue: {
+          400: "#7CA6DE",
           500: "#5A85D3",
           600: "#496EC7",
         },
