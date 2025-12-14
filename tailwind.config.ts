@@ -267,14 +267,18 @@ const config: Config = {
       // ====================================
       container: {
         center: true,
-        padding: "1rem", // 16px
+        padding: {
+          DEFAULT: "1rem", // 16px mobile
+          sm: "1.5rem", // 24px
+          lg: "2rem", // 32px
+        },
         screens: {
           DEFAULT: "100%",
           sm: "100%",
           md: "100%",
           lg: "100%",
-          xl: "1224px", // Custom max-width
-          "2xl": "1224px", // Same max-width for consistency
+          xl: "1194px", // Custom max-width
+          "2xl": "1194px", // Same max-width for consistency
         },
       },
 
@@ -296,6 +300,11 @@ const config: Config = {
         seriflg: ["3rem", { lineHeight: "3.75rem" }],
         serifxl: ["3.75rem", { lineHeight: "4.5rem" }],
         serif2xl: ["4.5rem", { lineHeight: "6.625rem" }],
+
+        // benefits tokens (Figma)
+        benefitsHeading: ["3rem", { lineHeight: "3.75rem" }], // 48/60
+        benefitsTitle: ["1.25rem", { lineHeight: "1.875rem" }], // 20/30
+        benefitsDesc: ["0.875rem", { lineHeight: "1.25rem" }], // 14/20
       },
 
       // ====================================
