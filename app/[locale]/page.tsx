@@ -22,10 +22,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <CTA />
 
-      <FeaturedProperties
-        title={t("featuredHomes.title")}
-        description={t("featuredHomes.description")}
-      />
+      <FeaturedProperties locale={locale} />
 
       <CTA />
 
