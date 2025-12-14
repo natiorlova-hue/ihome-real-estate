@@ -1,56 +1,60 @@
 // lib/properties.ts
-import type { CardBadge } from "@/components/content/ContentCard";
 
-export type PropertyBadge = CardBadge;
+export type PropertyBadgeVariant = "pink" | "yellow" | "red" | "area";
+
+export type PropertyBadgeData =
+  | { type: "roi"; value: number; variant: "pink" }
+  | { type: "new"; variant: "yellow" }
+  | { type: "featured"; variant: "red" }
+  | { type: "area"; value: number; variant: "area" };
+
+export type FeaturedPropertyId = "p1" | "p2" | "p3";
 
 export interface FeaturedProperty {
-  id: string;
+  id: FeaturedPropertyId;
   slug: string;
-  title: string;
-  description: string;
   image: string;
-  price?: string;
-  topBadge?: PropertyBadge;
-  bottomBadge?: PropertyBadge;
+  price?: number;
+  beds?: number;
+  baths?: number;
+  topBadge?: PropertyBadgeData;
+  bottomBadge?: PropertyBadgeData;
 }
 
 const featuredPropertiesData: FeaturedProperty[] = [
   {
-    id: "marbella-hillside-villa",
+    id: "p1",
     slug: "marbella-hillside-villa",
-    title: "Marbella Hillside Villa",
-    description:
-      "Authentic style with historic charm and mountain views. A perfect blend of tradition and comfort in a quiet setting.",
-    image: "/properties/villa-1.png",
-    price: "€1,250,000",
-    topBadge: { text: "ROI 6.3%", variant: "pink" },
-    bottomBadge: { text: "480 m²", variant: "area" },
+    image: "/images-property/marbella-hillside-villa.png",
+    price: 1_250_000,
+    beds: 5,
+    baths: 3,
+    topBadge: { type: "roi", value: 6.3, variant: "pink" },
+    bottomBadge: { type: "area", value: 480, variant: "area" },
   },
   {
-    id: "sunset-infinity-villa",
+    id: "p2",
     slug: "sunset-infinity-villa",
-    title: "Sunset Infinity Villa",
-    description:
-      "Modern design with sea views and a cozy terrace. A relaxing space with poolside comfort and full privacy.",
-    image: "/properties/villa-2.png",
-    price: "€780,000",
-    topBadge: { text: "New", variant: "yellow" },
-    bottomBadge: { text: "258 m²", variant: "area" },
+    image: "/images-property/sunset-infinity-villa-new.png",
+    price: 780_000,
+    beds: 4,
+    baths: 2,
+    topBadge: { type: "new", variant: "yellow" },
+    bottomBadge: { type: "area", value: 258, variant: "area" },
   },
   {
-    id: "sunset-infinity-villa-2",
+    id: "p3",
     slug: "sunset-infinity-villa-2",
-    title: "Sunset Infinity Villa 2",
-    description:
-      "Spacious residence with mountain panorama and private garden. Andalusian spirit combined with a touch of ...",
-    image: "/properties/villa-3.png",
-    price: "€2,150,000",
-    topBadge: { text: "Featured", variant: "red" },
-    bottomBadge: { text: "557 m²", variant: "area" },
+    image: "/images-property/sunset-infinity-villa.png",
+    price: 2_150_000,
+    beds: 6,
+    baths: 3,
+    topBadge: { type: "featured", variant: "red" },
+    bottomBadge: { type: "area", value: 557, variant: "area" },
   },
 ];
 
 export async function getFeaturedProperties(): Promise<FeaturedProperty[]> {
-  // later: replace with Sanity/Firebase query
+  // later: replace with Sanity query
   return featuredPropertiesData;
 }

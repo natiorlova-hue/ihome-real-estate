@@ -1,10 +1,18 @@
+// components/home/FeaturedProperties.tsx
+import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
 import GridContainer from "@/components/GridContainer";
-import ContentCard from "@/components/content/ContentCard";
 import { Button } from "@/components/ui/button";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import { getFeaturedProperties } from "@/lib/properties";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+
+type PropertyBadgeData =
+  | { type: "roi"; value: number; variant: "pink" }
+  | { type: "new"; variant: "yellow" }
+  | { type: "featured"; variant: "red" }
+  | { type: "area"; value: number; variant: "area" };
 
 export default async function FeaturedProperties({
   locale,
@@ -12,39 +20,81 @@ export default async function FeaturedProperties({
   locale: Locale;
 }) {
   const tHome = await getTranslations({ locale, namespace: "home" });
-  const items = await getFeaturedProperties();
+  const tCommon = await getTranslations({ locale, namespace: "common" });
+  const tProps = await getTranslations({ locale, namespace: "properties" });
+
+  const properties = await getFeaturedProperties();
+
+  const formatPrice = (price?: number) => {
+    if (typeof price !== "number") return undefined;
+    return new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const toCardBadge = (badge?: PropertyBadgeData): CardBadge | undefined => {
+    if (!badge) return undefined;
+
+    switch (badge.type) {
+      case "roi":
+        return {
+          variant: badge.variant,
+          text: tProps("badges.roi", { value: badge.value }),
+        };
+      case "new":
+        return { variant: badge.variant, text: tProps("badges.new") };
+      case "featured":
+        return { variant: badge.variant, text: tProps("badges.featured") };
+      case "area":
+        return {
+          variant: badge.variant,
+          text: `${badge.value} ${tProps("units.sqm")}`,
+        };
+      default:
+        return undefined;
+    }
+  };
 
   return (
     <section className="py-8 md:py-16">
       <div className="container">
         <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
-          <h2>{tHome("featured.title")}</h2>
+          <h2>{tHome("featuredHomes.title")}</h2>
           <p className="max-w-[640px] text-tertiary-600">
-            {tHome("featured.description")}
+            {tHome("featuredHomes.description")}
           </p>
         </div>
 
         <GridContainer>
-          {items.map(item => (
-            <ContentCard
-              key={item.id}
-              title={item.title}
-              description={item.description}
-              href={withLocale(locale, `properties/${item.slug}`)}
-              image={item.image}
-              imageAlt={item.title}
-              topBadge={item.topBadge}
-              bottomBadge={item.bottomBadge}
-              price={item.price}
-              isLink
-            />
-          ))}
+          {properties.map(item => {
+            const title = tProps(`featured.items.${item.id}.title`);
+            const description = tProps(`featured.items.${item.id}.description`);
+
+            return (
+              <ContentCard
+                key={item.id}
+                title={title}
+                description={description}
+                href={withLocale(locale, `properties/${item.slug}`)}
+                image={item.image}
+                imageAlt={title}
+                topBadge={toCardBadge(item.topBadge as PropertyBadgeData)}
+                bottomBadge={toCardBadge(item.bottomBadge as PropertyBadgeData)}
+                price={formatPrice(item.price)}
+                isLink
+              />
+            );
+          })}
         </GridContainer>
 
         <div className="mt-4 flex md:mt-8">
-          <Button variant="link" className="group ml-auto px-0 py-0">
-            {tHome("featured.viewAll")}
-            <ArrowRight className="text-[#A4A7AE] transition-colors duration-300 group-hover:text-black" />
+          <Button asChild variant="link" className="group ml-auto px-0 py-0">
+            <Link href={withLocale(locale, "properties")}>
+              {tCommon("viewAll")}
+              <ArrowRight className="ml-2 text-[#A4A7AE] transition-colors duration-300 group-hover:text-black" />
+            </Link>
           </Button>
         </div>
       </div>
