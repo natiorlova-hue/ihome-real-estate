@@ -1,30 +1,37 @@
-import BadgeComponent from "@/components/Badge";
+// components/content/ContentCard.tsx
+import Badge from "@/components/Badge";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-export type CardBadgeVariant = "pink" | "yellow" | "red" | "area";
+export type BadgeVariant = "pink" | "yellow" | "red" | "area";
 
 export interface CardBadge {
   text: string;
-  variant: CardBadgeVariant;
+  variant: BadgeVariant;
 }
 
-export interface CardProps {
+export interface ContentCardProps {
   title: string;
   subtitle?: string;
   description?: string;
+
   href: string;
+
   image: string;
   imageAlt?: string;
+
+  icon?: ReactNode;
+
   topBadge?: CardBadge;
   bottomBadge?: CardBadge;
+
   price?: string;
+
   isLink?: boolean;
   className?: string;
-  icon?: ReactNode;
 }
 
 export default function ContentCard({
@@ -34,39 +41,36 @@ export default function ContentCard({
   href,
   image,
   imageAlt,
+  icon,
   topBadge,
   bottomBadge,
   price,
   isLink = false,
   className,
-  icon,
-}: CardProps) {
+}: ContentCardProps) {
   return (
     <Link href={href} className={cn("group relative bg-white", className)}>
       <div className="aspect-video overflow-hidden rounded-lg bg-gray-200">
-        {image ? (
-          <Image
-            width={400}
-            height={225}
-            src={image}
-            alt={imageAlt ?? title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-light-400 to-purple-500">
-            <span className="text-2xl font-bold text-white">{title}</span>
-          </div>
-        )}
+        <Image
+          width={400}
+          height={225}
+          src={image}
+          alt={imageAlt ?? title}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
       </div>
 
       <div className="flex flex-col items-start gap-1 pt-4">
-        {/* Render Icon if present */}
-        {icon && <div className="mb-2 text-primary-500">{icon}</div>}
+        {icon ? (
+          <div className="mb-2 text-terracotta-500" aria-hidden="true">
+            {icon}
+          </div>
+        ) : null}
 
         {topBadge ? (
-          <BadgeComponent text={topBadge.text} variant={topBadge.variant} />
+          <Badge text={topBadge.text} variant={topBadge.variant} />
         ) : null}
 
         {subtitle ? (
@@ -94,10 +98,7 @@ export default function ContentCard({
         {bottomBadge || price ? (
           <div className="mt-5 flex w-full items-center gap-2">
             {bottomBadge ? (
-              <BadgeComponent
-                text={bottomBadge.text}
-                variant={bottomBadge.variant}
-              />
+              <Badge text={bottomBadge.text} variant={bottomBadge.variant} />
             ) : null}
 
             {price ? (

@@ -16,5 +16,21 @@
     "title": "Filtros",
     "clear": "Borrar todo",
     "apply": "Aplicar filtros"
+  },
+  "featured": {
+    "items": {
+      "p1": {
+        "title": "Villa en la Colina de Marbella",
+        "description": "Estilo auténtico con encanto histórico y vistas a la montaña. Una mezcla perfecta de tradición y confort en un entorno tranquilo."
+      },
+      "p2": {
+        "title": "Villa Sunset Infinity",
+        "description": "Diseño moderno con vistas al mar y una acogedora terraza. Un espacio relajante con la comodidad de la piscina y total privacidad."
+      },
+      "p3": {
+        "title": "Villa Sunset Infinity 2",
+        "description": "Residencia espaciosa con panorámicas a la montaña y jardín privado. Espíritu andaluz combinado con un toque de..."
+      }
+    }
   }
 }

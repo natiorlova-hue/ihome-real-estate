@@ -1,109 +1,103 @@
-import ContentCard from "@/components/content/ContentCard";
+// components/home/FeaturedProperties.tsx
+import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
 import GridContainer from "@/components/GridContainer";
 import { Button } from "@/components/ui/button";
+import { withLocale, type Locale } from "@/lib/locale-path";
+import { getFeaturedProperties } from "@/lib/properties";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
-interface BadgeData {
-  text: string;
-  variant: "pink" | "yellow" | "red" | "area";
-}
+type PropertyBadgeData =
+  | { type: "roi"; value: number; variant: "pink" }
+  | { type: "new"; variant: "yellow" }
+  | { type: "featured"; variant: "red" }
+  | { type: "area"; value: number; variant: "area" };
 
-interface PropertyData {
-  title: string;
-  description: string;
-  image: string;
-  price: string;
-  topBadge?: BadgeData;
-  bottomBadge?: BadgeData;
-}
-
-const samplePropertiesData: PropertyData[] = [
-  {
-    title: "Marbella Hillside Villa",
-    description:
-      "Authentic style with historic charm and mountain views. A perfect blend of tradition and comfort in a quiet setting.",
-    image: "/image-lifestyle/golf-slow-life.png",
-    price: "€1,250,000",
-    topBadge: {
-      text: "ROI 6.3%",
-      variant: "pink",
-    },
-    bottomBadge: {
-      text: "480 m²",
-      variant: "area",
-    },
-  },
-  {
-    title: "Sunset Infinity Villa",
-    description:
-      "Modern design with sea views and a cozy terrace. A relaxing space with poolside comfort and full privacy.",
-    image: "/image-lifestyle/golf-slow-life.png",
-    price: "€780,000",
-    topBadge: {
-      text: "New",
-      variant: "yellow",
-    },
-    bottomBadge: {
-      text: "258 m²",
-      variant: "area",
-    },
-  },
-  {
-    title: "Sunset Infinity Villa 2",
-    description:
-      "Spacious residence with mountain panorama and private garden. Andalusian spirit combined with a touch of ...",
-    image: "/image-lifestyle/golf-slow-life.png",
-    price: "€2,150,000",
-    topBadge: {
-      text: "Featured",
-      variant: "red",
-    },
-    bottomBadge: {
-      text: "557 m²",
-      variant: "area",
-    },
-  },
-];
-
-export default function RecentProperties({
-  title,
-  description,
+export default async function FeaturedProperties({
+  locale,
 }: {
-  title: string;
-  description: string;
+  locale: Locale;
 }) {
+  const tHome = await getTranslations({ locale, namespace: "home" });
+  const tCommon = await getTranslations({ locale, namespace: "common" });
+  const tProps = await getTranslations({ locale, namespace: "properties" });
+
+  const properties = await getFeaturedProperties();
+
+  const formatPrice = (price?: number) => {
+    if (typeof price !== "number") return undefined;
+    return new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const toCardBadge = (badge?: PropertyBadgeData): CardBadge | undefined => {
+    if (!badge) return undefined;
+
+    switch (badge.type) {
+      case "roi":
+        return {
+          variant: badge.variant,
+          text: tProps("badges.roi", { value: badge.value }),
+        };
+      case "new":
+        return { variant: badge.variant, text: tProps("badges.new") };
+      case "featured":
+        return { variant: badge.variant, text: tProps("badges.featured") };
+      case "area":
+        return {
+          variant: badge.variant,
+          text: `${badge.value} ${tProps("units.sqm")}`,
+        };
+      default:
+        return undefined;
+    }
+  };
+
   return (
-    <div className="py-8 md:py-16">
+    <section className="py-8 md:py-16">
       <div className="container">
-        <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
-          <h2>{title}</h2>
-          <p className="text-tertiary-600 max-w-[640px]">{description}</p>
+        <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
+          <h2>{tHome("featuredHomes.title")}</h2>
+          <p className="max-w-[640px] text-tertiary-600">
+            {tHome("featuredHomes.description")}
+          </p>
         </div>
 
         <GridContainer>
-          {samplePropertiesData.map(item => {
+          {properties.map(item => {
+            const title = tProps(`featured.items.${item.id}.title`);
+            const description = tProps(`featured.items.${item.id}.description`);
+
             return (
               <ContentCard
-                key={item.title}
-                title={item.title}
-                description={item.description}
-                href={`/`}
-                image={`${item.image}`}
-                price={item.price}
-                topBadge={item.topBadge}
-                bottomBadge={item.bottomBadge}
-                isLink={true}
+                key={item.id}
+                title={title}
+                description={description}
+                href={withLocale(locale, `properties/${item.slug}`)}
+                image={item.image}
+                imageAlt={title}
+                topBadge={toCardBadge(item.topBadge as PropertyBadgeData)}
+                bottomBadge={toCardBadge(item.bottomBadge as PropertyBadgeData)}
+                price={formatPrice(item.price)}
+                isLink
               />
             );
           })}
         </GridContainer>
-        <div className="flex mt-4 md:mt-8">
-          <Button variant="link" className="ml-auto px-0 py-0 group">
-            View All
-            <ArrowRight className="text-[#A4A7AE] group-hover:text-black transition-colors duration-300" />
+
+        <div className="mt-4 flex md:mt-8">
+          <Button asChild variant="link" className="group ml-auto px-0 py-0">
+            <Link href={withLocale(locale, "properties")}>
+              {tCommon("viewAll")}
+              <ArrowRight className="ml-2 text-[#A4A7AE] transition-colors duration-300 group-hover:text-black" />
+            </Link>
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
