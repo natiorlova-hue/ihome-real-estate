@@ -13,13 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-/**
- * Contact form:
- * - Required: firstName, email
- * - Live validation (onChange) + server sync (400 { fieldErrors })
- * - Fetches /api/contact (no locale prefix)
- */
-
 type FormValues = {
   firstName: string;
   lastName: string;
@@ -27,7 +20,7 @@ type FormValues = {
   phone: string;
   message: string;
   privacy: boolean;
-  company?: string; // honeypot
+  company?: string;
 };
 
 type FieldErrorCode =
@@ -49,7 +42,7 @@ type ApiBadRequest = {
   fieldErrors?: Partial<Record<keyof FormValues, FieldErrorCode>>;
 };
 
-const NAME_ALLOWED = /^[a-zA-ZÀ-ÿ\s'-]*$/;
+const NAME_ALLOWED = /^[a-zA-ZÀ-ÿ\u0400-\u04FF\s'-]*$/;
 const PHONE_ALLOWED = /^[0-9+\s()\-]*$/;
 
 function getNameErrorCode(
@@ -101,6 +94,7 @@ export default function ContactForm() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
     setError,
     clearErrors,
@@ -124,16 +118,25 @@ export default function ContactForm() {
 
   const firstName = watch("firstName");
   const email = watch("email");
+  const privacy = watch("privacy");
 
   const firstNameOk = !getNameErrorCode(firstName ?? "", "firstName");
   const emailOk = !getEmailErrorCode(email ?? "");
+  const privacyOk = privacy === true;
 
-  const canSubmit = firstNameOk && emailOk && !isSubmitting;
+  // Button is ONLY enabled when all required fields are valid AND privacy is checked
+  const canSubmit = firstNameOk && emailOk && privacyOk && !isSubmitting;
 
   const onSubmit = handleSubmit(async values => {
     setStatus("idle");
 
-    // client-side honeypot check (still checked on server)
+    // Double-check privacy (shouldn't happen if button disabled correctly)
+    if (!values.privacy) {
+      setError("privacy", { type: "validate", message: "required" });
+      return;
+    }
+
+    // Honeypot
     if (values.company && values.company.trim().length > 0) {
       setStatus("success");
       reset();
@@ -143,14 +146,12 @@ export default function ContactForm() {
     try {
       setStatus("submitting");
 
-      // IMPORTANT: no locale prefix
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
 
-      // Server-side validation sync
       if (res.status === 400) {
         const data = (await res
           .json()
@@ -187,7 +188,7 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6" noValidate>
-      {/* Honeypot (hidden) */}
+      {/* Honeypot */}
       <input
         tabIndex={-1}
         autoComplete="off"
@@ -297,50 +298,69 @@ export default function ContactForm() {
         />
       </Field>
 
-      <div className="flex items-start gap-3">
-        <Checkbox
-          id="privacy"
-          aria-invalid={Boolean(errors.privacy)}
-          {...register("privacy")}
-        />
-        <div className="text-sm leading-5 text-gray-600">
-          <Label htmlFor="privacy" className="font-normal text-gray-600">
-            {t("privacy.prefix")}{" "}
-            <Link
-              href={`/${locale}/privacy-policy`}
-              className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
+      {/* Privacy Checkbox - REQUIRED for submit */}
+      <div className="space-y-2">
+        <div className="flex items-start gap-3">
+          <Checkbox
+            id="privacy"
+            checked={privacy}
+            onCheckedChange={checked => {
+              // Update form value when checkbox changes
+              setValue("privacy", checked === true, { shouldValidate: true });
+              if (checked) clearErrors("privacy");
+            }}
+            aria-invalid={Boolean(errors.privacy)}
+            className={cn(errors.privacy && "border-error-500")}
+          />
+          <div className="flex-1 text-sm leading-5 text-gray-600">
+            <Label
+              htmlFor="privacy"
+              className="font-normal text-gray-600 cursor-pointer"
             >
-              {t("privacy.link")}
-            </Link>
-            .
-          </Label>
+              {t("privacy.prefix")}{" "}
+              <Link
+                href={`/${locale}/privacy-policy`}
+                className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
+              >
+                {t("privacy.link")}
+              </Link>
+              .<span className="text-terracotta-500"> *</span>
+            </Label>
+          </div>
         </div>
+
+        {/* Show error if privacy not checked */}
+        {errors.privacy && (
+          <p className="text-sm text-error-700 ml-8">{t("errors.required")}</p>
+        )}
       </div>
 
       <Button
         type="submit"
         size="xl"
         className={cn(
-          "w-full",
+          "w-full transition-colors",
           !canSubmit
-            ? "bg-gray-300 text-gray-600 hover:bg-gray-300"
-            : "bg-terracotta-500 hover:bg-terracotta-600"
+            ? "bg-gray-300 text-gray-600 hover:bg-gray-300 cursor-not-allowed"
+            : "bg-terracotta-500 hover:bg-terracotta-600 text-white"
         )}
         disabled={!canSubmit}
       >
         {submitLabel}
-        {/* keeps next-intl from ever touching submit object without a key */}
         <span className="sr-only">{t("submit.default")}</span>
       </Button>
 
+      {/* Status messages */}
       <div className="min-h-6 text-center text-sm">
-        {status === "error" ? (
-          <p role="alert" className="text-error-700">
+        {status === "success" ? (
+          <p role="status" className="text-success-700 font-medium">
+            {t("submit.success")}
+          </p>
+        ) : status === "error" ? (
+          <p role="alert" className="text-error-700 font-medium">
             {t("submit.error")}
           </p>
-        ) : (
-          <span aria-hidden="true" />
-        )}
+        ) : null}
       </div>
     </form>
   );
