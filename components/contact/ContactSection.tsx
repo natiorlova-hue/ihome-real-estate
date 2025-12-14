@@ -32,7 +32,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
       link: t("contact.privacy.link"),
       href: `/${locale}/privacy-policy`,
     },
-    submit: t("contact.submit.idle"),
+    submit: t("contact.submit.default"),
   };
 
   return (
@@ -57,7 +57,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
           <p className="mt-3 text-tertiary-600">{content.subtitle}</p>
 
           <div className="mt-10 text-left">
-            <ContactForm locale={locale} content={content} />
+            <ContactForm />
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
   "contact": {
     "kicker": "Contact us",
     "title": "Let's talk about your new home!",
-    "subtitle": "Tell us your story — we’ll prepare a shortlist of options within 24 hours.",
+    "subtitle": "Tell us your story — we'll prepare a shortlist of options within 24 hours.",
     "labels": {
       "firstName": "First name",
       "lastName": "Last name",
@@ -18,24 +18,33 @@
       "message": "I'm interested in..."
     },
     "hints": {
-      "firstNameLettersOnly": "Only letters are allowed.",
-      "email": "We’ll use this to reply within 24 hours.",
-      "phoneDigitsOnly": "Numbers only. No letters."
+      "onlyLetters": "Only letters are allowed.",
+      "emailHint": "We'll use this to reply within 24 hours.",
+      "numbersOnly": "Numbers only. No letters."
     },
     "errors": {
       "required": "This field is required.",
       "firstNameLettersOnly": "Only letters are allowed.",
+      "lastNameLettersOnly": "Only letters are allowed.",
       "emailInvalid": "Please enter a valid e-mail address.",
-      "phoneDigitsOnly": "Phone number can’t contain letters."
+      "phoneDigitsOnly": "Phone number can't contain letters.",
+      "firstNameTooShort": "First name must be at least 4 characters long.",
+      "firstNameTooLong": "First name must be at most 20 characters long.",
+      "lastNameTooShort": "Last name must be at least 4 characters long.",
+      "lastNameTooLong": "Last name must be at most 20 characters long.",
+      "emailTooShort": "Email must be at least 6 characters long.",
+      "emailTooLong": "Email must be at most 55 characters long.",
+      "phoneTooLong": "Phone number must be at most 25 characters long.",
+      "messageTooLong": "Message must be at most 2000 characters long."
     },
     "privacy": {
       "prefix": "You agree to our friendly",
       "link": "privacy policy"
     },
     "submit": {
-      "idle": "Send message",
+      "default": "Send message",
       "sending": "Sending…",
-      "success": "Sent",
+      "success": "Message sent successfully!",
       "error": "Something went wrong. Please try again."
     }
   }

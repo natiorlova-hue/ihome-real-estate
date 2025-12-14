@@ -1,45 +1,24 @@
 "use client";
 
 import { Mail, Phone, User } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import * as React from "react";
+import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { type Locale } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 
-type ContactContent = {
-  labels: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    message: string;
-  };
-  placeholders: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    message: string;
-  };
-  privacy: {
-    prefix: string;
-    link: string;
-    href: string;
-  };
-  submit: string; // submit.idle from ContactSection
-};
-
-type ContactFormProps = {
-  locale: Locale;
-  content: ContactContent;
-};
+/**
+ * Contact form:
+ * - Required: firstName, email
+ * - Live validation (onChange) + server sync (400 { fieldErrors })
+ * - Fetches /api/contact (no locale prefix)
+ */
 
 type FormValues = {
   firstName: string;
@@ -48,307 +27,290 @@ type FormValues = {
   phone: string;
   message: string;
   privacy: boolean;
-  company: string; // honeypot
+  company?: string; // honeypot
 };
 
-type FieldName = keyof Omit<FormValues, "privacy" | "company">;
+type FieldErrorCode =
+  | "required"
+  | "firstNameLettersOnly"
+  | "emailInvalid"
+  | "phoneDigitsOnly"
+  | "firstNameTooShort"
+  | "firstNameTooLong"
+  | "lastNameTooShort"
+  | "lastNameTooLong"
+  | "emailTooShort"
+  | "emailTooLong"
+  | "phoneTooShort"
+  | "phoneTooLong";
 
-type FieldErrors = Partial<Record<FieldName | "privacy", string>>;
+type ApiBadRequest = {
+  ok: false;
+  fieldErrors?: Partial<Record<keyof FormValues, FieldErrorCode>>;
+};
 
-const LETTERS_ONLY = /^[a-zA-ZÀ-ÿ\s'-]*$/;
-const PHONE_ALLOWED = /^[0-9+\s()-]*$/;
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NAME_ALLOWED = /^[a-zA-ZÀ-ÿ\s'-]*$/;
+const PHONE_ALLOWED = /^[0-9+\s()\-]*$/;
 
-export default function ContactForm({ content }: ContactFormProps) {
+function getNameErrorCode(
+  v: string,
+  field: "firstName" | "lastName"
+): FieldErrorCode | undefined {
+  const value = v.trim();
+  if (!value) return field === "firstName" ? "required" : undefined;
+
+  if (!NAME_ALLOWED.test(value)) return "firstNameLettersOnly";
+
+  if (value.length < 4)
+    return field === "firstName" ? "firstNameTooShort" : "lastNameTooShort";
+  if (value.length > 20)
+    return field === "firstName" ? "firstNameTooLong" : "lastNameTooLong";
+
+  return undefined;
+}
+
+function getEmailErrorCode(v: string): FieldErrorCode | undefined {
+  const value = v.trim();
+
+  if (!value) return "required";
+  if (value.length < 6) return "emailTooShort";
+  if (value.length > 55) return "emailTooLong";
+
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  if (!ok) return "emailInvalid";
+
+  return undefined;
+}
+
+function getPhoneErrorCode(v: string): FieldErrorCode | undefined {
+  const value = v.trim();
+  if (!value) return undefined;
+
+  if (!PHONE_ALLOWED.test(value)) return "phoneDigitsOnly";
+  if (value.length < 6) return "phoneTooShort";
+  if (value.length > 25) return "phoneTooLong";
+
+  return undefined;
+}
+
+export default function ContactForm() {
   const t = useTranslations("forms.contact");
+  const locale = useLocale();
 
-  const [values, setValues] = React.useState<FormValues>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-    privacy: false,
-    company: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+    setError,
+    clearErrors,
+    reset,
+  } = useForm<FormValues>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
+      privacy: false,
+      company: "",
+    },
+    mode: "onChange",
   });
 
-  const [touched, setTouched] = React.useState<
-    Partial<Record<keyof FormValues, boolean>>
-  >({});
-
-  const [errors, setErrors] = React.useState<FieldErrors>({});
   const [status, setStatus] = React.useState<
-    "idle" | "sending" | "success" | "error"
+    "idle" | "submitting" | "success" | "error"
   >("idle");
 
-  const requiredValid =
-    isFirstNameValid(values.firstName) && isEmailValid(values.email);
+  const firstName = watch("firstName");
+  const email = watch("email");
 
-  function setField(name: keyof FormValues, value: string | boolean) {
-    setValues(prev => ({ ...prev, [name]: value }));
-  }
+  const firstNameOk = !getNameErrorCode(firstName ?? "", "firstName");
+  const emailOk = !getEmailErrorCode(email ?? "");
 
-  function markTouched(name: keyof FormValues) {
-    setTouched(prev => ({ ...prev, [name]: true }));
-  }
+  const canSubmit = firstNameOk && emailOk && !isSubmitting;
 
-  function validateField(name: FieldName): string | undefined {
-    const v = values[name];
+  const onSubmit = handleSubmit(async values => {
+    setStatus("idle");
 
-    if (name === "firstName") {
-      if (!v.trim()) return t("errors.required");
-      if (!LETTERS_ONLY.test(v)) return t("errors.firstNameLettersOnly");
-      return undefined;
-    }
-
-    if (name === "email") {
-      if (!v.trim()) return t("errors.required");
-      if (!EMAIL_REGEX.test(v)) return t("errors.emailInvalid");
-      return undefined;
-    }
-
-    if (name === "phone") {
-      if (v.trim() && !PHONE_ALLOWED.test(v))
-        return t("errors.phoneDigitsOnly");
-      return undefined;
-    }
-
-    // lastName/message are optional per your spec
-    return undefined;
-  }
-
-  function setLiveError(name: FieldName) {
-    const err = validateField(name);
-    setErrors(prev => ({ ...prev, [name]: err }));
-  }
-
-  function isFirstNameValid(v: string) {
-    return v.trim().length > 0 && LETTERS_ONLY.test(v);
-  }
-
-  function isEmailValid(v: string) {
-    return v.trim().length > 0 && EMAIL_REGEX.test(v);
-  }
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    // bot trap
-    if (values.company.trim().length > 0) {
-      setStatus("error");
+    // client-side honeypot check (still checked on server)
+    if (values.company && values.company.trim().length > 0) {
+      setStatus("success");
+      reset();
       return;
     }
 
-    // mark required as touched
-    markTouched("firstName");
-    markTouched("email");
-
-    // validate required fields + phone rule
-    const nextErrors: FieldErrors = {
-      firstName: validateField("firstName"),
-      email: validateField("email"),
-      phone: validateField("phone"),
-    };
-
-    // remove undefined
-    Object.keys(nextErrors).forEach(k => {
-      const key = k as keyof FieldErrors;
-      if (!nextErrors[key]) delete nextErrors[key];
-    });
-
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) return;
-
     try {
-      setStatus("sending");
+      setStatus("submitting");
 
+      // IMPORTANT: no locale prefix
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: values.firstName.trim(),
-          lastName: values.lastName.trim(),
-          email: values.email.trim(),
-          phone: values.phone.trim(),
-          message: values.message.trim(),
-          privacy: values.privacy,
-          company: values.company,
-        }),
+        body: JSON.stringify(values),
       });
+
+      // Server-side validation sync
+      if (res.status === 400) {
+        const data = (await res
+          .json()
+          .catch(() => null)) as ApiBadRequest | null;
+
+        if (data?.fieldErrors) {
+          for (const [field, code] of Object.entries(data.fieldErrors)) {
+            if (!code) continue;
+            setError(field as keyof FormValues, {
+              type: "server",
+              message: code,
+            });
+          }
+          setStatus("idle");
+          return;
+        }
+      }
 
       if (!res.ok) throw new Error("Request failed");
 
       setStatus("success");
-      setValues({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        message: "",
-        privacy: false,
-        company: "",
-      });
-      setTouched({});
-      setErrors({});
+      reset();
     } catch {
       setStatus("error");
     }
-  }
-
-  function shouldShowError(name: keyof FormValues) {
-    return Boolean(touched[name]) && Boolean(errors[name as keyof FieldErrors]);
-  }
+  });
 
   const submitLabel =
-    status === "sending"
+    status === "submitting"
       ? t("submit.sending")
       : status === "success"
         ? t("submit.success")
-        : status === "error"
-          ? t("submit.idle")
-          : content.submit;
+        : t("submit.default");
 
   return (
     <form onSubmit={onSubmit} className="space-y-6" noValidate>
-      {/* Honeypot */}
+      {/* Honeypot (hidden) */}
       <input
         tabIndex={-1}
         autoComplete="off"
         className="hidden"
         aria-hidden="true"
-        name="company"
-        value={values.company}
-        onChange={e => setField("company", e.target.value)}
+        {...register("company")}
       />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Field label={content.labels.firstName} required>
+        <Field
+          label={t("labels.firstName")}
+          required
+          errorCode={getErrorCode(errors.firstName)}
+          hintKey="onlyLetters"
+        >
           <InputWithIcon
             icon={<User className="h-4 w-4 text-gray-400" aria-hidden="true" />}
-          >
-            <Input
-              name="firstName"
-              placeholder={content.placeholders.firstName}
-              value={values.firstName}
-              onChange={e => {
-                setField("firstName", e.target.value);
-                setLiveError("firstName");
-              }}
-              onBlur={() => {
-                markTouched("firstName");
-                setLiveError("firstName");
-              }}
-              aria-invalid={shouldShowError("firstName")}
-              autoComplete="given-name"
-            />
-          </InputWithIcon>
-
-          <HintOrError
-            showError={shouldShowError("firstName")}
-            errorText={errors.firstName}
-            hintText={t("hints.firstNameLettersOnly")}
+            placeholder={t("placeholders.firstName")}
+            aria-invalid={Boolean(errors.firstName)}
+            {...register("firstName", {
+              onChange: e => {
+                const v = String(e.target.value ?? "");
+                const code = getNameErrorCode(v, "firstName");
+                if (code)
+                  setError("firstName", { type: "validate", message: code });
+                else clearErrors("firstName");
+              },
+            })}
           />
         </Field>
 
-        <Field label={content.labels.lastName}>
+        <Field
+          label={t("labels.lastName")}
+          errorCode={getErrorCode(errors.lastName)}
+          hintKey="onlyLetters"
+        >
           <InputWithIcon
             icon={<User className="h-4 w-4 text-gray-400" aria-hidden="true" />}
-          >
-            <Input
-              name="lastName"
-              placeholder={content.placeholders.lastName}
-              value={values.lastName}
-              onChange={e => setField("lastName", e.target.value)}
-              onBlur={() => markTouched("lastName")}
-              autoComplete="family-name"
-            />
-          </InputWithIcon>
+            placeholder={t("placeholders.lastName")}
+            aria-invalid={Boolean(errors.lastName)}
+            {...register("lastName", {
+              onChange: e => {
+                const v = String(e.target.value ?? "");
+                const code = getNameErrorCode(v, "lastName");
+                if (code)
+                  setError("lastName", { type: "validate", message: code });
+                else clearErrors("lastName");
+              },
+            })}
+          />
         </Field>
       </div>
 
-      <Field label={content.labels.email} required>
+      <Field
+        label={t("labels.email")}
+        required
+        errorCode={getErrorCode(errors.email)}
+        hintKey="emailHint"
+      >
         <InputWithIcon
           icon={<Mail className="h-4 w-4 text-gray-400" aria-hidden="true" />}
-        >
-          <Input
-            name="email"
-            placeholder={content.placeholders.email}
-            value={values.email}
-            onChange={e => {
-              setField("email", e.target.value);
-              setLiveError("email");
-            }}
-            onBlur={() => {
-              markTouched("email");
-              setLiveError("email");
-            }}
-            aria-invalid={shouldShowError("email")}
-            inputMode="email"
-            autoComplete="email"
-          />
-        </InputWithIcon>
-
-        <HintOrError
-          showError={shouldShowError("email")}
-          errorText={errors.email}
-          hintText={t("hints.email")}
+          placeholder={t("placeholders.email")}
+          inputMode="email"
+          autoComplete="email"
+          aria-invalid={Boolean(errors.email)}
+          {...register("email", {
+            onChange: e => {
+              const v = String(e.target.value ?? "");
+              const code = getEmailErrorCode(v);
+              if (code) setError("email", { type: "validate", message: code });
+              else clearErrors("email");
+            },
+          })}
         />
       </Field>
 
-      <Field label={content.labels.phone}>
+      <Field
+        label={t("labels.phone")}
+        errorCode={getErrorCode(errors.phone)}
+        hintKey="numbersOnly"
+      >
         <InputWithIcon
           icon={<Phone className="h-4 w-4 text-gray-400" aria-hidden="true" />}
-        >
-          <Input
-            name="phone"
-            placeholder={content.placeholders.phone}
-            value={values.phone}
-            onChange={e => {
-              setField("phone", e.target.value);
-              setLiveError("phone");
-            }}
-            onBlur={() => {
-              markTouched("phone");
-              setLiveError("phone");
-            }}
-            aria-invalid={shouldShowError("phone")}
-            inputMode="tel"
-            autoComplete="tel"
-          />
-        </InputWithIcon>
-
-        <HintOrError
-          showError={shouldShowError("phone")}
-          errorText={errors.phone}
-          hintText={t("hints.phoneDigitsOnly")}
+          placeholder={t("placeholders.phone")}
+          inputMode="tel"
+          autoComplete="tel"
+          aria-invalid={Boolean(errors.phone)}
+          {...register("phone", {
+            onChange: e => {
+              const v = String(e.target.value ?? "");
+              const code = getPhoneErrorCode(v);
+              if (code) setError("phone", { type: "validate", message: code });
+              else clearErrors("phone");
+            },
+          })}
         />
       </Field>
 
-      <Field label={content.labels.message}>
+      <Field
+        label={t("labels.message")}
+        errorCode={getErrorCode(errors.message)}
+      >
         <Textarea
-          name="message"
-          placeholder={content.placeholders.message}
-          value={values.message}
-          onChange={e => setField("message", e.target.value)}
-          onBlur={() => markTouched("message")}
+          placeholder={t("placeholders.message")}
+          aria-invalid={Boolean(errors.message)}
+          {...register("message")}
         />
       </Field>
 
       <div className="flex items-start gap-3">
         <Checkbox
           id="privacy"
-          checked={values.privacy}
-          onChange={e => setField("privacy", e.target.checked)}
+          aria-invalid={Boolean(errors.privacy)}
+          {...register("privacy")}
         />
         <div className="text-sm leading-5 text-gray-600">
           <Label htmlFor="privacy" className="font-normal text-gray-600">
-            {content.privacy.prefix}{" "}
+            {t("privacy.prefix")}{" "}
             <Link
-              href={content.privacy.href}
-              className="text-mediterranean-600 underline underline-offset-4 hover:text-mediterranean-700"
+              href={`/${locale}/privacy-policy`}
+              className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
             >
-              {content.privacy.link}
+              {t("privacy.link")}
             </Link>
             .
           </Label>
@@ -360,21 +322,19 @@ export default function ContactForm({ content }: ContactFormProps) {
         size="xl"
         className={cn(
           "w-full",
-          requiredValid
-            ? "bg-terracotta-500 hover:bg-terracotta-600 text-white"
-            : "bg-gray-300 text-gray-700 hover:bg-gray-300"
+          !canSubmit
+            ? "bg-gray-300 text-gray-600 hover:bg-gray-300"
+            : "bg-terracotta-500 hover:bg-terracotta-600"
         )}
-        disabled={!requiredValid || status === "sending"}
+        disabled={!canSubmit}
       >
         {submitLabel}
+        {/* keeps next-intl from ever touching submit object without a key */}
+        <span className="sr-only">{t("submit.default")}</span>
       </Button>
 
       <div className="min-h-6 text-center text-sm">
-        {status === "success" ? (
-          <p role="status" className="text-success-700">
-            {t("submit.success")}
-          </p>
-        ) : status === "error" ? (
+        {status === "error" ? (
           <p role="alert" className="text-error-700">
             {t("submit.error")}
           </p>
@@ -386,55 +346,70 @@ export default function ContactForm({ content }: ContactFormProps) {
   );
 }
 
+function getErrorCode(err: unknown): FieldErrorCode | undefined {
+  if (!err || typeof err !== "object") return undefined;
+  const anyErr = err as { message?: unknown };
+  return typeof anyErr.message === "string"
+    ? (anyErr.message as FieldErrorCode)
+    : undefined;
+}
+
 function Field({
   label,
   required,
+  errorCode,
+  hintKey,
   children,
 }: {
   label: string;
   required?: boolean;
+  errorCode?: FieldErrorCode;
+  hintKey?: "onlyLetters" | "emailHint" | "numbersOnly";
   children: React.ReactNode;
 }) {
+  const t = useTranslations("forms.contact");
+
+  const hasError = Boolean(errorCode);
+  const helperText = hasError
+    ? t(`errors.${errorCode}` as const)
+    : hintKey
+      ? t(`hints.${hintKey}` as const)
+      : "";
+
   return (
     <div className="space-y-2">
-      <Label>
+      <Label className={cn(hasError ? "text-error-700" : "text-gray-900")}>
         {label}
         {required ? <span className="text-terracotta-500"> *</span> : null}
       </Label>
+
       {children}
+
+      {helperText ? (
+        <p
+          className={cn(
+            "text-sm",
+            hasError ? "text-error-700" : "text-gray-600"
+          )}
+        >
+          {helperText}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-function HintOrError({
-  showError,
-  errorText,
-  hintText,
-}: {
-  showError: boolean;
-  errorText?: string;
-  hintText: string;
-}) {
-  return showError ? (
-    <p className="text-sm text-error-600">{errorText}</p>
-  ) : (
-    <p className="text-sm text-tertiary-600">{hintText}</p>
-  );
-}
-
-function InputWithIcon({
-  icon,
-  children,
-}: {
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
+const InputWithIcon = React.forwardRef<
+  HTMLInputElement,
+  React.ComponentProps<"input"> & { icon: React.ReactNode }
+>(({ icon, className, ...props }, ref) => {
   return (
     <div className="relative">
       <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
         {icon}
       </span>
-      <div className="[&>input]:pl-10">{children}</div>
+      <Input ref={ref} className={cn("pl-10", className)} {...props} />
     </div>
   );
-}
+});
+InputWithIcon.displayName = "InputWithIcon";
