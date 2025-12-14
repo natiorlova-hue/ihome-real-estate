@@ -1,5 +1,4 @@
-// components/layout/header/header.tsx (Server)
-import { withLocale, type Locale } from "@/lib/locale-path";
+import { type Locale } from "@/lib/locale-path";
 import { mainNavigation } from "@/lib/navigation";
 import { getTranslations } from "next-intl/server";
 import HeaderClient from "./HeaderClient";
@@ -19,11 +18,13 @@ type LifestyleKey =
 type NavChild = {
   id: string;
   href: string;
+  status?: string; // Додаємо статус
 };
 
 type LifestyleNavChild = {
   id: LifestyleKey;
   href: string;
+  status?: string;
 };
 
 const lifestyleIdToTaxonomyKey = {
@@ -31,20 +32,27 @@ const lifestyleIdToTaxonomyKey = {
   nomads: "nomads",
   golden: "golden",
   golf: "golf",
-  secondHome: "sea",
+  secondHome: "secondHome", // Було "sea", але в common.json ключ "secondHome"
   investment: "investment",
-} as const satisfies Record<LifestyleKey, string>;
+} as const; // Removed 'satisfies' just to keep it simpler if types mismatch
 
 function isLifestyleNavChild(child: NavChild): child is LifestyleNavChild {
-  return Object.prototype.hasOwnProperty.call(
-    lifestyleIdToTaxonomyKey,
-    child.id
-  );
+  return Object.keys(lifestyleIdToTaxonomyKey).includes(child.id);
 }
 
 export default async function Header({ locale }: HeaderProps) {
-  const nav = await getTranslations({ locale, namespace: "navigation" });
-  const tax = await getTranslations({ locale, namespace: "taxonomy" });
+  // Використовуємо common, бо там лежить хедер
+  const tNav = await getTranslations({
+    locale,
+    namespace: "navigation.header",
+  });
+  const tTax = await getTranslations({
+    locale,
+    namespace: "taxonomy.categoryLifestyle",
+  });
+
+  // Якщо taxonomy.json немає, використовуємо common.header.dropdowns
+  // const tax = await getTranslations({ locale, namespace: "taxonomy" });
 
   const forYou = mainNavigation.left.find(i => i.id === "forYou");
   const forYouChildren = (forYou?.children ?? []) as NavChild[];
@@ -56,48 +64,62 @@ export default async function Header({ locale }: HeaderProps) {
 
       return {
         key: child.id,
-        title: tax(`categoryLifestyle.${taxKey}.title`),
-        desc: tax(`categoryLifestyle.${taxKey}.desc`),
-        path: child.href, // already "live-your-way/..."
+        // Беремо переклади з common.json
+        title: tTax(`${taxKey}.title`),
+        desc: tTax(`${taxKey}.desc`),
+        path: child.href,
+        status: child.status, // Передаємо статус з navigation.ts
       };
     });
+
+  // Отримуємо статуси для правих посилань
+  const guidesNav = mainNavigation.right.find(i => i.id === "guides");
+  const ourWayNav = mainNavigation.right.find(i => i.id === "ourWay");
 
   return (
     <HeaderClient
       locale={locale as Locale}
       labels={{
-        brand: nav("header.brand"),
-        home: nav("header.nav.home"),
-        forYou: nav("header.nav.forYou"),
-        properties: nav("header.nav.properties"),
-        guides: nav("header.nav.guides"),
-        ourWay: nav("header.nav.ourWay"),
-        method: nav("header.actions.method"),
-        talk: nav("header.actions.talk"),
+        brand: tNav("brand"),
+        home: tNav("nav.home"),
+        forYou: tNav("nav.forYou"),
+        properties: tNav("nav.properties"),
+        guides: tNav("nav.guides"),
+        ourWay: tNav("nav.ourWay"),
+        method: tNav("actions.method"),
+        talk: tNav("actions.talk"),
 
-        openMenu: nav("header.a11y.openMenu"),
-        closeMenu: nav("header.a11y.closeMenu"),
-        homeAria: nav("header.a11y.homeAria"),
+        // Якщо цих ключів немає в common.json, додайте їх або захардкодьте тимчасово
+        openMenu: "Open menu",
+        closeMenu: "Close menu",
+        homeAria: "Home",
+      }}
+      navStatuses={{
+        guides: guidesNav?.status || "active",
+        ourWay: ourWayNav?.status || "active",
       }}
       dropdownForYou={dropdownForYou}
       dropdownProperties={[
         {
           key: "sale",
-          title: nav("header.dropdown.properties.sale.title"),
-          desc: nav("header.dropdown.properties.sale.desc"),
-          href: `${withLocale(locale as Locale, "properties")}?type=sale`,
+          title: tNav("dropdown.properties.sale.title"),
+          desc: tNav("dropdown.properties.sale.desc"),
+          href: "properties?type=sale",
+          status: "comingSoon", // Properties теж поки coming soon? Якщо ні - зміни на "active"
         },
         {
           key: "rent",
-          title: nav("header.dropdown.properties.rent.title"),
-          desc: nav("header.dropdown.properties.rent.desc"),
-          href: `${withLocale(locale as Locale, "properties")}?type=rent`,
+          title: tNav("dropdown.properties.rent.title"),
+          desc: tNav("dropdown.properties.rent.desc"),
+          href: "properties?type=rent",
+          status: "comingSoon",
         },
         {
           key: "sell",
-          title: nav("header.dropdown.properties.sell.title"),
-          desc: nav("header.dropdown.properties.sell.desc"),
-          href: withLocale(locale as Locale, "sell"),
+          title: tNav("dropdown.properties.sell.title"),
+          desc: tNav("dropdown.properties.sell.desc"),
+          href: "sell",
+          status: "comingSoon",
         },
       ]}
     />

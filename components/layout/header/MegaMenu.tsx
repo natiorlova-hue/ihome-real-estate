@@ -1,18 +1,18 @@
 // components/layout/MegaMenu.tsx
 "use client";
 
-import Link from "next/link";
-import { useTranslations } from "next-intl";
 import {
-  Users,
+  Building2,
+  Home,
   Laptop,
+  MapPin,
   Sunset,
   Target,
-  Home,
   TrendingUp,
-  Building2,
-  MapPin,
+  Users,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 interface MegaMenuProps {
   type: "lifestyle" | "properties";
@@ -45,7 +45,7 @@ const lifestyleCategories = [
     bgColor: "bg-success-50",
   },
   {
-    id: "secondHome",
+    id: "sea",
     icon: Home,
     color: "text-rose-500",
     bgColor: "bg-rose-50",

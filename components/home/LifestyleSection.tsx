@@ -8,7 +8,10 @@ import { getTranslations } from "next-intl/server";
 
 export default async function LifestyleSection({ locale }: { locale: Locale }) {
   const tHome = await getTranslations({ locale, namespace: "home" });
-  const tTax = await getTranslations({ locale, namespace: "taxonomy" });
+  const tTax = await getTranslations({
+    locale,
+    namespace: "taxonomy",
+  });
 
   return (
     <section className="py-8 md:py-16">

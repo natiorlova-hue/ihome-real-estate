@@ -1,6 +1,7 @@
 "use client";
 
 import { withLocale, type Locale } from "@/lib/locale-path";
+import { resolveNavHref } from "@/lib/nav-href"; // Імпортуємо функцію
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -24,32 +25,29 @@ type HeaderLabels = {
   ourWay: string;
   method: string;
   talk: string;
-
-  // a11y
   openMenu: string;
   closeMenu: string;
   homeAria: string;
 };
 
-type ForYouItem = {
+type MenuItem = {
   key: string;
   title: string;
   desc: string;
-  path: string;
-};
-
-type PropertiesItem = {
-  key: string;
-  title: string;
-  desc: string;
-  href: string;
+  path?: string;
+  href?: string;
+  status?: string; // Додаємо статус
 };
 
 type MobileMenuProps = {
   locale: Locale;
   labels: HeaderLabels;
-  dropdownForYou: ForYouItem[];
-  dropdownProperties: PropertiesItem[];
+  dropdownForYou: MenuItem[];
+  dropdownProperties: MenuItem[];
+  navStatuses: {
+    guides: string;
+    ourWay: string;
+  };
 };
 
 export default function MobileMenu({
@@ -57,6 +55,7 @@ export default function MobileMenu({
   labels,
   dropdownForYou,
   dropdownProperties,
+  navStatuses,
 }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
@@ -148,7 +147,11 @@ export default function MobileMenu({
                               {dropdownForYou.map(item => (
                                 <Link
                                   key={item.key}
-                                  href={withLocale(locale, item.path)}
+                                  // ВИКОРИСТОВУЄМО resolveNavHref
+                                  href={resolveNavHref(locale, {
+                                    href: item.path || "",
+                                    status: item.status,
+                                  })}
                                   className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
@@ -178,7 +181,11 @@ export default function MobileMenu({
                               {dropdownProperties.map(item => (
                                 <Link
                                   key={item.key}
-                                  href={item.href}
+                                  // ВИКОРИСТОВУЄМО resolveNavHref
+                                  href={resolveNavHref(locale, {
+                                    href: item.href || "",
+                                    status: item.status,
+                                  })}
                                   className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
@@ -191,7 +198,10 @@ export default function MobileMenu({
                       </Disclosure>
 
                       <Link
-                        href={withLocale(locale, "guides")}
+                        href={resolveNavHref(locale, {
+                          href: "guides",
+                          status: navStatuses.guides,
+                        })}
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
@@ -199,7 +209,10 @@ export default function MobileMenu({
                       </Link>
 
                       <Link
-                        href={withLocale(locale, "our-way")}
+                        href={resolveNavHref(locale, {
+                          href: "our-way",
+                          status: navStatuses.ourWay,
+                        })}
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >

@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { withLocale, type Locale } from "@/lib/locale-path";
+import { resolveNavHref } from "@/lib/nav-href";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 
@@ -27,23 +28,25 @@ type HeaderLabels = {
   homeAria: string;
 };
 
+// Оновлюємо тип, додаючи статус
 type DropdownItem = {
   key: string;
   title: string;
   desc: string;
   path?: string; // For you
   href?: string; // Properties
+  status?: string; // "active" | "comingSoon"
 };
 
 type HeaderClientProps = {
   locale: Locale;
   labels: HeaderLabels;
-  dropdownForYou: Array<
-    Required<Pick<DropdownItem, "key" | "title" | "desc" | "path">>
-  >;
-  dropdownProperties: Array<
-    Required<Pick<DropdownItem, "key" | "title" | "desc" | "href">>
-  >;
+  dropdownForYou: Array<DropdownItem>;
+  dropdownProperties: Array<DropdownItem>;
+  navStatuses: {
+    guides: string;
+    ourWay: string;
+  };
 };
 
 export default function HeaderClient({
@@ -51,6 +54,7 @@ export default function HeaderClient({
   labels,
   dropdownForYou,
   dropdownProperties,
+  navStatuses,
 }: HeaderClientProps) {
   return (
     <header className="fixed left-0 top-0 z-50 w-full border-b border-gray-100 bg-gray-50/90 backdrop-blur-md">
@@ -73,7 +77,7 @@ export default function HeaderClient({
               {labels.home}
             </Link>
 
-            {/* For dropdown */}
+            {/* For you dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
@@ -88,7 +92,11 @@ export default function HeaderClient({
                 {dropdownForYou.map(item => (
                   <DropdownMenuItem key={item.key} className="px-4 py-2">
                     <Link
-                      href={withLocale(locale, item.path)}
+                      // ВИКОРИСТОВУЄМО resolveNavHref
+                      href={resolveNavHref(locale, {
+                        href: item.path || "",
+                        status: item.status,
+                      })}
                       className="flex w-full gap-3"
                     >
                       <div className="flex flex-col">
@@ -119,7 +127,14 @@ export default function HeaderClient({
               <DropdownMenuContent className="w-[344px]">
                 {dropdownProperties.map(item => (
                   <DropdownMenuItem key={item.key} className="px-4 py-2">
-                    <Link href={item.href} className="flex w-full gap-3">
+                    <Link
+                      // ВИКОРИСТОВУЄМО resolveNavHref
+                      href={resolveNavHref(locale, {
+                        href: item.href || "",
+                        status: item.status,
+                      })}
+                      className="flex w-full gap-3"
+                    >
                       <div className="flex flex-col">
                         <span className="text-md font-semibold">
                           {item.title}
@@ -135,14 +150,20 @@ export default function HeaderClient({
             </DropdownMenu>
 
             <Link
-              href={withLocale(locale, "/coming-soon")}
+              href={resolveNavHref(locale, {
+                href: "guides",
+                status: navStatuses.guides,
+              })}
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.guides}
             </Link>
 
             <Link
-              href={withLocale(locale, "/coming-soon")}
+              href={resolveNavHref(locale, {
+                href: "our-way",
+                status: navStatuses.ourWay,
+              })}
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.ourWay}
@@ -151,6 +172,7 @@ export default function HeaderClient({
 
           {/* Actions */}
           <div className="hidden items-center gap-4 xl:flex">
+            {/* Ці кнопки зазвичай активні (контакти), тому залишаємо як є */}
             <Button asChild variant="outline">
               <Link href={withLocale(locale, "contact")}>{labels.method}</Link>
             </Button>
@@ -165,6 +187,7 @@ export default function HeaderClient({
             labels={labels}
             dropdownForYou={dropdownForYou}
             dropdownProperties={dropdownProperties}
+            navStatuses={navStatuses}
           />
         </div>
       </div>
