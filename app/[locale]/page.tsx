@@ -1,4 +1,5 @@
 import CTA from "@/components/cta";
+import BenefitsSection from "@/components/home/BenefitsSection";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,8 @@ export default async function HomePage({ params }: HomePageProps) {
       <FeaturedProperties locale={locale} />
 
       <CTA />
+
+      <BenefitsSection locale={locale} />
 
       <section className="bg-gray-50" aria-labelledby="quiz-heading">
         <div className="container">
