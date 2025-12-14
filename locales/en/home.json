@@ -48,5 +48,13 @@
     "title": "Curious where you’d feel at home?",
     "subtitle": "Take a short quiz to discover where you’d truly feel at home.",
     "button": "Take our short quiz"
+  },
+  "regionsGuide": {
+    "title": "Visual guide to regions",
+    "subtitle": "Click on the most interesting areas on the Costa del Sol map to discover more about their atmosphere and available properties.",
+    "a11y": {
+      "tabsLabel": "Region tabs",
+      "mapLabel": "Costa del Sol map"
+    }
   }
 }

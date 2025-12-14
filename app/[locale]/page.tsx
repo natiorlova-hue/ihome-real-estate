@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
 import FeaturedProperties from "../../components/home/FeaturedProperties";
+import VisualRegions from "../../components/home/VisualRegions";
 
 type HomePageProps = {
   params: Promise<{ locale: Locale }>;
@@ -43,6 +44,8 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
+
+      <VisualRegions locale={locale} />
 
       <ContactSection locale={locale} />
     </div>
