@@ -278,13 +278,14 @@ const config: Config = {
           sm: "100%",
           md: "100%",
           lg: "100%",
-          xl: "1194px", // Custom max-width
-          "2xl": "1194px", // Same max-width for consistency
+          xl: "1224px", // 1192 content + 32 padding
+          "2xl": "1320px", // 1288 content + 32 padding
         },
       },
       maxWidth: {
         page: "1440px",
         benefits: "1054px",
+        tabs: "800px",
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1.125rem" }],
