@@ -1,18 +1,15 @@
 // components/home/FeaturedProperties.tsx
-import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
 import GridContainer from "@/components/GridContainer";
+import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
 import { Button } from "@/components/ui/button";
 import { withLocale, type Locale } from "@/lib/locale-path";
-import { getFeaturedProperties } from "@/lib/properties";
+import {
+  getFeaturedProperties,
+  type PropertyBadgeData,
+} from "@/lib/properties";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-
-type PropertyBadgeData =
-  | { type: "roi"; value: number; variant: "pink" }
-  | { type: "new"; variant: "yellow" }
-  | { type: "featured"; variant: "red" }
-  | { type: "area"; value: number; variant: "area" };
+import Link from "next/link";
 
 export default async function FeaturedProperties({
   locale,
@@ -80,8 +77,8 @@ export default async function FeaturedProperties({
                 href={withLocale(locale, `properties/${item.slug}`)}
                 image={item.image}
                 imageAlt={title}
-                topBadge={toCardBadge(item.topBadge as PropertyBadgeData)}
-                bottomBadge={toCardBadge(item.bottomBadge as PropertyBadgeData)}
+                topBadge={toCardBadge(item.topBadge)}
+                bottomBadge={toCardBadge(item.bottomBadge)}
                 price={formatPrice(item.price)}
                 isLink
               />
