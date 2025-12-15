@@ -18,7 +18,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div>
-      <HeroVisualSection />
+      <HeroVisualSection locale={locale} />
 
       <LifestyleSection locale={locale} />
 

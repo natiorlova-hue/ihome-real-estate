@@ -5,8 +5,10 @@ export type LifestyleKey =
   | "nomads"
   | "golf"
   | "golden"
-  | "sea"
+  | "secondHome"
   | "investment";
+
+export type LifestyleStatus = "active" | "comingSoon";
 
 export type LifestyleIconKey = LifestyleKey;
 
@@ -15,6 +17,7 @@ export interface LifestyleItem {
   path: string;
   iconKey: LifestyleIconKey;
   image: string;
+  status: LifestyleStatus;
 }
 
 export const lifestyleItems: LifestyleItem[] = [
@@ -23,35 +26,41 @@ export const lifestyleItems: LifestyleItem[] = [
     path: "live-your-way/families",
     iconKey: "families",
     image: "/image-lifestyle/families.png",
+    status: "comingSoon",
   },
   {
     key: "nomads",
     path: "live-your-way/nomads",
     iconKey: "nomads",
     image: "/image-lifestyle/nomads.png",
+    status: "comingSoon",
   },
   {
     key: "golf",
     path: "live-your-way/golf-slow-life",
     iconKey: "golf",
     image: "/image-lifestyle/golf-slow-life.png",
+    status: "comingSoon",
   },
   {
     key: "golden",
     path: "live-your-way/golden-years",
     iconKey: "golden",
     image: "/image-lifestyle/golden.png",
+    status: "comingSoon",
   },
   {
-    key: "sea",
+    key: "secondHome",
     path: "live-your-way/second-home",
-    iconKey: "sea",
+    iconKey: "secondHome",
     image: "/image-lifestyle/second-home.png",
+    status: "comingSoon",
   },
   {
     key: "investment",
     path: "live-your-way/investment",
     iconKey: "investment",
     image: "/image-lifestyle/investment.png",
+    status: "comingSoon",
   },
 ];

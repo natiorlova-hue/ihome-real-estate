@@ -12,6 +12,7 @@ import { withLocale, type Locale } from "@/lib/locale-path";
 import { resolveNavHref } from "@/lib/nav-href";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
+import ScrollToContactButton from "./ScrollToContactButton";
 
 type HeaderLabels = {
   brand: string;
@@ -174,12 +175,12 @@ export default function HeaderClient({
           <div className="hidden items-center gap-4 xl:flex">
             {/* Ці кнопки зазвичай активні (контакти), тому залишаємо як є */}
             <Button asChild variant="outline">
-              <Link href={withLocale(locale, "contact")}>{labels.method}</Link>
+              <Link href={withLocale(locale, "coming-soon")}>
+                {labels.method}
+              </Link>
             </Button>
 
-            <Button asChild>
-              <Link href={withLocale(locale, "contact")}>{labels.talk}</Link>
-            </Button>
+            <ScrollToContactButton locale={locale} label={labels.talk} />
           </div>
 
           <MobileMenu

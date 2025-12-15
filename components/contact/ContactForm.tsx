@@ -2,6 +2,8 @@
 
 import { Mail, Phone, User } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import Link from "next/link";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -90,6 +92,43 @@ export default function ContactForm() {
   const t = useTranslations("forms.contact");
   const locale = useLocale();
 
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const firstNameRef = React.useRef<HTMLInputElement | null>(null);
+
+  const focusFirstName = React.useCallback(() => {
+    const section = document.getElementById("contact");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // slight delay to ensure scroll/layout settle
+    window.setTimeout(() => {
+      firstNameRef.current?.focus();
+    }, 50);
+  }, []);
+
+  React.useEffect(() => {
+    const shouldOpen = searchParams.get("contact") === "open";
+    if (!shouldOpen) return;
+
+    focusFirstName();
+
+    // Clean URL (remove ?contact=open) without jumping
+    if (pathname) {
+      router.replace(pathname, { scroll: false });
+    }
+  }, [focusFirstName, pathname, router, searchParams]);
+
+  React.useEffect(() => {
+    const handler = () => focusFirstName();
+    window.addEventListener("contact:open", handler as EventListener);
+    return () =>
+      window.removeEventListener("contact:open", handler as EventListener);
+  }, [focusFirstName]);
+
   const {
     register,
     handleSubmit,
@@ -110,6 +149,15 @@ export default function ContactForm() {
       company: "",
     },
     mode: "onChange",
+  });
+
+  const firstNameRegister = register("firstName", {
+    onChange: e => {
+      const v = String(e.target.value ?? "");
+      const code = getNameErrorCode(v, "firstName");
+      if (code) setError("firstName", { type: "validate", message: code });
+      else clearErrors("firstName");
+    },
   });
 
   const [status, setStatus] = React.useState<
@@ -208,15 +256,13 @@ export default function ContactForm() {
             icon={<User className="h-4 w-4 text-gray-400" aria-hidden="true" />}
             placeholder={t("placeholders.firstName")}
             aria-invalid={Boolean(errors.firstName)}
-            {...register("firstName", {
-              onChange: e => {
-                const v = String(e.target.value ?? "");
-                const code = getNameErrorCode(v, "firstName");
-                if (code)
-                  setError("firstName", { type: "validate", message: code });
-                else clearErrors("firstName");
-              },
-            })}
+            {...firstNameRegister}
+            ref={el => {
+              // ref від RHF (щоб він міг керувати інпутом)
+              firstNameRegister.ref(el);
+              // наш ref (для фокусу)
+              firstNameRef.current = el;
+            }}
           />
         </Field>
 

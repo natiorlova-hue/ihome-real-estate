@@ -38,6 +38,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
 
   return (
     <section
+      id="contact"
       aria-labelledby="contact-heading"
       className="relative overflow-hidden pt-24 pb-16"
     >

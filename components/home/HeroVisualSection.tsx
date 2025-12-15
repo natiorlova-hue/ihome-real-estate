@@ -1,8 +1,15 @@
+import ScrollToContactButton from "@/components/layout/header/ScrollToContactButton";
 import { Button } from "@/components/ui/button";
+import { withLocale, type Locale } from "@/lib/locale-path";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function HeroVisualSection() {
+type HeroProps = {
+  locale: Locale;
+};
+
+export default function HeroVisualSection({ locale }: HeroProps) {
   const t = useTranslations("home");
 
   return (
@@ -26,10 +33,17 @@ export default function HeroVisualSection() {
           </p>
 
           <div className="flex justify-center gap-3 md:justify-start md:gap-4">
-            <Button size="lg">{t("hero.cta.explore")}</Button>
-            <Button variant="outline" size="lg">
-              {t("hero.cta.book")}
+            <Button asChild size="lg">
+              <Link href={withLocale(locale, "coming-soon")}>
+                {t("hero.cta.explore")}
+              </Link>
             </Button>
+            <ScrollToContactButton
+              locale={locale}
+              variant="outline"
+              size="lg"
+              label={t("hero.cta.book")}
+            />
           </div>
         </div>
       </div>

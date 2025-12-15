@@ -3,9 +3,10 @@
 import GridContainer from "@/components/GridContainer";
 import ContentCard from "@/components/content/ContentCard";
 import { lifestyleItems } from "@/lib/lifestyle";
+import { lifestyleToTaxonomyKey } from "@/lib/lifestyle-mapping";
 import { type Locale } from "@/lib/locale-path";
+import { resolveNavHref } from "@/lib/nav-href";
 import { getTranslations } from "next-intl/server";
-
 export default async function LifestyleSection({ locale }: { locale: Locale }) {
   const tHome = await getTranslations({ locale, namespace: "home" });
   const tTax = await getTranslations({
@@ -27,12 +28,14 @@ export default async function LifestyleSection({ locale }: { locale: Locale }) {
         {/* Cards */}
         <GridContainer>
           {lifestyleItems.map(item => {
-            const title = tTax(`categoryLifestyle.${item.key}.title`);
-            const description = tTax(`categoryLifestyle.${item.key}.desc`);
+            const taxonomyKey = lifestyleToTaxonomyKey[item.key];
 
-            const tagKeys = tTax.raw(`lifestyle.cards.${item.key}.tagKeys`) as
-              | string[]
-              | undefined;
+            const title = tTax(`categoryLifestyle.${taxonomyKey}.title`);
+            const description = tTax(`categoryLifestyle.${taxonomyKey}.desc`);
+
+            const tagKeys = tTax.raw(
+              `lifestyle.cards.${taxonomyKey}.tagKeys`
+            ) as string[] | undefined;
 
             const subtitle = tagKeys?.length
               ? tagKeys.map(k => tTax(`lifestyle.tags.${k}`)).join(" · ")
@@ -44,7 +47,10 @@ export default async function LifestyleSection({ locale }: { locale: Locale }) {
                 title={title}
                 subtitle={subtitle}
                 description={description}
-                href={`/${locale}/${item.path}`}
+                href={resolveNavHref(locale, {
+                  href: item.path,
+                  status: item.status,
+                })}
                 image={item.image}
                 imageAlt={title}
               />
