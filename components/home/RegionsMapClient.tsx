@@ -110,8 +110,8 @@ export default function RegionsMapClient({ items, a11y }: Props) {
               className={cn(
                 "px-4 py-2 rounded-full text-sm border transition-colors",
                 selected
-                  ? "bg-tertiary-700 text-white border-tertiary-700"
-                  : "bg-white text-tertiary-900 border-tertiary-300"
+                  ? "bg-brandBlue-600 text-white border-brandBlue-700"
+                  : "bg-gray-50 text-tertiary-900 border-gray-200 hover:bg-gray-50"
               )}
               onClick={() => setActiveKey(item.key)}
               onKeyDown={e => onKeyDown(e, index)}
