@@ -1,5 +1,5 @@
 import ContactSection from "@/components/contact/ContactSection";
-import CTA from "@/components/Cta";
+import Cta from "@/components/Cta";
 import BenefitsSection from "@/components/home/BenefitsSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
@@ -22,25 +22,33 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <LifestyleSection locale={locale} />
 
-      <CTA
+      <Cta
         locale={locale}
         namespace="common"
-        keys={{ title: "ctaRow.title", button: "ctaRow.sendRequestBtn" }}
-        variant="default"
+        layout="simple"
+        keys={{
+          title: "ctaRow.title",
+          button: "ctaRow.sendRequestBtn",
+        }}
       />
 
       <FeaturedProperties locale={locale} />
 
-      <CTA
+      <Cta
         locale={locale}
         namespace="common"
+        layout="emailCapture"
+        variant="brand"
         keys={{
           title: "ctaSell.title",
           desc: "ctaSell.desc",
           button: "ctaRow.sendRequestBtn",
+          emailPlaceholder: "ctaSell.emailPlaceholder",
+          privacyPrefix: "ctaSell.privacyPrefix",
+          privacyLink: "ctaSell.privacyLink",
         }}
-        variant="brand"
       />
+
       <BenefitsSection locale={locale} />
 
       <section className="bg-gray-50" aria-labelledby="quiz-heading">

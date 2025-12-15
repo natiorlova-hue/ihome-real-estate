@@ -34,6 +34,7 @@
       "lastNameTooLong": "Last name must be at most 20 characters long.",
       "emailTooShort": "Email must be at least 6 characters long.",
       "emailTooLong": "Email must be at most 55 characters long.",
+      "phoneTooShort": "Phone number must be at least 6 characters long.",
       "phoneTooLong": "Phone number must be at most 25 characters long.",
       "messageTooLong": "Message must be at most 2000 characters long."
     },

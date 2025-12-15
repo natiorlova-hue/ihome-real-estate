@@ -17,7 +17,7 @@ export type ScrollToContactButtonProps = {
   label: string;
 } & ButtonLikeProps;
 
-export function ScrollToContactButton({
+export default function ScrollToContactButton({
   locale,
   label,
   variant,
@@ -34,21 +34,21 @@ export function ScrollToContactButton({
   const handleClick = React.useCallback(() => {
     if (disabled) return;
 
-    // coming-soon -> go home and request opening contact form
+    // coming-soon → redirect home and request opening contact form
     if (pathname === comingSoonPath) {
       router.push(`${homePath}?contact=open`);
       return;
     }
 
-    // normal pages -> scroll + ask form to focus
-    const el = document.getElementById("contact");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // same-page contact section
+    const section = document.getElementById("contact");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
       window.dispatchEvent(new CustomEvent("contact:open"));
       return;
     }
 
-    // fallback
+    // fallback → dedicated contact page
     router.push(withLocale(locale, "contact"));
   }, [disabled, pathname, comingSoonPath, homePath, router, locale]);
 
@@ -65,5 +65,3 @@ export function ScrollToContactButton({
     </Button>
   );
 }
-
-export default ScrollToContactButton;
