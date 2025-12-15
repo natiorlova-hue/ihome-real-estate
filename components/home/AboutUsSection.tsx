@@ -34,17 +34,16 @@ export default async function AboutUsSection({ locale }: AboutUsSectionProps) {
 
         <div className="mt-10 grid items-center gap-10 md:mt-14 md:grid-cols-2 md:gap-12">
           {/* Image */}
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-[999px]">
-              <Image
-                src="/images-team/about-main.png"
-                alt={t("about.title")}
-                width={900}
-                height={520}
-                sizes="(min-width: 1024px) 520px, (min-width: 768px) 50vw, 100vw"
-                className="h-auto w-full object-cover"
-              />
-            </div>
+          <div className="relative flex justify-center md:justify-start">
+            <Image
+              src="/images-team/about-main.png"
+              alt={t("about.title")}
+              width={680}
+              height={460}
+              priority
+              sizes="(min-width: 1024px) 680px, (min-width: 768px) 620px, 100vw"
+              className="h-auto w-full max-w-[680px]"
+            />
           </div>
 
           {/* Copy */}
