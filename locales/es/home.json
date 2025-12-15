@@ -48,5 +48,13 @@
     "title": "¿Tienes curiosidad por saber dónde te sentirías en casa?",
     "subtitle": "Haz un breve cuestionario para descubrir dónde te sentirías realmente a gusto.",
     "button": "Realizar el cuestionario"
+  },
+  "regionsGuide": {
+    "title": "Guía visual de las zonas",
+    "subtitle": "Haz clic en las áreas de interés en el mapa de la Costa del Sol para descubrir su ambiente y ver las propiedades disponibles.",
+    "a11y": {
+      "tabsLabel": "Pestañas de zonas",
+      "mapLabel": "Mapa de la Costa del Sol"
+    }
   }
 }
