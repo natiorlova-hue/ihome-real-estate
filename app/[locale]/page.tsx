@@ -1,9 +1,11 @@
-import ContactSection from "@/components/contact/ContactSection";
 import Cta from "@/components/Cta";
+import ContactSection from "@/components/contact/ContactSection";
+import AboutUsSection from "@/components/home/AboutUsSection";
 import BenefitsSection from "@/components/home/BenefitsSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
+import OurTeamSection from "@/components/home/OurTeamSection";
 import { Button } from "@/components/ui/button";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
@@ -64,6 +66,9 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
+      <AboutUsSection locale={locale} />
+
+      <OurTeamSection locale={locale} />
 
       {/* <VisualRegions locale={locale} /> */}
 
