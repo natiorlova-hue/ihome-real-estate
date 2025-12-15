@@ -285,6 +285,7 @@ const config: Config = {
       maxWidth: {
         page: "1440px",
         benefits: "1054px",
+        tabs: "800px",
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1.125rem" }],

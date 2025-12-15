@@ -92,7 +92,7 @@ export default function RegionsMapClient({ items, a11y }: Props) {
       <div
         role="tablist"
         aria-label={a11y.tabsLabel}
-        className="flex flex-wrap gap-2 justify-center"
+        className="flex flex-wrap gap-2 justify-center max-w-tabs mx-auto"
       >
         {items.map((item, index) => {
           const selected = item.key === activeKey;
