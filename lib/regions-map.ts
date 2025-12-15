@@ -1,4 +1,4 @@
-import type { LatLngLiteral } from "@/lib/geo";
+import type { LatLngLiteral } from "@/lib/types/geo";
 
 export type RegionKey =
   | "sotogrande"

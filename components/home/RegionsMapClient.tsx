@@ -70,10 +70,10 @@ export default function RegionsMapClient({ items, a11y }: Props) {
     mapInstance.current.panTo(active.center);
   }, [active.center]);
 
-  // 📌 Ref for tab elements
+  // Ref for tab elements
   const tabRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
 
-  // 📌 Keyboard nav (ArrowLeft / ArrowRight)
+  // Keyboard nav (ArrowLeft / ArrowRight)
   const onKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === "ArrowRight" && index < items.length - 1) {
       tabRefs.current[index + 1]?.focus();
@@ -98,7 +98,9 @@ export default function RegionsMapClient({ items, a11y }: Props) {
           const selected = item.key === activeKey;
           return (
             <button
-              ref={el => (tabRefs.current[index] = el)}
+              ref={el => {
+                tabRefs.current[index] = el;
+              }}
               key={item.key}
               role="tab"
               aria-selected={selected}
