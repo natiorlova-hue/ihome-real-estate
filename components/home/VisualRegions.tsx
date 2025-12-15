@@ -3,7 +3,7 @@ import RegionsMapClient, {
 } from "@/components/home/RegionsMapClient";
 import Section from "@/components/layout/Section";
 import { type Locale } from "@/lib/locale-path";
-import { regionsConfig } from "@/lib/regions";
+import { regionsConfig } from "@/lib/regions-map";
 import { getTranslations } from "next-intl/server";
 
 type Props = {

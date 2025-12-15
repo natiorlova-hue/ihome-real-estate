@@ -1,7 +1,7 @@
 "use client";
 
 import { loadGoogleMaps } from "@/lib/google-maps-loader";
-import type { LatLngLiteral } from "@/lib/geo";
+import type { LatLngLiteral } from "@/lib/types/geo";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
