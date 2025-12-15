@@ -24,17 +24,21 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <CTA
         locale={locale}
-        namespace="common.ctaRow"
-        keys={{ title: "notFound", button: "contact" }}
-        variant="soft"
+        namespace="common"
+        keys={{ title: "ctaRow.title", button: "ctaRow.sendRequestBtn" }}
+        variant="default"
       />
 
       <FeaturedProperties locale={locale} />
 
       <CTA
         locale={locale}
-        namespace="home.ctaRow"
-        keys={{ title: "title", button: "button" }}
+        namespace="common"
+        keys={{
+          title: "ctaSell.title",
+          desc: "ctaSell.desc",
+          button: "ctaRow.sendRequestBtn",
+        }}
         variant="brand"
       />
       <BenefitsSection locale={locale} />

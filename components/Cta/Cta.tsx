@@ -4,51 +4,33 @@ import { ScrollToContactButton } from "@/components/layout/header/ScrollToContac
 import { type Locale } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 
-type CTAKeys = {
+type CtaKeys = {
   title: string; // translation key inside namespace
   button: string; // translation key inside namespace
+  desc?: string;
 };
 
-type CTAProps = {
+export type CtaProps = {
   locale: Locale;
-
-  /**
-   * Namespace that contains CTA copy.
-   * Examples:
-   * - "common.ctaRow"
-   * - "home.ctaRow"
-   * - "guides.ctaRow"
-   */
   namespace: string;
-
-  /**
-   * Translation keys inside the given namespace.
-   * Example: { title: "notFound", button: "contact" }
-   */
-  keys: CTAKeys;
-
-  /**
-   * Visual variants: background, spacing, etc.
-   * Keep it Tailwind-only.
-   */
+  keys: CtaKeys;
   variant?: "default" | "soft" | "brand";
-
   className?: string;
 };
 
-const variantClassName: Record<NonNullable<CTAProps["variant"]>, string> = {
+const variantClassName: Record<NonNullable<CtaProps["variant"]>, string> = {
   default: "",
   soft: "bg-gray-50",
-  brand: "bg-terracotta-50",
+  brand: "bg-terracotta-500",
 };
 
-export default async function CTA({
+export default async function Cta({
   locale,
   namespace,
   keys,
   variant = "default",
   className,
-}: CTAProps) {
+}: CtaProps) {
   const t = await getTranslations({ locale, namespace });
 
   return (
