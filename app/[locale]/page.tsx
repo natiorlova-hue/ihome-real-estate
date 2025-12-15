@@ -1,12 +1,12 @@
 import ContactSection from "@/components/contact/ContactSection";
-import CTA from "@/components/cta";
+import CTA from "@/components/Cta";
 import BenefitsSection from "@/components/home/BenefitsSection";
+import FeaturedProperties from "@/components/home/FeaturedProperties";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import { Button } from "@/components/ui/button";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
-import FeaturedProperties from "../../components/home/FeaturedProperties";
 
 type HomePageProps = {
   params: Promise<{ locale: Locale }>;
@@ -22,12 +22,21 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <LifestyleSection locale={locale} />
 
-      <CTA locale={locale} />
+      <CTA
+        locale={locale}
+        namespace="common.ctaRow"
+        keys={{ title: "notFound", button: "contact" }}
+        variant="soft"
+      />
 
       <FeaturedProperties locale={locale} />
 
-      <CTA locale={locale} />
-
+      <CTA
+        locale={locale}
+        namespace="home.ctaRow"
+        keys={{ title: "title", button: "button" }}
+        variant="brand"
+      />
       <BenefitsSection locale={locale} />
 
       <section className="bg-gray-50" aria-labelledby="quiz-heading">
