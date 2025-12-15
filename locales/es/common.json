@@ -1,8 +1,15 @@
 {
   "ctaRow": {
-    "notFound": "¿No encontraste lo que estabas buscando?",
-    "contact": "Contáctanos hoy",
-    "sendRequest": "Enviar solicitud"
+    "title": "¿No encontraste lo que estabas buscando?",
+    "contactBtn": "Contáctanos hoy",
+    "sendRequestBtn": "Enviar solicitud"
+  },
+  "ctaSell": {
+    "title": "¿Quiere vender su propiedad?",
+    "desc": "Simplemente deje su email para iniciar una conversación. Le contactaremos en breve.",
+    "emailPlaceholder": "Introduzca su email",
+    "privacyPrefix": "Cuidamos sus datos en nuestra",
+    "privacyLink": "política de privacidad"
   },
   "viewAll": "Ver todo",
   "sellBanner": {
