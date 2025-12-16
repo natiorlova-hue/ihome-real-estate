@@ -1,5 +1,4 @@
-//components/quiz/quiz-shell.tsx
-
+// components/quiz/quiz-shell.tsx
 "use client";
 
 import { submitQuizAction } from "@/app/actions/quiz";
@@ -14,12 +13,12 @@ import {
   getPhoneErrorCode,
   type ContactFieldErrorCode,
 } from "@/lib/validation/contact";
-import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
+import { Check } from "lucide-react";
 import { useQuiz } from "./quiz-context";
 
 type QuizContactValues = {
@@ -71,7 +70,7 @@ export default function QuizShell({ locale }: { locale: string }) {
     mode: "onChange",
   });
 
-  // Map server errors → RHF fields (single source: server)
+  // Map server errors → RHF fields
   React.useEffect(() => {
     if (!serverState?.errors) return;
 
@@ -92,13 +91,13 @@ export default function QuizShell({ locale }: { locale: string }) {
     if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
     autoAdvanceTimer.current = setTimeout(() => {
       dispatch({ type: "NEXT" });
-    }, 300);
+    }, 200);
   };
 
   const onSubmitContact = handleSubmit(values => {
     const fd = new FormData();
-    fd.append("sourcePath", `/${locale}/lifestyle-quiz`);
 
+    fd.append("sourcePath", `/${locale}/lifestyle-quiz`);
     fd.append("answers", JSON.stringify(state.answers));
     fd.append("locale", locale);
 
@@ -113,16 +112,14 @@ export default function QuizShell({ locale }: { locale: string }) {
     });
   });
 
+  // Success (keep as is; styling later)
   if (serverState.success) {
     return (
-      <div className="animate-in fade-in zoom-in-95 duration-500 mx-auto max-w-xl text-center py-12">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-success-50 text-success-600">
-          <Check className="h-8 w-8" />
-        </div>
+      <div className="mx-auto max-w-xl py-10 text-center">
         <h2 className="font-serif text-3xl text-gray-900">
           {t("success.title")}
         </h2>
-        <p className="mt-4 text-gray-600 text-lg">{t("success.subtitle")}</p>
+        <p className="mt-3 text-gray-600">{t("success.subtitle")}</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild variant="brandBlue" size="lg">
             <Link href={`/${locale}/properties`}>
@@ -137,315 +134,312 @@ export default function QuizShell({ locale }: { locale: string }) {
     );
   }
 
+  const progressPct = Math.round(((state.stepIndex + 1) / totalSteps) * 100);
+
+  // Contact submit availability (match “light” flow)
+  const firstNameOk = !getNameErrorCode(watch("firstName") ?? "", "firstName");
+  const emailOk = !getEmailErrorCode(watch("email") ?? "");
+  const phoneVal = watch("phone") ?? "";
+  const phoneOk = phoneVal.trim() ? !getPhoneErrorCode(phoneVal) : true;
+  const privacyOk = watch("privacy") === true;
+
+  const anyDirty =
+    Boolean(dirtyFields.firstName) ||
+    Boolean(dirtyFields.email) ||
+    Boolean(dirtyFields.privacy) ||
+    Boolean(dirtyFields.lastName) ||
+    Boolean(dirtyFields.phone);
+
+  const canSubmitContact =
+    firstNameOk && emailOk && phoneOk && privacyOk && anyDirty && !isPending;
+
   return (
-    <div className="mx-auto w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 ring-1 ring-gray-100">
-      {/* Progress Bar (no inline styles) */}
-      <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
-        <div className="flex justify-between text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
-          <span>{t("ui.title")}</span>
-          <span>
-            {state.stepIndex + 1} / {totalSteps}
-          </span>
+    <div className="mx-auto w-full max-w-2xl overflow-hidden rounded-lg border border-gray-200 bg-white">
+      {/* Header (light) */}
+      <div className="border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-dsm font-sans font-semibold text-gray-900">
+            {t("ui.title")}
+          </h2>
+          <span className="text-xs text-gray-500">{progressPct}%</span>
         </div>
 
-        <progress
-          value={state.stepIndex + 1}
-          max={totalSteps}
-          className={cn(
-            "h-1.5 w-full overflow-hidden rounded-full",
-            "[&::-webkit-progress-bar]:bg-gray-200",
-            "[&::-webkit-progress-value]:bg-brandBlue-500",
-            "[&::-webkit-progress-value]:transition-all",
-            "[&::-webkit-progress-value]:duration-500",
-            "[&::-webkit-progress-value]:ease-out",
-            "[&::-moz-progress-bar]:bg-brandBlue-500"
-          )}
-          aria-label="Quiz progress"
-        />
+        {/* Thin progress bar */}
+        <div className="mt-2 h-0.5 w-full bg-gray-200">
+          <div
+            className="h-0.5 bg-brandBlue-500 transition-[width] duration-300 ease-out"
+            style={{ width: `${progressPct}%` }}
+          />
+        </div>
+
+        {/* Question line */}
+        <p className="mt-3 text-xs text-gray-600">
+          {t("ui.questionCounter", {
+            current: state.stepIndex + 1,
+            total: totalSteps,
+          })}
+          {": "}
+          {t(currentStepDef.titleKey)}
+        </p>
       </div>
 
-      <div className="px-6 py-8 md:px-10 min-h-[400px] flex flex-col">
-        <div
-          key={currentStepDef.id}
-          className="animate-in slide-in-from-right-8 fade-in duration-300 flex-1"
-        >
-          <h2 className="font-serif text-2xl md:text-3xl text-gray-900 leading-tight">
-            {t(currentStepDef.titleKey)}
-          </h2>
+      {/* Body */}
+      <div className="px-6 py-5">
+        {currentStepDef.type === "single" ? (
+          <div className="space-y-2">
+            {currentStepDef.options.map(opt => {
+              const isSelected = state.answers[currentStepDef.id] === opt.id;
 
-          {currentStepDef.subtitleKey ? (
-            <p className="mt-2 text-gray-600">
-              {t(currentStepDef.subtitleKey)}
-            </p>
-          ) : null}
-
-          <div className="mt-8">
-            {currentStepDef.type === "single" ? (
-              <div className="grid gap-3">
-                {currentStepDef.options.map(opt => {
-                  const isSelected =
-                    state.answers[currentStepDef.id] === opt.id;
-
-                  return (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => handleOptionSelect(opt.id)}
-                      className={cn(
-                        "group flex w-full items-center justify-between rounded-xl border p-4 text-left transition-all duration-200",
-                        "hover:border-brandBlue-300 hover:bg-blue-light-25",
-                        isSelected
-                          ? "border-brandBlue-500 bg-blue-light-50 ring-1 ring-brandBlue-500 shadow-sm"
-                          : "border-gray-200 bg-white"
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "text-base",
-                          isSelected
-                            ? "font-medium text-brandBlue-900"
-                            : "text-gray-700"
-                        )}
-                      >
-                        {t(opt.labelKey)}
-                      </span>
-                      {isSelected ? (
-                        <Check className="h-5 w-5 text-brandBlue-500" />
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <form
-                id="quiz-form"
-                onSubmit={onSubmitContact}
-                className="space-y-5 animate-in fade-in duration-500"
-                noValidate
-              >
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">
-                      {t("form.firstName")}
-                      <span className="text-terracotta-500"> *</span>
-                    </label>
-                    <Input
-                      aria-invalid={Boolean(errors.firstName)}
-                      placeholder={t("form.firstNamePlaceholder")}
-                      {...register("firstName", {
-                        onChange: e => {
-                          const v = String(e.target.value ?? "");
-                          const code = getNameErrorCode(v, "firstName");
-                          if (code)
-                            setError("firstName", {
-                              type: "validate",
-                              message: code,
-                            });
-                          else clearErrors("firstName");
-                        },
-                        onBlur: e => {
-                          const v = String(e.target.value ?? "");
-                          const code = getNameErrorCode(v, "firstName");
-                          if (code)
-                            setError("firstName", {
-                              type: "validate",
-                              message: code,
-                            });
-                          else clearErrors("firstName");
-                        },
-                      })}
-                    />
-                    {touchedFields.firstName && errors.firstName ? (
-                      <p className="text-sm text-error-700">
-                        {tf(
-                          `errors.${getErrorCode(errors.firstName)}` as const
-                        )}
-                      </p>
-                    ) : null}
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">
-                      {t("form.lastName")}
-                    </label>
-                    <Input
-                      aria-invalid={Boolean(errors.lastName)}
-                      placeholder={t("form.lastNamePlaceholder")}
-                      {...register("lastName", {
-                        onChange: e => {
-                          const v = String(e.target.value ?? "");
-                          const code = v.trim()
-                            ? getNameErrorCode(v, "lastName")
-                            : undefined;
-                          if (code)
-                            setError("lastName", {
-                              type: "validate",
-                              message: code,
-                            });
-                          else clearErrors("lastName");
-                        },
-                        onBlur: e => {
-                          const v = String(e.target.value ?? "");
-                          const code = v.trim()
-                            ? getNameErrorCode(v, "lastName")
-                            : undefined;
-                          if (code)
-                            setError("lastName", {
-                              type: "validate",
-                              message: code,
-                            });
-                          else clearErrors("lastName");
-                        },
-                      })}
-                    />
-                    {touchedFields.lastName && errors.lastName ? (
-                      <p className="text-sm text-error-700">
-                        {tf(`errors.${getErrorCode(errors.lastName)}` as const)}
-                      </p>
-                    ) : null}
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">
-                    {t("form.email")}
-                    <span className="text-terracotta-500"> *</span>
-                  </label>
-                  <Input
-                    inputMode="email"
-                    autoComplete="email"
-                    aria-invalid={Boolean(errors.email)}
-                    placeholder={t("form.emailPlaceholder")}
-                    {...register("email", {
-                      onChange: e => {
-                        const v = String(e.target.value ?? "");
-                        const code = getEmailErrorCode(v);
-                        if (code)
-                          setError("email", {
-                            type: "validate",
-                            message: code,
-                          });
-                        else clearErrors("email");
-                      },
-                      onBlur: e => {
-                        const v = String(e.target.value ?? "");
-                        const code = getEmailErrorCode(v);
-                        if (code)
-                          setError("email", {
-                            type: "validate",
-                            message: code,
-                          });
-                        else clearErrors("email");
-                      },
-                    })}
-                  />
-                  {touchedFields.email && errors.email ? (
-                    <p className="text-sm text-error-700">
-                      {tf(`errors.${getErrorCode(errors.email)}` as const)}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">
-                    {t("form.phone")}
-                  </label>
-                  <Input
-                    inputMode="tel"
-                    autoComplete="tel"
-                    aria-invalid={Boolean(errors.phone)}
-                    placeholder={t("form.phonePlaceholder")}
-                    {...register("phone", {
-                      onChange: e => {
-                        const v = String(e.target.value ?? "");
-                        const code = v.trim()
-                          ? getPhoneErrorCode(v)
-                          : undefined;
-                        if (code)
-                          setError("phone", {
-                            type: "validate",
-                            message: code,
-                          });
-                        else clearErrors("phone");
-                      },
-                      onBlur: e => {
-                        const v = String(e.target.value ?? "");
-                        const code = v.trim()
-                          ? getPhoneErrorCode(v)
-                          : undefined;
-                        if (code)
-                          setError("phone", {
-                            type: "validate",
-                            message: code,
-                          });
-                        else clearErrors("phone");
-                      },
-                    })}
-                  />
-                  {touchedFields.phone && errors.phone ? (
-                    <p className="text-sm text-error-700">
-                      {tf(`errors.${getErrorCode(errors.phone)}` as const)}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div className="space-y-2 pt-2">
-                  <div className="flex items-start gap-3">
-                    <Checkbox
-                      id="quiz-privacy"
-                      checked={Boolean(watch("privacy"))}
-                      onCheckedChange={checked => {
-                        setValue("privacy", checked === true, {
-                          shouldValidate: true,
-                        });
-                        if (checked) clearErrors("privacy");
-                      }}
-                      aria-invalid={Boolean(errors.privacy)}
-                      className={cn(errors.privacy && "border-error-500")}
-                    />
-                    <div className="flex-1 text-sm leading-5 text-gray-600">
-                      <label
-                        htmlFor="quiz-privacy"
-                        className="font-normal text-gray-600 cursor-pointer"
-                      >
-                        {tf("privacy.prefix")}{" "}
-                        <Link
-                          href={`/${locale}/privacy-policy`}
-                          className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
-                        >
-                          {tf("privacy.link")}
-                        </Link>
-                        .<span className="text-terracotta-500"> *</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  {errors.privacy ? (
-                    <p className="text-sm text-error-700 ml-8">
-                      {tf("errors.required")}
-                    </p>
-                  ) : null}
-                </div>
-
-                {serverState?.message &&
-                serverState.message !== "validationFailed" ? (
-                  <div className="rounded-md bg-error-50 p-3 text-sm text-error-700">
-                    {t("errors.unknown")}
-                  </div>
-                ) : null}
-              </form>
-            )}
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => handleOptionSelect(opt.id)}
+                  className={cn(
+                    "group flex text-xl w-full items-center justify-between rounded-xl p-4 text-left transition-all duration-200",
+                    // default
+                    "border-0 bg-mediterranean-50 text-gray-800 ring-0",
+                    // hover / focus (3px border look)
+                    "hover:text-mediterranean-600 hover:ring-[3px] hover:ring-mediterranean-600",
+                    "focus-visible:outline-none focus-visible:text-mediterranean-600 focus-visible:ring-[3px] focus-visible:ring-mediterranean-600",
+                    // selected (active)
+                    isSelected &&
+                      "text-mediterranean-600 ring-[3px] ring-mediterranean-600"
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "font-medium transition-colors",
+                      isSelected
+                        ? "font-medium text-mediterranean-600"
+                        : "text-gray-800 group-hover:text-mediterranean-600 group-focus-visible:text-mediterranean-600"
+                    )}
+                  >
+                    {t(opt.labelKey)}
+                  </span>
+                  {isSelected && (
+                    <Check className="h-5 w-5 text-mediterranean-600" />
+                  )}
+                </button>
+              );
+            })}
           </div>
-        </div>
+        ) : (
+          <form
+            id="quiz-form"
+            onSubmit={onSubmitContact}
+            className="space-y-4"
+            noValidate
+          >
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-700">
+                  {t("form.firstName")}
+                  <span className="text-terracotta-500"> *</span>
+                </label>
+                <Input
+                  aria-invalid={Boolean(errors.firstName)}
+                  placeholder={t("form.firstNamePlaceholder")}
+                  className="h-9 rounded-sm"
+                  {...register("firstName", {
+                    onChange: e => {
+                      const v = String(e.target.value ?? "");
+                      const code = getNameErrorCode(v, "firstName");
+                      if (code)
+                        setError("firstName", {
+                          type: "validate",
+                          message: code,
+                        });
+                      else clearErrors("firstName");
+                    },
+                    onBlur: e => {
+                      const v = String(e.target.value ?? "");
+                      const code = getNameErrorCode(v, "firstName");
+                      if (code)
+                        setError("firstName", {
+                          type: "validate",
+                          message: code,
+                        });
+                      else clearErrors("firstName");
+                    },
+                  })}
+                />
+                {touchedFields.firstName && errors.firstName ? (
+                  <p className="text-xs text-error-700">
+                    {tf(`errors.${getErrorCode(errors.firstName)}` as const)}
+                  </p>
+                ) : null}
+              </div>
 
-        <div className="mt-10 flex items-center justify-between border-t border-gray-100 pt-6">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-700">
+                  {t("form.lastName")}
+                </label>
+                <Input
+                  aria-invalid={Boolean(errors.lastName)}
+                  placeholder={t("form.lastNamePlaceholder")}
+                  className="h-9 rounded-sm"
+                  {...register("lastName", {
+                    onChange: e => {
+                      const v = String(e.target.value ?? "");
+                      const code = v.trim()
+                        ? getNameErrorCode(v, "lastName")
+                        : undefined;
+                      if (code)
+                        setError("lastName", {
+                          type: "validate",
+                          message: code,
+                        });
+                      else clearErrors("lastName");
+                    },
+                    onBlur: e => {
+                      const v = String(e.target.value ?? "");
+                      const code = v.trim()
+                        ? getNameErrorCode(v, "lastName")
+                        : undefined;
+                      if (code)
+                        setError("lastName", {
+                          type: "validate",
+                          message: code,
+                        });
+                      else clearErrors("lastName");
+                    },
+                  })}
+                />
+                {touchedFields.lastName && errors.lastName ? (
+                  <p className="text-xs text-error-700">
+                    {tf(`errors.${getErrorCode(errors.lastName)}` as const)}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-700">
+                {t("form.email")}
+                <span className="text-terracotta-500"> *</span>
+              </label>
+              <Input
+                inputMode="email"
+                autoComplete="email"
+                aria-invalid={Boolean(errors.email)}
+                placeholder={t("form.emailPlaceholder")}
+                className="h-9 rounded-sm"
+                {...register("email", {
+                  onChange: e => {
+                    const v = String(e.target.value ?? "");
+                    const code = getEmailErrorCode(v);
+                    if (code)
+                      setError("email", { type: "validate", message: code });
+                    else clearErrors("email");
+                  },
+                  onBlur: e => {
+                    const v = String(e.target.value ?? "");
+                    const code = getEmailErrorCode(v);
+                    if (code)
+                      setError("email", { type: "validate", message: code });
+                    else clearErrors("email");
+                  },
+                })}
+              />
+              {touchedFields.email && errors.email ? (
+                <p className="text-xs text-error-700">
+                  {tf(`errors.${getErrorCode(errors.email)}` as const)}
+                </p>
+              ) : null}
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-700">
+                {t("form.phone")}
+              </label>
+              <Input
+                inputMode="tel"
+                autoComplete="tel"
+                aria-invalid={Boolean(errors.phone)}
+                placeholder={t("form.phonePlaceholder")}
+                className="h-9 rounded-sm"
+                {...register("phone", {
+                  onChange: e => {
+                    const v = String(e.target.value ?? "");
+                    const code = v.trim() ? getPhoneErrorCode(v) : undefined;
+                    if (code)
+                      setError("phone", { type: "validate", message: code });
+                    else clearErrors("phone");
+                  },
+                  onBlur: e => {
+                    const v = String(e.target.value ?? "");
+                    const code = v.trim() ? getPhoneErrorCode(v) : undefined;
+                    if (code)
+                      setError("phone", { type: "validate", message: code });
+                    else clearErrors("phone");
+                  },
+                })}
+              />
+              {touchedFields.phone && errors.phone ? (
+                <p className="text-xs text-error-700">
+                  {tf(`errors.${getErrorCode(errors.phone)}` as const)}
+                </p>
+              ) : null}
+            </div>
+
+            {/* Privacy */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-start gap-3">
+                <Checkbox
+                  id="quiz-privacy"
+                  checked={Boolean(watch("privacy"))}
+                  onCheckedChange={checked => {
+                    setValue("privacy", checked === true, {
+                      shouldValidate: true,
+                    });
+                    if (checked) clearErrors("privacy");
+                  }}
+                  aria-invalid={Boolean(errors.privacy)}
+                  className={cn(errors.privacy && "border-error-500")}
+                />
+                <div className="flex-1 text-xs leading-5 text-gray-600">
+                  <label
+                    htmlFor="quiz-privacy"
+                    className="cursor-pointer font-normal text-gray-600"
+                  >
+                    {tf("privacy.prefix")}{" "}
+                    <Link
+                      href={`/${locale}/privacy-policy`}
+                      className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
+                    >
+                      {tf("privacy.link")}
+                    </Link>
+                    .<span className="text-terracotta-500"> *</span>
+                  </label>
+                </div>
+              </div>
+
+              {errors.privacy ? (
+                <p className="ml-8 text-xs text-error-700">
+                  {tf("errors.required")}
+                </p>
+              ) : null}
+            </div>
+
+            {serverState?.message &&
+            serverState.message !== "validationFailed" ? (
+              <div className="rounded-sm bg-error-50 p-3 text-xs text-error-700">
+                {t("errors.unknown")}
+              </div>
+            ) : null}
+          </form>
+        )}
+
+        {/* Footer actions (right aligned like mock) */}
+        <div className="mt-6 flex items-center justify-end gap-3">
           <Button
+            type="button"
             variant="ghost"
             onClick={() => dispatch({ type: "PREV" })}
             disabled={state.stepIndex === 0 || isPending}
-            className="text-gray-500 hover:text-gray-900"
+            className="h-9 rounded-sm bg-gray-100 px-4 text-xs text-gray-700 hover:bg-gray-200 disabled:opacity-100 disabled:bg-gray-100 disabled:text-gray-400"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
             {t("ui.prev")}
           </Button>
 
@@ -453,37 +447,19 @@ export default function QuizShell({ locale }: { locale: string }) {
             <Button
               type="submit"
               form="quiz-form"
-              variant="brandBlue"
-              size="lg"
-              disabled={
-                isPending ||
-                Boolean(
-                  getNameErrorCode(watch("firstName") ?? "", "firstName")
-                ) ||
-                Boolean(getEmailErrorCode(watch("email") ?? "")) ||
-                watch("privacy") !== true ||
-                // avoid submit when empty/untouched (optional but feels right)
-                (!dirtyFields.firstName &&
-                  !dirtyFields.email &&
-                  !dirtyFields.privacy)
-              }
-              className="min-w-[160px]"
+              disabled={!canSubmitContact}
+              className="h-9 rounded-sm bg-terracotta-500 px-5 text-xs text-white hover:bg-terracotta-600 disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100"
             >
-              {isPending ? (
-                <Loader2 className="animate-spin h-5 w-5" />
-              ) : (
-                t("ui.submit")
-              )}
+              {t("ui.submit")}
             </Button>
           ) : (
             <Button
-              variant="brandBlue"
-              className="min-w-[120px]"
+              type="button"
               onClick={() => dispatch({ type: "NEXT" })}
               disabled={!state.answers[currentStepDef.id]}
+              className="h-9 rounded-sm bg-terracotta-500 px-5 text-xs text-white hover:bg-terracotta-600 disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100"
             >
               {t("ui.next")}
-              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           )}
         </div>

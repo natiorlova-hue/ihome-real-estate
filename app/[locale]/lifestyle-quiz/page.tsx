@@ -34,7 +34,7 @@ export default async function LifestyleQuizPage({
           <p className="text-sm font-bold uppercase tracking-widest text-terracotta-500">
             {t("hero.kicker")}
           </p>
-          <h1 className="font-serif text-4xl text-gray-900 md:text-5xl lg:text-6xl leading-tight">
+          <h1 className="font-serif font-medium text-4xl text-brandBlue-500 md:text-5xl lg:text-6xl leading-tight">
             {t("hero.title")}
           </h1>
           <p className="text-lg text-gray-600 leading-relaxed">

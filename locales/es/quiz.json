@@ -1,15 +1,15 @@
 {
   "meta": {
-    "title": "Test de estilo de vida — iHome Realty",
-    "description": "Responde a unas preguntas breves y recibe recomendaciones inmobiliarias adaptadas a tu estilo de vida."
+    "title": "Cuestionario de búsqueda de propiedades — iHome Realty",
+    "description": "Responde a unas breves preguntas y recibe recomendaciones de propiedades adaptadas a tu estilo de vida."
   },
   "hero": {
-    "kicker": "Test de propiedades",
-    "title": "¿Te preguntas dónde te sentirías como en casa?",
-    "subtitle": "Un breve test para descubrir dónde encaja mejor tu estilo de vida."
+    "kicker": "Cuestionario de búsqueda de propiedades",
+    "title": "¿Te preguntas dónde te sentirías realmente en casa?",
+    "subtitle": "Haz un breve cuestionario y descubre dónde podrías sentirte verdaderamente en casa."
   },
   "ui": {
-    "title": "Test de propiedades",
+    "title": "Cuestionario de búsqueda de propiedades",
     "questionCounter": "Pregunta {current}/{total}",
     "prev": "Anterior",
     "next": "Siguiente",
@@ -19,25 +19,24 @@
   "steps": {
     "aboutYou": {
       "title": "Cuéntanos un poco sobre ti",
-      "subtitle": "Elige la opción que más se acerque.",
       "emailLabel": "Sobre ti",
       "options": {
-        "familyMove": "Estamos considerando mudarnos a un país más cálido con nuestra familia",
-        "secondHomeSea": "Buscamos una segunda vivienda cerca del mar",
-        "retirement": "Busco una vivienda para el futuro o para temporadas",
-        "remoteWork": "Trabajo en remoto — ¿por qué no vivir en España un tiempo?",
+        "familyMove": "Estamos considerando mudarnos con nuestra familia a un país más cálido",
+        "secondHomeSea": "Estamos pensando en comprar una segunda vivienda cerca del mar",
+        "retirement": "Busco una vivienda para el futuro, para jubilación o estancias de temporada",
+        "remoteWork": "Trabajo en remoto — ¿por qué no vivir en España una temporada?",
         "investmentBrowsing": "Estoy explorando oportunidades de inversión",
-        "loveSpain": "Solo estoy mirando — siempre me ha gustado España"
+        "loveSpain": "Solo estoy mirando — siempre me ha encantado España"
       }
     },
     "propertyType": {
-      "title": "¿Qué tipo de vivienda encaja contigo?",
-      "emailLabel": "Tipo de vivienda",
+      "title": "¿Qué tipo de propiedad encaja mejor contigo?",
+      "emailLabel": "Tipo de propiedad",
       "options": {
-        "apartmentCommunity": "Apartamento o ático en una comunidad con zonas comunes",
-        "townhouse": "Casa adosada o pareada en un complejo residencial",
-        "villa": "Villa independiente con parcela privada",
-        "notSure": "No estoy seguro — quiero explorar opciones"
+        "apartmentCommunity": "Apartamento o ático en una comunidad con servicios compartidos (piscina, gimnasio, seguridad, zonas comunes)",
+        "townhouse": "Adosado o vivienda pareada en un complejo residencial (más espacio y sensación de hogar, con algunos vecinos)",
+        "villa": "Villa independiente con parcela privada (máxima privacidad, jardín y piscina propios)",
+        "notSure": "Aún no lo tengo claro — me gustaría explorar opciones"
       }
     },
     "bedrooms": {
@@ -47,7 +46,7 @@
         "one": "Un dormitorio",
         "twoThree": "Dos o tres dormitorios",
         "fourPlus": "Cuatro o más dormitorios",
-        "range": "Estoy abierto — muéstrame opciones"
+        "range": "Estoy abierto — muéstrame varias opciones"
       }
     },
     "budget": {
@@ -59,29 +58,29 @@
         "650-1000": "650.000 € – 1.000.000 €",
         "1000-1500": "1.000.000 € – 1.500.000 €",
         "1500plus": "Más de 1.500.000 €",
-        "browsing": "Aún no lo sé — solo explorando"
+        "browsing": "Aún no estoy seguro — solo estoy explorando"
       }
     },
     "priorities": {
-      "title": "¿Qué es importante para ti en tu futura vivienda?",
-      "emailLabel": "Prioridades",
+      "title": "¿Qué es lo más importante para ti en tu futura vivienda?",
+      "emailLabel": "Prioridad",
       "options": {
         "seaView": "Vistas al mar",
         "mountainView": "Vistas a la montaña",
         "terrace": "Terraza amplia o patio privado",
-        "walkable": "Cerca de tiendas, cafés y transporte",
-        "school": "Buen colegio cerca",
-        "communityAmenities": "Zonas comunes (piscina, gimnasio, spa)",
+        "walkable": "Cercanía a tiendas, cafés y transporte",
+        "school": "Un buen colegio cerca",
+        "communityAmenities": "Comunidad con servicios compartidos (piscina, gimnasio, spa, zonas comunes)",
         "detached": "Vivienda independiente sin vecinos",
-        "calm": "Tranquilidad, privacidad y calma",
-        "petFriendly": "Apto para mascotas",
-        "nature": "Cerca de la naturaleza o zonas deportivas",
-        "inspire": "No estoy seguro — quiero inspirarme"
+        "calm": "Paz, privacidad y sensación de tranquilidad",
+        "petFriendly": "Espacio apto para mascotas",
+        "nature": "Acceso a la naturaleza o instalaciones deportivas",
+        "inspire": "Aún no lo sé — me gustaría inspirarme"
       }
     },
     "contact": {
-      "title": "¿Dónde te enviamos la selección personalizada?",
-      "subtitle": "Te enviaremos opciones adaptadas en breve.",
+      "title": "¿Dónde debemos enviarte tu selección personalizada?",
+      "subtitle": "Te contactaremos en breve con opciones adaptadas a ti.",
       "name": "Nombre",
       "email": "Correo electrónico",
       "phone": "Teléfono"
@@ -91,30 +90,29 @@
     "firstName": "Nombre",
     "lastName": "Apellidos",
     "email": "Correo electrónico",
-    "phone": "Teléfono",
+    "phone": "Número de teléfono",
     "firstNamePlaceholder": "Nombre",
     "lastNamePlaceholder": "Apellidos",
-    "emailPlaceholder": "tu@email.com",
+    "emailPlaceholder": "tu@ejemplo.com",
     "phonePlaceholder": "+34 …",
     "privacyText": "Acepto la política de privacidad"
   },
   "success": {
     "title": "¡Gracias!",
-    "subtitle": "Te enviaremos recomendaciones personalizadas muy pronto.",
-    "ctaPrimary": "Ver propiedades",
+    "subtitle": "En breve te enviaremos recomendaciones de propiedades adaptadas a ti.",
+    "ctaPrimary": "Explorar propiedades",
     "ctaSecondary": "Volver al inicio"
   },
   "errors": {
-    "unknown": "Algo salió mal. Inténtalo de nuevo."
+    "unknown": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
   },
   "email": {
-    "summaryTitle": "Respuestas del test",
     "notAnswered": "Sin respuesta",
-    "answersTitle": "Respuestas del test",
-    "privacyAccepted": "Aceptado",
-    "yes": "Sí",
+    "answersTitle": "Respuestas del cuestionario",
+    "privacyAccepted": "Privacidad aceptada",
+    "yes": "sí",
     "source": {
-      "title": "Fuente"
+      "title": "Origen"
     }
   }
 }

@@ -19,25 +19,24 @@
   "steps": {
     "aboutYou": {
       "title": "Tell us a little about yourself",
-      "subtitle": "Pick one option that feels closest.",
       "emailLabel": "About you",
       "options": {
         "familyMove": "We’re exploring a move to a warmer country with our family",
         "secondHomeSea": "We’re thinking about buying a second home by the sea",
         "retirement": "I’m looking for a future retirement or seasonal home",
         "remoteWork": "I work remotely — why not live in Spain for a while?",
-        "investmentBrowsing": "I’m browsing investment opportunities",
-        "loveSpain": "Just looking around — I’ve always loved Spain"
+        "investmentBrowsing": "I’m simply browsing for investment opportunities",
+        "loveSpain": "Just having a look — I’ve always loved Spain"
       }
     },
     "propertyType": {
       "title": "What type of property feels right to you?",
       "emailLabel": "Property type",
       "options": {
-        "apartmentCommunity": "Apartment or penthouse in a community with shared amenities",
-        "townhouse": "Townhouse or semi-detached home in a residential complex",
-        "villa": "Standalone villa with private grounds",
-        "notSure": "Not sure yet — I’d like to explore options"
+        "apartmentCommunity": "Apartment or penthouse in a community with shared amenities (pool, gym, security, lounge areas)",
+        "townhouse": "Townhouse or semi-detached home in a residential complex (more space and a home-like feel, with some neighbours around)",
+        "villa": "Standalone villa with private grounds (maximum privacy, your garden and pool)",
+        "notSure": "Not sure yet — I’d love to explore some options"
       }
     },
     "bedrooms": {
@@ -71,7 +70,7 @@
         "terrace": "Spacious terrace or private patio",
         "walkable": "Walking distance to shops, cafés, transport",
         "school": "A good school nearby",
-        "communityAmenities": "Community with shared facilities",
+        "communityAmenities": "Community with shared facilities (pool, gym, spa, lounge areas)",
         "detached": "Detached home with no neighbours",
         "calm": "Peace, privacy, and a sense of calm",
         "petFriendly": "Pet-friendly living",
