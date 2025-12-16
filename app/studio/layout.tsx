@@ -9,7 +9,9 @@ export const metadata = {
 export default function StudioLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50">{children}</body>
+      <body className="min-h-screen bg-gray-50" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }
