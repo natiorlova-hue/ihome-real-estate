@@ -1,4 +1,6 @@
+import type { Locale } from "@/lib/locale-path";
 import { client } from "@/sanity/lib/client";
+import type { PortableTextBlock } from "@portabletext/types";
 
 // Helper function to get localized text
 export function getLocalizedText(
@@ -22,6 +24,25 @@ export function getLocalizedText(
   if (localizedItem) return localizedItem.value;
 
   return localizedArray[0]?.value || "";
+}
+
+export type LocaleBlock = Partial<Record<Locale, PortableTextBlock[]>>;
+
+// Helper function to get localized rich text content from localeBlock
+export function getLocalizedRichText(
+  localeBlock: LocaleBlock | undefined,
+  locale: Locale = "en"
+): PortableTextBlock[] {
+  if (!localeBlock) return [];
+
+  const localized = localeBlock[locale];
+  if (Array.isArray(localized)) return localized;
+
+  const fallbackEn = localeBlock.en;
+  if (Array.isArray(fallbackEn)) return fallbackEn;
+
+  const anyAvailable = Object.values(localeBlock).find(Array.isArray);
+  return Array.isArray(anyAvailable) ? anyAvailable : [];
 }
 
 export interface BlogPost {
@@ -64,7 +85,7 @@ export interface BlogPost {
         }>
       | string;
   }>;
-  content?: unknown;
+  content?: LocaleBlock;
 }
 
 export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
@@ -88,7 +109,6 @@ export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
   return client.fetch(query, { limit });
 }
 
-// (існуючі функції — лишаємо)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const query = `
     *[_type == "post"] | order(publishedAt desc) {
