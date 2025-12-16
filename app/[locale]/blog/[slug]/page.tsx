@@ -1,3 +1,5 @@
+//app/[locale]/blog/[slug]/page.tsx
+
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { notFound } from "next/navigation";

@@ -1,5 +1,3 @@
-//app/studio/layout.tsx
-
 import type { ReactNode } from "react";
 
 export const metadata = {
@@ -7,11 +5,5 @@ export const metadata = {
 };
 
 export default function StudioLayout({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <body className="min-h-screen bg-gray-50" suppressHydrationWarning>
-        {children}
-      </body>
-    </html>
-  );
+  return <div className="min-h-screen bg-gray-50">{children}</div>;
 }

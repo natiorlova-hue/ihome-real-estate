@@ -1,9 +1,8 @@
-"use client";
+//sanity.config.ts
 
 /**
  * Sanity Studio configuration (mounted at /studio)
  */
-
 import { defineConfig } from "sanity";
 import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { structureTool } from "sanity/structure";
@@ -19,6 +18,7 @@ export default defineConfig({
   schema,
   plugins: [
     structureTool({ structure }),
+
     // NOTE: Vision tool disabled to avoid Turbopack runtime ENOENT from jsdom/dompurify chain.
     internationalizedArray({
       languages: [

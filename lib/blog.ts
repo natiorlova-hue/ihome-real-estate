@@ -1,3 +1,5 @@
+//lib/blog.ts
+
 import type { Locale } from "@/lib/locale-path";
 import { client } from "@/sanity/lib/client";
 import type { PortableTextBlock } from "@portabletext/types";
