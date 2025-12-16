@@ -1,3 +1,5 @@
+//app/[locale]/page.tsx
+
 import Cta from "@/components/Cta";
 import ContactSection from "@/components/contact/ContactSection";
 import AboutUsSection from "@/components/home/AboutUsSection";

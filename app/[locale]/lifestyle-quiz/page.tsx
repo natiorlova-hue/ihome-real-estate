@@ -1,57 +1,52 @@
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+// app/[locale]/lifestyle-quiz/page.tsx
 
-import Section from "@/components/layout/Section";
-import QuizWizard from "@/components/QuizWizard";
-import { type Locale } from "@/lib/locale-path";
+import { QuizProvider } from "@/components/quiz/quiz-context";
+import QuizShell from "@/components/quiz/quiz-shell";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
-}): Promise<Metadata> {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "quiz" });
 
   return {
     title: t("meta.title"),
     description: t("meta.description"),
-    alternates: {
-      canonical: `/${locale}/lifestyle-quiz`,
-    },
   };
 }
 
 export default async function LifestyleQuizPage({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "quiz" });
 
   return (
-    <Section className="bg-gray-50" ariaLabelledby="quiz-title">
-      <header className="mx-auto max-w-tabs text-center">
-        <p className="text-sm font-semibold text-gray-600">
-          {t("hero.kicker")}
-        </p>
+    <main className="min-h-screen bg-gray-50/50 py-12 md:py-24">
+      <div className="container px-4 md:px-6 max-w-4xl mx-auto">
+        {/* SEO Header (Server Side Rendered) */}
+        <div className="mb-10 text-center space-y-4 max-w-2xl mx-auto">
+          <p className="text-sm font-bold uppercase tracking-widest text-terracotta-500">
+            {t("hero.kicker")}
+          </p>
+          <h1 className="font-serif text-4xl text-gray-900 md:text-5xl lg:text-6xl leading-tight">
+            {t("hero.title")}
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed">
+            {t("hero.subtitle")}
+          </p>
+        </div>
 
-        <h1
-          id="quiz-title"
-          className="mt-3 font-serif text-serifmd text-gray-900 md:text-seriflg"
-        >
-          {t("hero.title")}
-        </h1>
-
-        <p className="mx-auto mt-4 max-w-2xl text-base text-gray-700 md:text-lg">
-          {t("hero.subtitle")}
-        </p>
-      </header>
-
-      <div className="mx-auto mt-10 max-w-tabs md:mt-14">
-        <QuizWizard locale={locale} />
+        {/* Interactive App Island */}
+        <QuizProvider>
+          <QuizShell locale={locale} />
+        </QuizProvider>
       </div>
-    </Section>
+    </main>
   );
 }

@@ -1,3 +1,5 @@
+//lib/quiz.ts
+
 export type QuizStepId =
   | "aboutYou"
   | "propertyType"
