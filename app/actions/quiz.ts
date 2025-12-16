@@ -1,24 +1,20 @@
-// app/actions/quiz.ts
-
 "use server";
 
-import { QUIZ_STEPS } from "@/lib/quiz";
 import { getTranslations } from "next-intl/server";
-import { z } from "zod";
+import { Resend } from "resend";
 
-// 1. Strict Schema Definition
-const schema = z.object({
-  // Zod 4+: Key schema first, Value schema second
-  answers: z.record(z.string(), z.string()),
-  contact: z.object({
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-    email: z.string().email(),
-    phone: z.string().min(5),
-    privacy: z.boolean().refine(val => val === true),
-  }),
-  locale: z.enum(["en", "es", "ru"]),
-});
+import { QUIZ_STEPS } from "@/lib/quiz";
+import {
+  asTrimmedString,
+  getEmailErrorCode,
+  getNameErrorCode,
+  getPhoneErrorCode,
+  type ContactFieldErrorCode,
+} from "@/lib/validation/contact";
+
+type Locale = "en" | "es" | "ru";
+
+type QuizAnswers = Record<string, string>;
 
 export type QuizState = {
   success: boolean;
@@ -26,73 +22,152 @@ export type QuizState = {
   message?: string;
 };
 
+function isLocale(v: string): v is Locale {
+  return v === "en" || v === "es" || v === "ru";
+}
+
+function safeJsonParse<T>(raw: string): T | null {
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+function escapeHtml(str: string) {
+  return str
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function setFieldError(
+  errors: Record<string, string[]>,
+  field: string,
+  code: ContactFieldErrorCode
+) {
+  errors[field] = [code];
+}
+
 export async function submitQuizAction(
   prevState: QuizState,
   formData: FormData
 ): Promise<QuizState> {
-  // 2. Parse Data
-  const rawAnswers = formData.get("answers") as string;
-  const rawData = {
-    answers: rawAnswers ? JSON.parse(rawAnswers) : {},
-    contact: {
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      privacy: formData.get("privacy") === "on",
-    },
-    locale: formData.get("locale"),
-  };
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.CONTACT_TO_EMAIL;
+  const from = process.env.CONTACT_FROM_EMAIL;
 
-  const validated = schema.safeParse(rawData);
-
-  if (!validated.success) {
-    return {
-      success: false,
-      errors: validated.error.flatten().fieldErrors,
-      message: "Validation failed",
-    };
+  if (!apiKey || !to || !from) {
+    return { success: false, message: "unknown" };
   }
 
-  const { answers, contact, locale } = validated.data;
+  const localeRaw = asTrimmedString(formData.get("locale"));
+  const locale: Locale = isLocale(localeRaw) ? localeRaw : "en";
 
-  // 3. Get Translations
+  const rawAnswers = asTrimmedString(formData.get("answers"));
+  const answers = rawAnswers ? safeJsonParse<QuizAnswers>(rawAnswers) : {};
+  const safeAnswers: QuizAnswers =
+    answers && typeof answers === "object" ? answers : {};
+
+  const firstName = asTrimmedString(formData.get("firstName"));
+  const lastName = asTrimmedString(formData.get("lastName"));
+  const email = asTrimmedString(formData.get("email"));
+  const phone = asTrimmedString(formData.get("phone"));
+  const privacy = formData.get("privacy") === "on";
+
+  // --- Validate with shared rules (same as main form) ---
+  const errors: Record<string, string[]> = {};
+
+  {
+    const code = getNameErrorCode(firstName, "firstName");
+    if (code) setFieldError(errors, "firstName", code);
+  }
+
+  // NOTE: main form treats lastName as optional, we keep same rule:
+  if (lastName) {
+    const code = getNameErrorCode(lastName, "lastName");
+    if (code) setFieldError(errors, "lastName", code);
+  }
+
+  {
+    const code = getEmailErrorCode(email);
+    if (code) setFieldError(errors, "email", code);
+  }
+
+  // NOTE: quiz UI currently requires phone, but we validate using the same rules;
+  // requiredness is enforced here:
+  if (!phone) setFieldError(errors, "phone", "required");
+  else {
+    const code = getPhoneErrorCode(phone);
+    if (code) setFieldError(errors, "phone", code);
+  }
+
+  if (!privacy) setFieldError(errors, "privacy", "required");
+
+  if (Object.keys(errors).length > 0) {
+    return { success: false, errors, message: "validationFailed" };
+  }
+
   const t = await getTranslations({ locale, namespace: "quiz" });
 
-  // 4. Format Email Body
-  const summaryLines: string[] = [t("email.summaryTitle")];
+  // --- Format email ---
+  const itemsHtml: string[] = [];
 
-  const formatStep = (stepId: string, answerId: string) => {
-    const stepDef = QUIZ_STEPS.find(s => s.id === stepId);
+  for (const step of QUIZ_STEPS) {
+    if (step.type !== "single") continue;
 
-    if (!stepDef || stepDef.type !== "single") return;
+    const selectedId = safeAnswers[step.id];
+    const label = t(`steps.${step.id}.emailLabel` as const);
 
-    const option = stepDef.options.find(o => o.id === answerId);
+    const option = step.options.find(o => o.id === selectedId);
+    const value = option ? t(option.labelKey as never) : t("email.notAnswered");
 
-    const label = t(`steps.${stepId}.emailLabel`);
-    const value = option ? t(option.labelKey) : t("email.notAnswered");
+    itemsHtml.push(
+      `<li style="margin:0 0 6px"><b>${escapeHtml(label)}:</b> ${escapeHtml(value)}</li>`
+    );
+  }
 
-    summaryLines.push(`- **${label}**: ${value}`);
-  };
+  const subject = "iHome - Property Finder Quiz";
 
-  Object.entries(answers).forEach(([key, val]) =>
-    formatStep(key, val as string)
-  );
+  const html = `
+    <div style="font-family: ui-sans-serif, system-ui; line-height: 1.5">
+      <h2 style="margin:0 0 12px">${escapeHtml(subject)}</h2>
 
-  summaryLines.push("\n**Contact Details:**");
-  summaryLines.push(`Name: ${contact.firstName} ${contact.lastName}`);
-  summaryLines.push(`Email: ${contact.email}`);
-  summaryLines.push(`Phone: ${contact.phone}`);
+      <p style="margin:0 0 6px"><b>Name:</b> ${escapeHtml(
+        `${firstName}${lastName ? ` ${lastName}` : ""}`
+      )}</p>
+      <p style="margin:0 0 6px"><b>Email:</b> ${escapeHtml(email)}</p>
+      <p style="margin:0 0 12px"><b>Phone:</b> ${escapeHtml(phone)}</p>
 
-  const emailBody = summaryLines.join("\n");
+      <h3 style="margin:16px 0 8px; font-size: 14px">Quiz answers</h3>
+      <ul style="margin:0; padding-left: 18px">
+        ${itemsHtml.join("")}
+      </ul>
 
-  // 5. Send Email
+      <p style="margin: 12px 0 0; color: #6b7280; font-size: 12px">
+        Privacy accepted: yes
+      </p>
+    </div>
+  `;
+
   try {
-    console.log("📨 [SERVER ACTION] Sending Email:", emailBody);
-    await new Promise(resolve => setTimeout(resolve, 800));
+    const resend = new Resend(apiKey);
+
+    await resend.emails.send({
+      from,
+      to,
+      subject,
+      replyTo: email,
+      html,
+      headers: {
+        "X-iHome-Lead-Type": "quiz",
+      },
+    });
+
     return { success: true };
-  } catch (error) {
-    console.error("Email error:", error);
-    return { success: false, message: "Failed to send email" };
+  } catch {
+    return { success: false, message: "unknown" };
   }
 }
