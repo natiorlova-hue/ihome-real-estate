@@ -1,3 +1,5 @@
+//sanity/schemaTypes/category.ts
+
 import { defineType } from 'sanity'
 
 export const category = defineType({
@@ -67,13 +69,13 @@ export const category = defineType({
     },
     prepare(selection) {
       const { titleArray, descriptionArray } = selection
-      
+
       // Extract English title from the internationalized array
       const englishTitle = titleArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'Untitled Category'
-      
+
       // Extract English description from the internationalized array
       const englishDescription = descriptionArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'No description'
-      
+
       return {
         title: englishTitle,
         subtitle: englishDescription,
