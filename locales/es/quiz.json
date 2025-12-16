@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "title": "Test de estilo de vida — iHome Realty",
+    "description": "Responde a unas preguntas breves y recibe recomendaciones inmobiliarias adaptadas a tu estilo de vida."
+  },
+  "hero": {
+    "kicker": "Test de propiedades",
+    "title": "¿Te preguntas dónde te sentirías como en casa?",
+    "subtitle": "Un breve test para descubrir dónde encaja mejor tu estilo de vida."
+  },
+  "ui": {
+    "title": "Test de propiedades",
+    "questionCounter": "Pregunta {current}/{total}",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "submit": "Enviar",
+    "submitting": "Enviando…"
+  },
+  "steps": {
+    "aboutYou": {
+      "title": "Cuéntanos un poco sobre ti",
+      "subtitle": "Elige la opción que más se acerque.",
+      "emailLabel": "Sobre ti",
+      "options": {
+        "familyMove": "Estamos considerando mudarnos a un país más cálido con nuestra familia",
+        "secondHomeSea": "Buscamos una segunda vivienda cerca del mar",
+        "retirement": "Busco una vivienda para el futuro o para temporadas",
+        "remoteWork": "Trabajo en remoto — ¿por qué no vivir en España un tiempo?",
+        "investmentBrowsing": "Estoy explorando oportunidades de inversión",
+        "loveSpain": "Solo estoy mirando — siempre me ha gustado España"
+      }
+    },
+    "propertyType": {
+      "title": "¿Qué tipo de vivienda encaja contigo?",
+      "emailLabel": "Tipo de vivienda",
+      "options": {
+        "apartmentCommunity": "Apartamento o ático en una comunidad con zonas comunes",
+        "townhouse": "Casa adosada o pareada en un complejo residencial",
+        "villa": "Villa independiente con parcela privada",
+        "notSure": "No estoy seguro — quiero explorar opciones"
+      }
+    },
+    "bedrooms": {
+      "title": "¿Cuántos dormitorios te gustaría tener?",
+      "emailLabel": "Dormitorios",
+      "options": {
+        "one": "Un dormitorio",
+        "twoThree": "Dos o tres dormitorios",
+        "fourPlus": "Cuatro o más dormitorios",
+        "range": "Estoy abierto — muéstrame opciones"
+      }
+    },
+    "budget": {
+      "title": "¿Cuál es tu rango de presupuesto ideal?",
+      "emailLabel": "Presupuesto",
+      "options": {
+        "0-400": "Hasta 400.000 €",
+        "400-650": "400.000 € – 650.000 €",
+        "650-1000": "650.000 € – 1.000.000 €",
+        "1000-1500": "1.000.000 € – 1.500.000 €",
+        "1500plus": "Más de 1.500.000 €",
+        "browsing": "Aún no lo sé — solo explorando"
+      }
+    },
+    "priorities": {
+      "title": "¿Qué es importante para ti en tu futura vivienda?",
+      "emailLabel": "Prioridades",
+      "options": {
+        "seaView": "Vistas al mar",
+        "mountainView": "Vistas a la montaña",
+        "terrace": "Terraza amplia o patio privado",
+        "walkable": "Cerca de tiendas, cafés y transporte",
+        "school": "Buen colegio cerca",
+        "communityAmenities": "Zonas comunes (piscina, gimnasio, spa)",
+        "detached": "Vivienda independiente sin vecinos",
+        "calm": "Tranquilidad, privacidad y calma",
+        "petFriendly": "Apto para mascotas",
+        "nature": "Cerca de la naturaleza o zonas deportivas",
+        "inspire": "No estoy seguro — quiero inspirarme"
+      }
+    },
+    "contact": {
+      "title": "¿Dónde te enviamos la selección personalizada?",
+      "subtitle": "Te enviaremos opciones adaptadas en breve."
+    }
+  },
+  "form": {
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "firstNamePlaceholder": "Nombre",
+    "lastNamePlaceholder": "Apellidos",
+    "emailPlaceholder": "tu@email.com",
+    "phonePlaceholder": "+34 …",
+    "privacyText": "Acepto la política de privacidad"
+  },
+  "success": {
+    "title": "¡Gracias!",
+    "subtitle": "Te enviaremos recomendaciones personalizadas muy pronto.",
+    "ctaPrimary": "Ver propiedades",
+    "ctaSecondary": "Volver al inicio"
+  },
+  "errors": {
+    "unknown": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "email": {
+    "summaryTitle": "Respuestas del test",
+    "notAnswered": "Sin respuesta"
+  }
+}

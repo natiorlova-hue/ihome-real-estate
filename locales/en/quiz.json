@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "title": "Property Finder Quiz — iHome Realty",
+    "description": "Answer a few short questions and receive property recommendations tailored to your lifestyle."
+  },
+  "hero": {
+    "kicker": "Property Finder Quiz",
+    "title": "Curious where you’d feel at home?",
+    "subtitle": "Take a short quiz to discover where you’d truly feel at home."
+  },
+  "ui": {
+    "title": "Property Finder Quiz",
+    "questionCounter": "Question {current}/{total}",
+    "prev": "Previous",
+    "next": "Next",
+    "submit": "Submit",
+    "submitting": "Submitting…"
+  },
+  "steps": {
+    "aboutYou": {
+      "title": "Tell us a little about yourself",
+      "subtitle": "Pick one option that feels closest.",
+      "emailLabel": "About you",
+      "options": {
+        "familyMove": "We’re exploring a move to a warmer country with our family",
+        "secondHomeSea": "We’re thinking about buying a second home by the sea",
+        "retirement": "I’m looking for a future retirement or seasonal home",
+        "remoteWork": "I work remotely — why not live in Spain for a while?",
+        "investmentBrowsing": "I’m browsing investment opportunities",
+        "loveSpain": "Just looking around — I’ve always loved Spain"
+      }
+    },
+    "propertyType": {
+      "title": "What type of property feels right to you?",
+      "emailLabel": "Property type",
+      "options": {
+        "apartmentCommunity": "Apartment or penthouse in a community with shared amenities",
+        "townhouse": "Townhouse or semi-detached home in a residential complex",
+        "villa": "Standalone villa with private grounds",
+        "notSure": "Not sure yet — I’d like to explore options"
+      }
+    },
+    "bedrooms": {
+      "title": "How many bedrooms would you like?",
+      "emailLabel": "Bedrooms",
+      "options": {
+        "one": "One bedroom",
+        "twoThree": "Two–three bedrooms",
+        "fourPlus": "Four or more bedrooms",
+        "range": "I’m open — show me a range"
+      }
+    },
+    "budget": {
+      "title": "What’s your ideal budget range?",
+      "emailLabel": "Budget",
+      "options": {
+        "0-400": "Up to €400,000",
+        "400-650": "€400,000 – €650,000",
+        "650-1000": "€650,000 – €1,000,000",
+        "1000-1500": "€1,000,000 – €1,500,000",
+        "1500plus": "Over €1,500,000",
+        "browsing": "Not sure yet — just browsing"
+      }
+    },
+    "priorities": {
+      "title": "What’s important to you in your future home?",
+      "emailLabel": "Priority",
+      "options": {
+        "seaView": "Sea view",
+        "mountainView": "Mountain view",
+        "terrace": "Spacious terrace or private patio",
+        "walkable": "Walking distance to shops, cafés, transport",
+        "school": "A good school nearby",
+        "communityAmenities": "Community with shared facilities",
+        "detached": "Detached home with no neighbours",
+        "calm": "Peace, privacy, and a sense of calm",
+        "petFriendly": "Pet-friendly living",
+        "nature": "Access to nature or sports facilities",
+        "inspire": "Not sure yet — I’d like to get inspired"
+      }
+    },
+    "contact": {
+      "title": "Where should we send your personalized selection?",
+      "subtitle": "We’ll get back to you with tailored options shortly."
+    }
+  },
+  "form": {
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone number",
+    "firstNamePlaceholder": "First name",
+    "lastNamePlaceholder": "Last name",
+    "emailPlaceholder": "you@example.com",
+    "phonePlaceholder": "+34 …",
+    "privacyText": "I agree to the privacy policy"
+  },
+  "success": {
+    "title": "Thank you!",
+    "subtitle": "We’ll send your tailored property recommendations shortly.",
+    "ctaPrimary": "Explore properties",
+    "ctaSecondary": "Back to home"
+  },
+  "errors": {
+    "unknown": "Something went wrong. Please try again."
+  },
+  "email": {
+    "summaryTitle": "Lifestyle quiz answers",
+    "notAnswered": "Not answered"
+  }
+}
