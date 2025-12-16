@@ -6,6 +6,7 @@ import AboutUsSection from "@/components/home/AboutUsSection";
 import BenefitsSection from "@/components/home/BenefitsSection";
 import FeaturedProperties from "@/components/home/FeaturedProperties";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
+import JournalSection from "@/components/home/JournalSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import OurTeamSection from "@/components/home/OurTeamSection";
 import { Button } from "@/components/ui/button";
@@ -55,6 +56,8 @@ export default async function HomePage({ params }: HomePageProps) {
       />
 
       <BenefitsSection locale={locale} />
+
+      <JournalSection locale={locale} />
 
       <section className="bg-gray-50" aria-labelledby="quiz-heading">
         <div className="container">

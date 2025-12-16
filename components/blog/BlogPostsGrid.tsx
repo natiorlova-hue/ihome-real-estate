@@ -1,5 +1,6 @@
 import { getLocalizedText } from "@/lib/blog";
 import { urlFor } from "@/sanity/lib/image";
+import { withLocale } from "@/lib/locale-path";
 import { useTranslations } from "next-intl";
 import GridContainer from "../GridContainer";
 import Card from "../content/ContentCard";
@@ -44,21 +45,18 @@ interface Post {
 
 interface BlogPostsGridProps {
   posts: Post[];
-  locale?: string;
+  locale: "en" | "es" | "ru";
 }
 
-export default function BlogPostsGrid({
-  posts,
-  locale = "en",
-}: BlogPostsGridProps) {
+export default function BlogPostsGrid({ posts, locale }: BlogPostsGridProps) {
   const t = useTranslations("blog");
 
   return (
     <div className="py-8 md:py-16">
       <div className="container">
-        <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
+        <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
           <h2>{t("grid.title")}</h2>
-          <p className="text-tertiary-600 max-w-[640px]">
+          <p className="max-w-[640px] text-tertiary-600">
             {t("grid.description")}
           </p>
         </div>
@@ -66,19 +64,22 @@ export default function BlogPostsGrid({
         <GridContainer>
           {posts.map(post => {
             const title = getLocalizedText(post.title, locale);
+            const category = post.categories[0]?.title
+              ? getLocalizedText(post.categories[0].title, locale)
+              : undefined;
 
             return (
               <Card
                 key={post._id}
                 title={title}
-                subtitle={getLocalizedText(post.categories[0].title, locale)}
-                href={`/blog/${post.slug.current}`}
+                subtitle={category}
+                href={withLocale(locale, `blog/${post.slug.current}`)}
                 image={
                   post.image
                     ? urlFor(post.image).width(400).height(225).url()
                     : ""
                 }
-                isLink={true}
+                isLink
               />
             );
           })}

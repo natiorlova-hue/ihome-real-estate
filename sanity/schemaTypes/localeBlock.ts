@@ -1,3 +1,5 @@
+//sanity/schemaTypes/localeBlock.ts
+
 import { defineType } from 'sanity'
 
 const languages = [

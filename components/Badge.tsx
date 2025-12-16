@@ -1,3 +1,5 @@
+//components/Badge.tsx
+
 import { cn } from "@/lib/utils";
 
 const Badge = ({

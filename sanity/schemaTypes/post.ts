@@ -1,4 +1,6 @@
-import { defineType } from 'sanity'
+//sanity/schemaTypes/post.ts
+
+import { defineType } from 'sanity';
 
 export const post = defineType({
   name: 'post',
@@ -91,13 +93,13 @@ export const post = defineType({
     },
     prepare(selection) {
       const { titleArray, descriptionArray, media } = selection
-      
+
       // Extract English title from the internationalized array
       const englishTitle = titleArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'Untitled'
-      
+
       // Extract English description from the internationalized array
       const englishDescription = descriptionArray?.find((item: { _key: string; value: string }) => item._key === 'en')?.value || 'No description'
-      
+
       return {
         title: englishTitle,
         subtitle: englishDescription,

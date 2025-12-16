@@ -1,3 +1,5 @@
+//components/layout/Section.tsx
+
 import type { ElementType, ReactNode } from "react";
 
 type SectionProps<T extends ElementType = "section"> = {

@@ -1,3 +1,5 @@
+//app/[locale]/blog/[slug]/page.tsx
+
 import {
   getBlogPost,
   getBlogPosts,

@@ -1,3 +1,5 @@
+//sanity/schemaTypes/index.ts
+
 import { type SchemaTypeDefinition } from 'sanity'
 import { post } from './post'
 import { category } from './category'
