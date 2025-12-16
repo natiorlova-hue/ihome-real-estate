@@ -1,3 +1,4 @@
+// middleware.ts
 import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -6,11 +7,12 @@ const intlMiddleware = createMiddleware({
   defaultLocale: "en",
   localePrefix: "always",
 });
-
 function unauthorized() {
   return new NextResponse("Authentication required", {
     status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="iHome Studio"' },
+    headers: {
+      "WWW-Authenticate": 'Basic realm="iHome Studio"',
+    },
   });
 }
 
@@ -18,7 +20,7 @@ function isValidBasicAuth(req: NextRequest) {
   const user = process.env.STUDIO_BASIC_AUTH_USER;
   const pass = process.env.STUDIO_BASIC_AUTH_PASS;
 
-  // If not configured, do not block (handy for dev environments)
+  // If not configured, do not block (useful for local dev).
   if (!user || !pass) return true;
 
   const header = req.headers.get("authorization");
@@ -39,7 +41,7 @@ function isValidBasicAuth(req: NextRequest) {
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Protect Studio without touching locale routes
+  // Protect Studio without touching locale routes.
   if (pathname === "/studio" || pathname.startsWith("/studio/")) {
     if (!isValidBasicAuth(req)) return unauthorized();
     return NextResponse.next();
@@ -49,5 +51,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/((?!api|_next|studio|.*\\..*).*)"],
 };
