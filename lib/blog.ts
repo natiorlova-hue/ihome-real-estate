@@ -88,6 +88,15 @@ export interface BlogPost {
       | string;
   }>;
   content?: LocaleBlock;
+
+  seo?: {
+    metaTitle?: Array<{ _key: string; _type: string; value: string }> | string;
+    metaDescription?:
+      | Array<{ _key: string; _type: string; value: string }>
+      | string;
+    ogImage?: unknown;
+    canonical?: string;
+  };
 }
 
 export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
@@ -113,58 +122,37 @@ export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const query = `
-    *[_type == "post"] | order(publishedAt desc) {
-      _id,
-      title,
-      description,
-      slug,
-      publishedAt,
-      featured,
-      image {
-        asset-> {
-          _id,
-          _ref,
-          url
-        },
-        alt,
-        caption
-      },
-      categories[]-> {
-        _ref,
-        title
-      },
-      content
-    }
-  `;
-
+  *[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    description,
+    slug,
+    publishedAt,
+    featured,
+    image { asset-> { _id, _ref, url }, alt, caption },
+    categories[]-> { _ref, title },
+    content,
+    seo
+  }
+`;
   return await client.fetch(query);
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const query = `
-    *[_type == "post" && slug.current == $slug][0] {
-      _id,
-      title,
-      description,
-      slug,
-      publishedAt,
-      featured,
-      image {
-        asset-> {
-          _id,
-          _ref,
-          url
-        },
-        alt,
-        caption
-      },
-      content,
-      categories[]-> {
-        _ref,
-        title
-      }
-    }
-  `;
+  *[_type == "post" && slug.current == $slug][0] {
+    _id,
+    title,
+    description,
+    slug,
+    publishedAt,
+    featured,
+    image { asset-> { _id, _ref, url }, alt, caption },
+    content,
+    categories[]-> { _ref, title },
+    seo
+  }
+`;
 
   return await client.fetch(query, { slug });
 }
