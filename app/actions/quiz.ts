@@ -1,3 +1,5 @@
+//app/actions/quiz.ts
+
 "use server";
 
 import { getTranslations } from "next-intl/server";
@@ -75,7 +77,7 @@ export async function submitQuizAction(
   const lastName = asTrimmedString(formData.get("lastName"));
   const email = asTrimmedString(formData.get("email"));
   const phone = asTrimmedString(formData.get("phone"));
-  const privacy = formData.get("privacy") === "on";
+  const privacyAccepted = formData.get("privacy") === "on";
 
   // --- Validate with shared rules (same as main form) ---
   const errors: Record<string, string[]> = {};
@@ -85,7 +87,7 @@ export async function submitQuizAction(
     if (code) setFieldError(errors, "firstName", code);
   }
 
-  // NOTE: main form treats lastName as optional, we keep same rule:
+  // lastName (optional)
   if (lastName) {
     const code = getNameErrorCode(lastName, "lastName");
     if (code) setFieldError(errors, "lastName", code);
@@ -96,15 +98,14 @@ export async function submitQuizAction(
     if (code) setFieldError(errors, "email", code);
   }
 
-  // NOTE: quiz UI currently requires phone, but we validate using the same rules;
-  // requiredness is enforced here:
-  if (!phone) setFieldError(errors, "phone", "required");
-  else {
+  if (phone) {
     const code = getPhoneErrorCode(phone);
     if (code) setFieldError(errors, "phone", code);
   }
 
-  if (!privacy) setFieldError(errors, "privacy", "required");
+  if (!privacyAccepted) {
+    setFieldError(errors, "privacy", "required");
+  }
 
   if (Object.keys(errors).length > 0) {
     return { success: false, errors, message: "validationFailed" };

@@ -1,25 +1,48 @@
-// components/quiz/quiz-shell.tsx
-
 "use client";
 
 import { submitQuizAction } from "@/app/actions/quiz";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input"; // Assuming existing UI component
+import { Input } from "@/components/ui/input";
 import { QUIZ_STEPS } from "@/lib/quiz";
 import { cn } from "@/lib/utils";
+import {
+  getEmailErrorCode,
+  getNameErrorCode,
+  getPhoneErrorCode,
+  type ContactFieldErrorCode,
+} from "@/lib/validation/contact";
 import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import * as React from "react";
+import { useForm } from "react-hook-form";
+
 import { useQuiz } from "./quiz-context";
+
+type QuizContactValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  privacy: boolean;
+};
+
+function getErrorCode(err: unknown): ContactFieldErrorCode | undefined {
+  if (!err || typeof err !== "object") return undefined;
+  const anyErr = err as { message?: unknown };
+  return typeof anyErr.message === "string"
+    ? (anyErr.message as ContactFieldErrorCode)
+    : undefined;
+}
 
 export default function QuizShell({ locale }: { locale: string }) {
   const t = useTranslations("quiz");
+  const tf = useTranslations("forms.contact");
+
   const { state, dispatch, totalSteps, isLastStep } = useQuiz();
   const currentStepDef = QUIZ_STEPS[state.stepIndex];
 
-  // React 19 Action State
   const [isPending, startTransition] = React.useTransition();
   const [serverState, formAction] = React.useActionState(submitQuizAction, {
     success: false,
@@ -27,28 +50,65 @@ export default function QuizShell({ locale }: { locale: string }) {
 
   const autoAdvanceTimer = React.useRef<NodeJS.Timeout>(null);
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    setError,
+    clearErrors,
+    formState: { errors, touchedFields, dirtyFields },
+  } = useForm<QuizContactValues>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      privacy: false,
+    },
+    mode: "onChange",
+  });
+
+  // Map server errors → RHF fields (single source: server)
+  React.useEffect(() => {
+    if (!serverState?.errors) return;
+
+    for (const [field, codes] of Object.entries(serverState.errors)) {
+      const code = Array.isArray(codes) ? codes[0] : undefined;
+      if (!code) continue;
+
+      setError(field as keyof QuizContactValues, {
+        type: "server",
+        message: code,
+      });
+    }
+  }, [serverState?.errors, setError]);
+
   const handleOptionSelect = (optionId: string) => {
     dispatch({ type: "ANSWER", stepId: currentStepDef.id, value: optionId });
 
-    // Smooth UX: Auto-advance after small delay
     if (autoAdvanceTimer.current) clearTimeout(autoAdvanceTimer.current);
     autoAdvanceTimer.current = setTimeout(() => {
       dispatch({ type: "NEXT" });
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    formData.append("answers", JSON.stringify(state.answers));
-    formData.append("locale", locale);
+  const onSubmitContact = handleSubmit(values => {
+    const fd = new FormData();
+    fd.append("answers", JSON.stringify(state.answers));
+    fd.append("locale", locale);
+
+    fd.append("firstName", values.firstName);
+    fd.append("lastName", values.lastName);
+    fd.append("email", values.email);
+    fd.append("phone", values.phone);
+    if (values.privacy) fd.append("privacy", "on");
 
     startTransition(() => {
-      formAction(formData);
+      formAction(fd);
     });
-  };
+  });
 
-  // --- Success State ---
   if (serverState.success) {
     return (
       <div className="animate-in fade-in zoom-in-95 duration-500 mx-auto max-w-xl text-center py-12">
@@ -73,12 +133,9 @@ export default function QuizShell({ locale }: { locale: string }) {
     );
   }
 
-  // --- Quiz Flow ---
-  const progressPct = Math.round(((state.stepIndex + 1) / totalSteps) * 100);
-
   return (
     <div className="mx-auto w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 ring-1 ring-gray-100">
-      {/* Progress Bar */}
+      {/* Progress Bar (no inline styles) */}
       <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
         <div className="flex justify-between text-xs font-medium uppercase tracking-wider text-gray-500 mb-2">
           <span>{t("ui.title")}</span>
@@ -86,16 +143,24 @@ export default function QuizShell({ locale }: { locale: string }) {
             {state.stepIndex + 1} / {totalSteps}
           </span>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
-          <div
-            className="h-full bg-brandBlue-500 transition-all duration-500 ease-out"
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
+
+        <progress
+          value={state.stepIndex + 1}
+          max={totalSteps}
+          className={cn(
+            "h-1.5 w-full overflow-hidden rounded-full",
+            "[&::-webkit-progress-bar]:bg-gray-200",
+            "[&::-webkit-progress-value]:bg-brandBlue-500",
+            "[&::-webkit-progress-value]:transition-all",
+            "[&::-webkit-progress-value]:duration-500",
+            "[&::-webkit-progress-value]:ease-out",
+            "[&::-moz-progress-bar]:bg-brandBlue-500"
+          )}
+          aria-label="Quiz progress"
+        />
       </div>
 
       <div className="px-6 py-8 md:px-10 min-h-[400px] flex flex-col">
-        {/* Question Header */}
         <div
           key={currentStepDef.id}
           className="animate-in slide-in-from-right-8 fade-in duration-300 flex-1"
@@ -103,11 +168,12 @@ export default function QuizShell({ locale }: { locale: string }) {
           <h2 className="font-serif text-2xl md:text-3xl text-gray-900 leading-tight">
             {t(currentStepDef.titleKey)}
           </h2>
-          {currentStepDef.subtitleKey && (
+
+          {currentStepDef.subtitleKey ? (
             <p className="mt-2 text-gray-600">
               {t(currentStepDef.subtitleKey)}
             </p>
-          )}
+          ) : null}
 
           <div className="mt-8">
             {currentStepDef.type === "single" ? (
@@ -115,9 +181,11 @@ export default function QuizShell({ locale }: { locale: string }) {
                 {currentStepDef.options.map(opt => {
                   const isSelected =
                     state.answers[currentStepDef.id] === opt.id;
+
                   return (
                     <button
                       key={opt.id}
+                      type="button"
                       onClick={() => handleOptionSelect(opt.id)}
                       className={cn(
                         "group flex w-full items-center justify-between rounded-xl border p-4 text-left transition-all duration-200",
@@ -137,9 +205,9 @@ export default function QuizShell({ locale }: { locale: string }) {
                       >
                         {t(opt.labelKey)}
                       </span>
-                      {isSelected && (
+                      {isSelected ? (
                         <Check className="h-5 w-5 text-brandBlue-500" />
-                      )}
+                      ) : null}
                     </button>
                   );
                 })}
@@ -147,75 +215,225 @@ export default function QuizShell({ locale }: { locale: string }) {
             ) : (
               <form
                 id="quiz-form"
-                onSubmit={handleSubmit}
+                onSubmit={onSubmitContact}
                 className="space-y-5 animate-in fade-in duration-500"
+                noValidate
               >
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-gray-700">
                       {t("form.firstName")}
+                      <span className="text-terracotta-500"> *</span>
                     </label>
                     <Input
-                      name="firstName"
-                      required
+                      aria-invalid={Boolean(errors.firstName)}
                       placeholder={t("form.firstNamePlaceholder")}
+                      {...register("firstName", {
+                        onChange: e => {
+                          const v = String(e.target.value ?? "");
+                          const code = getNameErrorCode(v, "firstName");
+                          if (code)
+                            setError("firstName", {
+                              type: "validate",
+                              message: code,
+                            });
+                          else clearErrors("firstName");
+                        },
+                        onBlur: e => {
+                          const v = String(e.target.value ?? "");
+                          const code = getNameErrorCode(v, "firstName");
+                          if (code)
+                            setError("firstName", {
+                              type: "validate",
+                              message: code,
+                            });
+                          else clearErrors("firstName");
+                        },
+                      })}
                     />
+                    {touchedFields.firstName && errors.firstName ? (
+                      <p className="text-sm text-error-700">
+                        {tf(
+                          `errors.${getErrorCode(errors.firstName)}` as const
+                        )}
+                      </p>
+                    ) : null}
                   </div>
+
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-gray-700">
                       {t("form.lastName")}
                     </label>
                     <Input
-                      name="lastName"
-                      required
+                      aria-invalid={Boolean(errors.lastName)}
                       placeholder={t("form.lastNamePlaceholder")}
+                      {...register("lastName", {
+                        onChange: e => {
+                          const v = String(e.target.value ?? "");
+                          const code = v.trim()
+                            ? getNameErrorCode(v, "lastName")
+                            : undefined;
+                          if (code)
+                            setError("lastName", {
+                              type: "validate",
+                              message: code,
+                            });
+                          else clearErrors("lastName");
+                        },
+                        onBlur: e => {
+                          const v = String(e.target.value ?? "");
+                          const code = v.trim()
+                            ? getNameErrorCode(v, "lastName")
+                            : undefined;
+                          if (code)
+                            setError("lastName", {
+                              type: "validate",
+                              message: code,
+                            });
+                          else clearErrors("lastName");
+                        },
+                      })}
                     />
+                    {touchedFields.lastName && errors.lastName ? (
+                      <p className="text-sm text-error-700">
+                        {tf(`errors.${getErrorCode(errors.lastName)}` as const)}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
+
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-700">
                     {t("form.email")}
+                    <span className="text-terracotta-500"> *</span>
                   </label>
                   <Input
-                    name="email"
-                    type="email"
-                    required
+                    inputMode="email"
+                    autoComplete="email"
+                    aria-invalid={Boolean(errors.email)}
                     placeholder={t("form.emailPlaceholder")}
+                    {...register("email", {
+                      onChange: e => {
+                        const v = String(e.target.value ?? "");
+                        const code = getEmailErrorCode(v);
+                        if (code)
+                          setError("email", {
+                            type: "validate",
+                            message: code,
+                          });
+                        else clearErrors("email");
+                      },
+                      onBlur: e => {
+                        const v = String(e.target.value ?? "");
+                        const code = getEmailErrorCode(v);
+                        if (code)
+                          setError("email", {
+                            type: "validate",
+                            message: code,
+                          });
+                        else clearErrors("email");
+                      },
+                    })}
                   />
+                  {touchedFields.email && errors.email ? (
+                    <p className="text-sm text-error-700">
+                      {tf(`errors.${getErrorCode(errors.email)}` as const)}
+                    </p>
+                  ) : null}
                 </div>
+
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-gray-700">
                     {t("form.phone")}
                   </label>
                   <Input
-                    name="phone"
-                    type="tel"
-                    required
+                    inputMode="tel"
+                    autoComplete="tel"
+                    aria-invalid={Boolean(errors.phone)}
                     placeholder={t("form.phonePlaceholder")}
+                    {...register("phone", {
+                      onChange: e => {
+                        const v = String(e.target.value ?? "");
+                        const code = v.trim()
+                          ? getPhoneErrorCode(v)
+                          : undefined;
+                        if (code)
+                          setError("phone", {
+                            type: "validate",
+                            message: code,
+                          });
+                        else clearErrors("phone");
+                      },
+                      onBlur: e => {
+                        const v = String(e.target.value ?? "");
+                        const code = v.trim()
+                          ? getPhoneErrorCode(v)
+                          : undefined;
+                        if (code)
+                          setError("phone", {
+                            type: "validate",
+                            message: code,
+                          });
+                        else clearErrors("phone");
+                      },
+                    })}
                   />
+                  {touchedFields.phone && errors.phone ? (
+                    <p className="text-sm text-error-700">
+                      {tf(`errors.${getErrorCode(errors.phone)}` as const)}
+                    </p>
+                  ) : null}
                 </div>
 
-                <div className="flex items-start gap-3 pt-2">
-                  <Checkbox id="privacy" name="privacy" required />
-                  <label
-                    htmlFor="privacy"
-                    className="text-sm text-gray-600 leading-tight cursor-pointer select-none"
-                  >
-                    {t("form.privacyText")}
-                  </label>
+                <div className="space-y-2 pt-2">
+                  <div className="flex items-start gap-3">
+                    <Checkbox
+                      id="quiz-privacy"
+                      checked={Boolean(watch("privacy"))}
+                      onCheckedChange={checked => {
+                        setValue("privacy", checked === true, {
+                          shouldValidate: true,
+                        });
+                        if (checked) clearErrors("privacy");
+                      }}
+                      aria-invalid={Boolean(errors.privacy)}
+                      className={cn(errors.privacy && "border-error-500")}
+                    />
+                    <div className="flex-1 text-sm leading-5 text-gray-600">
+                      <label
+                        htmlFor="quiz-privacy"
+                        className="font-normal text-gray-600 cursor-pointer"
+                      >
+                        {tf("privacy.prefix")}{" "}
+                        <Link
+                          href={`/${locale}/privacy-policy`}
+                          className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
+                        >
+                          {tf("privacy.link")}
+                        </Link>
+                        .<span className="text-terracotta-500"> *</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {errors.privacy ? (
+                    <p className="text-sm text-error-700 ml-8">
+                      {tf("errors.required")}
+                    </p>
+                  ) : null}
                 </div>
 
-                {serverState.errors && (
+                {serverState?.message &&
+                serverState.message !== "validationFailed" ? (
                   <div className="rounded-md bg-error-50 p-3 text-sm text-error-700">
                     {t("errors.unknown")}
                   </div>
-                )}
+                ) : null}
               </form>
             )}
           </div>
         </div>
 
-        {/* Footer Actions */}
         <div className="mt-10 flex items-center justify-between border-t border-gray-100 pt-6">
           <Button
             variant="ghost"
@@ -233,7 +451,18 @@ export default function QuizShell({ locale }: { locale: string }) {
               form="quiz-form"
               variant="brandBlue"
               size="lg"
-              disabled={isPending}
+              disabled={
+                isPending ||
+                Boolean(
+                  getNameErrorCode(watch("firstName") ?? "", "firstName")
+                ) ||
+                Boolean(getEmailErrorCode(watch("email") ?? "")) ||
+                watch("privacy") !== true ||
+                // avoid submit when empty/untouched (optional but feels right)
+                (!dirtyFields.firstName &&
+                  !dirtyFields.email &&
+                  !dirtyFields.privacy)
+              }
               className="min-w-[160px]"
             >
               {isPending ? (
