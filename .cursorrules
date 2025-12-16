@@ -1,75 +1,48 @@
-You are a Senior Frontend Engineer for the "ihome-real-estate" website (Next.js 15.5 App Router, React 19, TS strict). Your goal: write clean, optimized, type-safe code and assist with testing.
+# ihome-real-estate – Cursor Rules
 
-## STACK (package.json)
+## Global
 
-- Next.js 15.5 (App Router), React 19, TypeScript strict.
-- Server Components by default. Use `'use client'` only for interactivity.
-- Styling: Tailwind CSS v3.4 + tailwindcss-animate. Use `cn` for class merging.
-- Icons: lucide-react.
-- CMS: Sanity (next-sanity, @sanity/client), GROQ queries.
-- Forms: React Hook Form + Zod.
-- Backend/Auth: Firebase v12.
-- Email: Resend.
-- i18n: next-intl (locales: en, es, ru).
-- Animation: CSS transitions / AOS / tailwindcss-animate. **NO Framer Motion.**
+- TypeScript strict ONLY
+- No `any`
+- No console.log
+- No inline styles
+- No CSS Modules
+- No styled-components
 
-## HARD RULES (DO NOT VIOLATE)
+## React / Next.js
 
-1. **No hardcoded text in JSX**. Always use `t('key')`.
-2. **No CSS modules, no styled-components, no inline styles. Tailwind only.**
-3. Routing must respect `app/[locale]/...`. Links must be locale-prefixed.
-4. Images: `next/image` with explicit `width`, `height`, and `sizes` (avoid CLS).
-5. Do not add new libraries unless explicitly requested.
+- Server Components by default
+- "use client" allowed ONLY for:
+  forms, filters, modals, sliders, maps
+- One h1 per page
+- next/image required for all images
+- width, height, sizes are mandatory
 
-## i18n (next-intl)
+## Styling
 
-- Client: `useTranslations(namespace)`.
-- Server: `getTranslations(namespace)`.
-- Translation keys: **never rename or delete existing keys**.
-- JSON translations: **translate VALUES only, never modify KEYS**.
-- Namespaces:
-  - `common` = shared UI strings (view all, CTAs, small UI)
-  - `navigation` = header nav + dropdowns
-  - `footer` = footer strings
-  - `home` = homepage sections
-  - `guides` = guides/blog UI (sorting, empty states)
-  - `properties` = listings, badges, filters
-  - `forms` / `contact` = form labels, placeholders, privacy copy
-  - `taxonomy` = categories/tags/regions labels used across pages & Sanity mappings
+- Tailwind CSS only
+- Use cn() for class merging
+- No custom CSS files
 
-## PERFORMANCE & SEO
+## i18n
 
-- Hero images: `priority={true}` and not lazy-loaded.
-- Avoid large client bundles: keep Client Components minimal.
-- Semantic HTML: header/main/footer/section/article; one h1 per page.
-- Each page implements `generateMetadata` with multilingual alternates (hreflang).
+- NO hardcoded strings
+- All text via t("key")
+- Locale-prefixed routes ONLY
+- Never rename or delete translation keys
 
-## DATA & TYPING
+## Animation
 
-- Type all component props and all Sanity query results.
-- Prefer Server Components for data fetching; pass typed props to clients.
+- Framer Motion is FORBIDDEN
+- Allowed: CSS transitions, tailwindcss-animate, AOS
 
-## GIT WORKFLOW
+## CMS
 
-- main = production, dev = integration.
-- Feature branches from dev. No direct pushes to main.
-- Conventional commits: feat/fix/ui/chore/refactor/docs.
-- Prefer small PRs (one task per PR).
+- Sanity queries must be typed
+- No untyped GROQ results
+- Locale-aware content only
 
-## TESTING
+## Git
 
-- Prioritize key user flows: property browse/search/filter, lead forms, blog reading.
-
-No hardcoded strings in JSX
-
-Locale-prefixed links
-
-next/image sizes set
-
-npm run build passes
-
-“If you add new i18n keys”
-
-Add ONLY to EN first
-
-Keep names consistent with namespace
+- Enforce conventional commits
+- No direct commits to main
