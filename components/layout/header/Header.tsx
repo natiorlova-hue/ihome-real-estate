@@ -1,3 +1,5 @@
+//components/layout/header/Header.tsx
+
 import { type Locale } from "@/lib/locale-path";
 import { mainNavigation } from "@/lib/navigation";
 import { getTranslations } from "next-intl/server";

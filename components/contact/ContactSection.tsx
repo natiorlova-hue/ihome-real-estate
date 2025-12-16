@@ -1,3 +1,5 @@
+//components/contact/ContactSection.tsx
+
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";

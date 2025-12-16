@@ -1,3 +1,5 @@
+//components/layout/header/HeaderClient.tsx
+
 "use client";
 
 import Logo from "@/components/brand/Logo";

@@ -1,3 +1,5 @@
+//components/layout/header/MobileMenu.tsx
+
 "use client";
 
 import { withLocale, type Locale } from "@/lib/locale-path";
