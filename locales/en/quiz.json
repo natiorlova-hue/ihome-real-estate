@@ -81,7 +81,10 @@
     },
     "contact": {
       "title": "Where should we send your personalized selection?",
-      "subtitle": "We’ll get back to you with tailored options shortly."
+      "subtitle": "We’ll get back to you with tailored options shortly.",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone"
     }
   },
   "form": {
@@ -105,8 +108,12 @@
     "unknown": "Something went wrong. Please try again."
   },
   "email": {
-    "summaryTitle": "Lifestyle quiz answers",
     "notAnswered": "Not answered",
-    "answersTitle": "Quiz answers"
+    "answersTitle": "Quiz answers",
+    "privacyAccepted": "Privacy accepted",
+    "yes": "yes",
+    "source": {
+      "title": "Source"
+    }
   }
 }

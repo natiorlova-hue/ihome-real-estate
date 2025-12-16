@@ -123,19 +123,24 @@ export async function submitQuizAction(
     <div style="font-family: ui-sans-serif, system-ui; line-height: 1.5">
       <h2 style="margin:0 0 12px">${escapeHtml(subject)}</h2>
 
-      <p style="margin:0 0 6px"><b>Name:</b> ${escapeHtml(
+      <p style="margin:0 0 6px"><b>${escapeHtml(t("email.contact.name"))}:</b> ${escapeHtml(
         `${firstName}${lastName ? ` ${lastName}` : ""}`
       )}</p>
-      <p style="margin:0 0 6px"><b>Email:</b> ${escapeHtml(email)}</p>
+      <p style="margin:0 0 6px"><b>${escapeHtml(t("email.contact.email"))}:</b> ${escapeHtml(email)}</p>
       ${
         phone
-          ? `<p style="margin:0 0 12px"><b>Phone:</b> ${escapeHtml(phone)}</p>`
-          : ""
+          ? `<p style="margin:0 0 12px"><b>${escapeHtml(t("email.contact.phone"))}:</b> ${escapeHtml(phone)}</p>`
+          : `<div style="margin:0 0 12px"></div>`
       }
 
       ${
         sourcePath
-          ? `<p style="margin:0 0 12px"><b>Source:</b> ${escapeHtml(sourcePath)}</p>`
+          ? `
+            <h3 style="margin:16px 0 8px; font-size: 14px">${escapeHtml(
+              t("email.source.title")
+            )}</h3>
+            <p style="margin:0 0 12px">${escapeHtml(sourcePath)}</p>
+          `
           : ""
       }
 
@@ -147,7 +152,7 @@ export async function submitQuizAction(
       </ul>
 
       <p style="margin: 12px 0 0; color: #6b7280; font-size: 12px">
-        Privacy accepted: yes
+        ${escapeHtml(t("email.privacyAccepted"))}: ${escapeHtml(t("email.yes"))}
       </p>
     </div>
   `;

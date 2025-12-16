@@ -81,7 +81,10 @@
     },
     "contact": {
       "title": "¿Dónde te enviamos la selección personalizada?",
-      "subtitle": "Te enviaremos opciones adaptadas en breve."
+      "subtitle": "Te enviaremos opciones adaptadas en breve.",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono"
     }
   },
   "form": {
@@ -107,6 +110,11 @@
   "email": {
     "summaryTitle": "Respuestas del test",
     "notAnswered": "Sin respuesta",
-    "answersTitle": "Respuestas del test"
+    "answersTitle": "Respuestas del test",
+    "privacyAccepted": "Aceptado",
+    "yes": "Sí",
+    "source": {
+      "title": "Fuente"
+    }
   }
 }
