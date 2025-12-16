@@ -3,7 +3,7 @@
 "use client";
 
 import { withLocale, type Locale } from "@/lib/locale-path";
-import { resolveNavHref } from "@/lib/nav-href"; // Імпортуємо функцію
+import { resolveNavHref } from "@/lib/nav-href";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -17,6 +17,7 @@ import {
 import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import ScrollToContactButton from "./ScrollToContactButton";
 
 type HeaderLabels = {
   brand: string;
@@ -223,13 +224,10 @@ export default function MobileMenu({
                     </div>
 
                     <div className="py-6">
-                      <Link
-                        href={withLocale(locale, "contact")}
-                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                        onClick={() => setOpen(false)}
-                      >
-                        {labels.talk}
-                      </Link>
+                      <ScrollToContactButton
+                        locale={locale}
+                        label={labels.talk}
+                      />
                     </div>
                   </div>
                 </div>

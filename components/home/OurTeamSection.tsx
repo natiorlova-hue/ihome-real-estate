@@ -1,10 +1,10 @@
 // components/home/OurTeamSection.tsx
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 import Section from "@/components/layout/Section";
-import { TEAM } from "@/lib/team";
 import type { Locale } from "@/lib/locale-path";
+import { TEAM } from "@/lib/team";
 
 type OurTeamSectionProps = {
   locale: Locale;
@@ -28,7 +28,7 @@ export default async function OurTeamSection({ locale }: OurTeamSectionProps) {
           </p>
         </header>
 
-        <ul className="mt-10 grid gap-12 md:mt-14 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 flex flex-col gap-12 md:mt-14 md:flex-row md:flex-wrap md:justify-center">
           {TEAM.map(member => (
             <li key={member.nameKey} className="text-center">
               <div className="mx-auto w-[140px] overflow-hidden rounded-[999px] md:w-[160px]">
