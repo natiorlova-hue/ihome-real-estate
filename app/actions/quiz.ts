@@ -1,10 +1,8 @@
-//app/actions/quiz.ts
-
 "use server";
 
 import { getTranslations } from "next-intl/server";
-import { Resend } from "resend";
 
+import { escapeHtml, getResendEnv, sendResendEmail } from "@/lib/email/resend";
 import { QUIZ_STEPS } from "@/lib/quiz";
 import {
   asTrimmedString,
@@ -15,7 +13,6 @@ import {
 } from "@/lib/validation/contact";
 
 type Locale = "en" | "es" | "ru";
-
 type QuizAnswers = Record<string, string>;
 
 export type QuizState = {
@@ -36,15 +33,6 @@ function safeJsonParse<T>(raw: string): T | null {
   }
 }
 
-function escapeHtml(str: string) {
-  return str
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 function setFieldError(
   errors: Record<string, string[]>,
   field: string,
@@ -54,24 +42,22 @@ function setFieldError(
 }
 
 export async function submitQuizAction(
-  prevState: QuizState,
+  _prevState: QuizState,
   formData: FormData
 ): Promise<QuizState> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
-  const from = process.env.CONTACT_FROM_EMAIL;
-
-  if (!apiKey || !to || !from) {
-    return { success: false, message: "unknown" };
-  }
+  const resendEnv = getResendEnv();
+  if (!resendEnv) return { success: false, message: "unknown" };
 
   const localeRaw = asTrimmedString(formData.get("locale"));
   const locale: Locale = isLocale(localeRaw) ? localeRaw : "en";
+  const sourcePath = asTrimmedString(formData.get("sourcePath"));
 
   const rawAnswers = asTrimmedString(formData.get("answers"));
-  const answers = rawAnswers ? safeJsonParse<QuizAnswers>(rawAnswers) : {};
+  const parsedAnswers = rawAnswers
+    ? safeJsonParse<QuizAnswers>(rawAnswers)
+    : null;
   const safeAnswers: QuizAnswers =
-    answers && typeof answers === "object" ? answers : {};
+    parsedAnswers && typeof parsedAnswers === "object" ? parsedAnswers : {};
 
   const firstName = asTrimmedString(formData.get("firstName"));
   const lastName = asTrimmedString(formData.get("lastName"));
@@ -98,6 +84,7 @@ export async function submitQuizAction(
     if (code) setFieldError(errors, "email", code);
   }
 
+  // phone (optional)
   if (phone) {
     const code = getPhoneErrorCode(phone);
     if (code) setFieldError(errors, "phone", code);
@@ -140,9 +127,21 @@ export async function submitQuizAction(
         `${firstName}${lastName ? ` ${lastName}` : ""}`
       )}</p>
       <p style="margin:0 0 6px"><b>Email:</b> ${escapeHtml(email)}</p>
-      <p style="margin:0 0 12px"><b>Phone:</b> ${escapeHtml(phone)}</p>
+      ${
+        phone
+          ? `<p style="margin:0 0 12px"><b>Phone:</b> ${escapeHtml(phone)}</p>`
+          : ""
+      }
 
-      <h3 style="margin:16px 0 8px; font-size: 14px">Quiz answers</h3>
+      ${
+        sourcePath
+          ? `<p style="margin:0 0 12px"><b>Source:</b> ${escapeHtml(sourcePath)}</p>`
+          : ""
+      }
+
+      <h3 style="margin:16px 0 8px; font-size: 14px">${escapeHtml(
+        t("email.answersTitle")
+      )}</h3>
       <ul style="margin:0; padding-left: 18px">
         ${itemsHtml.join("")}
       </ul>
@@ -154,15 +153,13 @@ export async function submitQuizAction(
   `;
 
   try {
-    const resend = new Resend(apiKey);
-
-    await resend.emails.send({
-      from,
-      to,
+    await sendResendEmail({
+      env: resendEnv,
       subject,
       replyTo: email,
       html,
       headers: {
+        "X-iHome-Label": "Leads from site iHOME",
         "X-iHome-Lead-Type": "quiz",
       },
     });

@@ -95,6 +95,8 @@ export default function QuizShell({ locale }: { locale: string }) {
 
   const onSubmitContact = handleSubmit(values => {
     const fd = new FormData();
+    fd.append("sourcePath", `/${locale}/lifestyle-quiz`);
+
     fd.append("answers", JSON.stringify(state.answers));
     fd.append("locale", locale);
 

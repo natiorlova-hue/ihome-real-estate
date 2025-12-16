@@ -106,6 +106,7 @@
   },
   "email": {
     "summaryTitle": "Lifestyle quiz answers",
-    "notAnswered": "Not answered"
+    "notAnswered": "Not answered",
+    "answersTitle": "Quiz answers"
   }
 }
