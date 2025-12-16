@@ -9,6 +9,7 @@ import OurTeamSection from "@/components/home/OurTeamSection";
 import { Button } from "@/components/ui/button";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 type HomePageProps = {
   params: Promise<{ locale: Locale }>;
@@ -60,8 +61,8 @@ export default async function HomePage({ params }: HomePageProps) {
               {t("quiz.title")}
             </h2>
             <p className="text-gray-700">{t("quiz.subtitle")}</p>
-            <Button variant="brandBlue" size="lg">
-              {t("quiz.button")}
+            <Button asChild variant="brandBlue" size="lg">
+              <Link href={`/${locale}/lifestyle-quiz`}>{t("quiz.button")}</Link>
             </Button>
           </div>
         </div>
