@@ -1,3 +1,5 @@
+//components/layout/header/ScrollToContactButton.tsx
+
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -29,6 +31,7 @@ export default function ScrollToContactButton({
   const router = useRouter();
 
   const comingSoonPath = withLocale(locale, "coming-soon");
+  // const lifestyleQuizPath = withLocale(locale, "lifestyle-quiz");
   const homePath = withLocale(locale, "");
 
   const handleClick = React.useCallback(() => {
@@ -40,7 +43,13 @@ export default function ScrollToContactButton({
       return;
     }
 
-    // same-page contact section
+    // if we are NOT on home page — go home and open contact
+    if (pathname !== homePath) {
+      router.push(`${homePath}?contact=open`);
+      return;
+    }
+
+    // same-page contact section (home)
     const section = document.getElementById("contact");
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -48,9 +57,9 @@ export default function ScrollToContactButton({
       return;
     }
 
-    // fallback → dedicated contact page
-    router.push(withLocale(locale, "contact"));
-  }, [disabled, pathname, comingSoonPath, homePath, router, locale]);
+    // ultra-safe fallback (still home)
+    router.push(`${homePath}?contact=open`);
+  }, [disabled, pathname, comingSoonPath, homePath, router]);
 
   return (
     <Button

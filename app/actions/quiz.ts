@@ -1,3 +1,5 @@
+//app/actions/quiz.ts
+
 "use server";
 
 import { getTranslations } from "next-intl/server";

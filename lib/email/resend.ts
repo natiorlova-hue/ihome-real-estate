@@ -1,3 +1,5 @@
+//lib/email/resend.ts
+
 import { Resend } from "resend";
 
 export type ResendEnv = {
