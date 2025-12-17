@@ -23,5 +23,13 @@
   "regionsGuide": {
     "title": "Visual guide to regions",
     "subtitle": "Click on the most interesting areas on the Costa del Sol map to discover more about their atmosphere and available properties."
+  },
+  "cookies": {
+    "aria": "Cookie consent banner",
+    "text": "We use cookies to improve your experience on our website. By continuing to use this website, you consent to the use of cookies.",
+    "policyLink": "Cookie Policy",
+    "allow": "Accept",
+    "decline": "Decline",
+    "close": "Close"
   }
 }

@@ -1,11 +1,13 @@
 // app/[locale]/layout.tsx
 import Footer from "@/components/layout/footer/Footer";
 import Header from "@/components/layout/header/Header";
+import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
+
 import "../globals.css";
 
 const notoSerif = Noto_Serif({
@@ -23,6 +25,15 @@ const notoSans = Noto_Sans({
 const locales = ["en", "es", "ru"] as const;
 type Locale = (typeof locales)[number];
 
+export const cookies = {
+  name: "cookieConsent",
+  options: {
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 30,
+  },
+};
+
 export const metadata: Metadata = {
   title: "iHome Realty - Premium Costa del Sol Properties",
   description:
@@ -35,6 +46,11 @@ export const metadata: Metadata = {
 export function generateStaticParams() {
   return locales.map(locale => ({ locale }));
 }
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default async function RootLayout({
   children,
@@ -63,6 +79,7 @@ export default async function RootLayout({
             <div className="flex-grow">{children}</div>
             <Footer locale={locale} />
           </main>
+          <CookieConsentBanner />
         </NextIntlClientProvider>
       </body>
     </html>
