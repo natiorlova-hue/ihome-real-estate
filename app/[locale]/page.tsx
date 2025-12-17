@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import Reveal from "../../components/motion/Reveal";
 
 type HomePageProps = {
   params: Promise<{ locale: Locale }>;
@@ -62,16 +63,27 @@ export default async function HomePage({ params }: HomePageProps) {
       <section className="bg-gray-50" aria-labelledby="quiz-heading">
         <div className="container">
           <div className="flex flex-col items-center justify-center gap-8 py-16 text-center md:py-28">
-            <h2 id="quiz-heading" className="max-w-xl text-brandBlue-500">
-              {t("quiz.title")}
-            </h2>
-            <p className="text-gray-700">{t("quiz.subtitle")}</p>
-            <Button asChild variant="brandBlue" size="lg">
-              <Link href={`/${locale}/lifestyle-quiz`}>{t("quiz.button")}</Link>
-            </Button>
+            <Reveal animation="slideUp" delay="delay-0">
+              <h2 id="quiz-heading" className="max-w-xl text-brandBlue-500">
+                {t("quiz.title")}
+              </h2>
+            </Reveal>
+
+            <Reveal animation="fadeIn" delay="delay-200">
+              <p className="text-gray-700">{t("quiz.subtitle")}</p>
+            </Reveal>
+
+            <Reveal animation="fadeIn" delay="delay-300">
+              <Button asChild variant="brandBlue" size="lg">
+                <Link href={`/${locale}/lifestyle-quiz`}>
+                  {t("quiz.button")}
+                </Link>
+              </Button>
+            </Reveal>
           </div>
         </div>
       </section>
+
       <AboutUsSection locale={locale} />
 
       <OurTeamSection locale={locale} />

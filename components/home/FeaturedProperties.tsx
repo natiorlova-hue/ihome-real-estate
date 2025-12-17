@@ -10,6 +10,8 @@ import {
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import Reveal from "../motion/Reveal";
+import RevealGroup from "../motion/RevealGroup";
 
 export default async function FeaturedProperties({
   locale,
@@ -58,34 +60,62 @@ export default async function FeaturedProperties({
     <section className="py-8 md:py-16">
       <div className="container">
         <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
-          <h2>{tHome("featuredHomes.title")}</h2>
-          <p className="max-w-[640px] text-tertiary-600">
-            {tHome("featuredHomes.description")}
-          </p>
+          <Reveal delay="delay-400">
+            <h2>{tHome("featuredHomes.title")}</h2>
+          </Reveal>
+          <Reveal delay="delay-600">
+            <p className="max-w-[640px] text-tertiary-600">
+              {tHome("featuredHomes.description")}
+            </p>
+          </Reveal>
         </div>
+        <RevealGroup>
+          <GridContainer
+            className={[
+              // base hidden for direct children
+              "[&>*]:opacity-0 [&>*]:translate-y-3 [&>*]:will-change-transform",
+              // show only after group triggers
+              "[[data-reveal=on]_&]:[&>*]:animate-slideUp",
+              "[[data-reveal=on]_&]:[&>*]:[animation-fill-mode:both]",
+              "motion-reduce:[&>*]:opacity-100 motion-reduce:[&>*]:translate-y-0 motion-reduce:[&>*]:animate-none",
 
-        <GridContainer>
-          {properties.map(item => {
-            const title = tProps(`featured.items.${item.id}.title`);
-            const description = tProps(`featured.items.${item.id}.description`);
+              // stagger 1..6 (під твою кількість карток; якщо 3 — лиши 1..3)
+              "[[data-reveal=on]_&]:[&>*:nth-child(1)]:delay-0",
+              "[[data-reveal=on]_&]:[&>*:nth-child(2)]:delay-150",
+              "[[data-reveal=on]_&]:[&>*:nth-child(3)]:delay-300",
+              "[[data-reveal=on]_&]:[&>*:nth-child(4)]:delay-450",
+              "[[data-reveal=on]_&]:[&>*:nth-child(5)]:delay-600",
+              "[[data-reveal=on]_&]:[&>*:nth-child(6)]:delay-750",
 
-            return (
-              <ContentCard
-                key={item.id}
-                title={title}
-                description={description}
-                // href={withLocale(locale, `properties/${item.slug}`)}
-                href={withLocale(locale, `coming-soon`)}
-                image={item.image}
-                imageAlt={title}
-                topBadge={toCardBadge(item.topBadge)}
-                bottomBadge={toCardBadge(item.bottomBadge)}
-                price={formatPrice(item.price)}
-                isLink
-              />
-            );
-          })}
-        </GridContainer>
+              // desktop wave by columns (3 cols)
+              "lg:[[data-reveal=on]_&]:[&>*:nth-child(3n+1)]:delay-0",
+              "lg:[[data-reveal=on]_&]:[&>*:nth-child(3n+2)]:delay-200",
+              "lg:[[data-reveal=on]_&]:[&>*:nth-child(3n+3)]:delay-400",
+            ].join(" ")}
+          >
+            {properties.map(item => {
+              const title = tProps(`featured.items.${item.id}.title`);
+              const description = tProps(
+                `featured.items.${item.id}.description`
+              );
+
+              return (
+                <ContentCard
+                  key={item.id}
+                  title={title}
+                  description={description}
+                  href={withLocale(locale, `coming-soon`)}
+                  image={item.image}
+                  imageAlt={title}
+                  topBadge={toCardBadge(item.topBadge)}
+                  bottomBadge={toCardBadge(item.bottomBadge)}
+                  price={formatPrice(item.price)}
+                  isLink
+                />
+              );
+            })}
+          </GridContainer>
+        </RevealGroup>
 
         <div className="mt-4 flex md:mt-8">
           <Button asChild variant="link" className="group ml-auto px-0 py-0">

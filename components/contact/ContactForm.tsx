@@ -1,15 +1,13 @@
-//components/contact/ContactForm.tsx
-
 "use client";
 
 import { Mail, Phone, User } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
+import Reveal from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -106,7 +104,6 @@ export default function ContactForm() {
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    // slight delay to ensure scroll/layout settle
     window.setTimeout(() => {
       firstNameRef.current?.focus();
     }, 50);
@@ -118,7 +115,6 @@ export default function ContactForm() {
 
     focusFirstName();
 
-    // Clean URL (remove ?contact=open) without jumping
     if (pathname) {
       router.replace(pathname, { scroll: false });
     }
@@ -174,19 +170,16 @@ export default function ContactForm() {
   const emailOk = !getEmailErrorCode(email ?? "");
   const privacyOk = privacy === true;
 
-  // Button is ONLY enabled when all required fields are valid AND privacy is checked
   const canSubmit = firstNameOk && emailOk && privacyOk && !isSubmitting;
 
   const onSubmit = handleSubmit(async values => {
     setStatus("idle");
 
-    // Double-check privacy (shouldn't happen if button disabled correctly)
     if (!values.privacy) {
       setError("privacy", { type: "validate", message: "required" });
       return;
     }
 
-    // Honeypot
     if (values.company && values.company.trim().length > 0) {
       setStatus("success");
       reset();
@@ -247,48 +240,53 @@ export default function ContactForm() {
         {...register("company")}
       />
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Field
-          label={t("labels.firstName")}
-          required
-          errorCode={getErrorCode(errors.firstName)}
-          hintKey="onlyLetters"
-        >
-          <InputWithIcon
-            icon={<User className="h-4 w-4 text-gray-400" aria-hidden="true" />}
-            placeholder={t("placeholders.firstName")}
-            aria-invalid={Boolean(errors.firstName)}
-            {...firstNameRegister}
-            ref={el => {
-              // ref від RHF (щоб він міг керувати інпутом)
-              firstNameRegister.ref(el);
-              // наш ref (для фокусу)
-              firstNameRef.current = el;
-            }}
-          />
-        </Field>
+      {/* Optional: fade-in for the first row group (safe, minimal) */}
+      <Reveal animation="fadeIn" delay="delay-100">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <Field
+            label={t("labels.firstName")}
+            required
+            errorCode={getErrorCode(errors.firstName)}
+            hintKey="onlyLetters"
+          >
+            <InputWithIcon
+              icon={
+                <User className="h-4 w-4 text-gray-400" aria-hidden="true" />
+              }
+              placeholder={t("placeholders.firstName")}
+              aria-invalid={Boolean(errors.firstName)}
+              {...firstNameRegister}
+              ref={el => {
+                firstNameRegister.ref(el);
+                firstNameRef.current = el;
+              }}
+            />
+          </Field>
 
-        <Field
-          label={t("labels.lastName")}
-          errorCode={getErrorCode(errors.lastName)}
-          hintKey="onlyLetters"
-        >
-          <InputWithIcon
-            icon={<User className="h-4 w-4 text-gray-400" aria-hidden="true" />}
-            placeholder={t("placeholders.lastName")}
-            aria-invalid={Boolean(errors.lastName)}
-            {...register("lastName", {
-              onChange: e => {
-                const v = String(e.target.value ?? "");
-                const code = getNameErrorCode(v, "lastName");
-                if (code)
-                  setError("lastName", { type: "validate", message: code });
-                else clearErrors("lastName");
-              },
-            })}
-          />
-        </Field>
-      </div>
+          <Field
+            label={t("labels.lastName")}
+            errorCode={getErrorCode(errors.lastName)}
+            hintKey="onlyLetters"
+          >
+            <InputWithIcon
+              icon={
+                <User className="h-4 w-4 text-gray-400" aria-hidden="true" />
+              }
+              placeholder={t("placeholders.lastName")}
+              aria-invalid={Boolean(errors.lastName)}
+              {...register("lastName", {
+                onChange: e => {
+                  const v = String(e.target.value ?? "");
+                  const code = getNameErrorCode(v, "lastName");
+                  if (code)
+                    setError("lastName", { type: "validate", message: code });
+                  else clearErrors("lastName");
+                },
+              })}
+            />
+          </Field>
+        </div>
+      </Reveal>
 
       <Field
         label={t("labels.email")}
@@ -353,7 +351,6 @@ export default function ContactForm() {
             id="privacy"
             checked={privacy}
             onCheckedChange={checked => {
-              // Update form value when checkbox changes
               setValue("privacy", checked === true, { shouldValidate: true });
               if (checked) clearErrors("privacy");
             }}
@@ -363,7 +360,7 @@ export default function ContactForm() {
           <div className="flex-1 text-sm leading-5 text-gray-600">
             <Label
               htmlFor="privacy"
-              className="font-normal text-gray-600 cursor-pointer"
+              className="cursor-pointer font-normal text-gray-600"
             >
               {t("privacy.prefix")}{" "}
               <Link
@@ -377,35 +374,37 @@ export default function ContactForm() {
           </div>
         </div>
 
-        {/* Show error if privacy not checked */}
         {errors.privacy && (
-          <p className="text-sm text-error-700 ml-8">{t("errors.required")}</p>
+          <p className="ml-8 text-sm text-error-700">{t("errors.required")}</p>
         )}
       </div>
 
-      <Button
-        type="submit"
-        size="xl"
-        className={cn(
-          "w-full transition-colors",
-          !canSubmit
-            ? "bg-gray-300 text-gray-600 hover:bg-gray-300 cursor-not-allowed"
-            : "bg-terracotta-500 hover:bg-terracotta-600 text-white"
-        )}
-        disabled={!canSubmit}
-      >
-        {submitLabel}
-        <span className="sr-only">{t("submit.default")}</span>
-      </Button>
+      {/* Animate ONLY the button (safe: doesn’t fight RHF reactivity) */}
+      <Reveal animation="fadeIn" delay="delay-200">
+        <Button
+          type="submit"
+          size="xl"
+          className={cn(
+            "w-full transition-colors",
+            !canSubmit
+              ? "cursor-not-allowed bg-gray-300 text-gray-600 hover:bg-gray-300"
+              : "bg-terracotta-500 text-white hover:bg-terracotta-600"
+          )}
+          disabled={!canSubmit}
+        >
+          {submitLabel}
+          <span className="sr-only">{t("submit.default")}</span>
+        </Button>
+      </Reveal>
 
-      {/* Status messages */}
+      {/* Status messages (no animation to avoid flicker) */}
       <div className="min-h-6 text-center text-sm">
         {status === "success" ? (
-          <p role="status" className="text-success-700 font-medium">
+          <p role="status" className="font-medium text-success-700">
             {t("submit.success")}
           </p>
         ) : status === "error" ? (
-          <p role="alert" className="text-error-700 font-medium">
+          <p role="alert" className="font-medium text-error-700">
             {t("submit.error")}
           </p>
         ) : null}

@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -390,11 +392,9 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        fadeIn: "fadeIn 0.6s ease-out",
-        slideUp: "slideUp 1.5s cubic-bezier(0.30, 1, 0.60, 1) forwards",
-        slideDown: "slideDown 1.5s ease-out",
-        "pulse-subtle": "pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "bounce-subtle": "bounce-subtle 2s infinite",
+        slideUp: "slideUp 1.5s cubic-bezier(0.30, 1, 0.60, 1) both",
+        fadeIn: "fadeIn 0.6s ease-out both",
+        slideDown: "slideDown 1.5s ease-out both",
       },
 
       transitionDelay: {
@@ -421,7 +421,19 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate,
+    plugin(({ addUtilities, theme }) => {
+      const delays = theme("transitionDelay") as Record<string, string>;
+      const utilities = Object.fromEntries(
+        Object.entries(delays).map(([k, v]) => [
+          `.anim-delay-${k}`,
+          { animationDelay: v },
+        ])
+      );
+      addUtilities(utilities);
+    }),
+  ],
 };
 
 export default config;

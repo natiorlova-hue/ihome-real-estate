@@ -17,7 +17,7 @@ export default function HeroQuizBadge({
   text,
 }: HeroQuizBadgeProps) {
   return (
-    <div className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2 py-1 text-sm text-blue-900">
+    <div className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2 py-1 text-sm text-blue-900 hover:bg-blue-200 transition-all duration-500">
       <Button
         asChild
         variant="secondary"

@@ -1,12 +1,13 @@
 import GridContainer from "@/components/GridContainer";
-import Section from "@/components/layout/Section";
 import ContentCard from "@/components/content/ContentCard";
+import Section from "@/components/layout/Section";
 import { getLocalizedText, getRecentPosts } from "@/lib/blog";
-import { type Locale, withLocale } from "@/lib/locale-path";
+import { withLocale, type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
+import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Reveal from "../motion/Reveal";
 
 type JournalSectionProps = {
   locale: Locale;
@@ -20,14 +21,16 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
 
   return (
     <Section className="bg-white" ariaLabelledby="journal-ihome-heading">
-      <div className="mb-10 text-center md:mb-14">
-        <h2
-          id="journal-ihome-heading"
-          className="font-serif text-3xl text-gray-900 md:text-4xl lg:text-5xl"
-        >
-          {tHome("journalSection.title")}
-        </h2>
-      </div>
+      <Reveal delay="delay-400">
+        <div className="mb-10 text-center md:mb-14">
+          <h2
+            id="journal-ihome-heading"
+            className="font-serif text-3xl text-gray-900 md:text-4xl lg:text-5xl"
+          >
+            {tHome("journalSection.title")}
+          </h2>
+        </div>
+      </Reveal>
 
       <GridContainer>
         {posts.map(post => {

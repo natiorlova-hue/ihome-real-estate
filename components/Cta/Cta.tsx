@@ -2,13 +2,14 @@ import { getTranslations } from "next-intl/server";
 
 import EmailLeadForm from "@/components/contact/EmailLeadForm";
 import ScrollToContactButton from "@/components/layout/header/ScrollToContactButton";
+import Reveal from "@/components/motion/Reveal";
 import { type Locale } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 
 type CtaKeysBase = {
-  title: string; // key within namespace
-  button: string; // key within namespace
-  desc?: string; // key within namespace
+  title: string;
+  button: string;
+  desc?: string;
 };
 
 type CtaKeysEmail = {
@@ -71,21 +72,37 @@ export default async function Cta(props: CtaProps) {
     return (
       <section className={cn(variantClassName[variant], props.className)}>
         <div className="container">
-          <div className="flex flex-col gap-6 py-12 md:flex-row md:items-start md:justify-between">
+          <div className="flex flex-col gap-6 pt-8 pb-2 md:flex-row md:items-start md:justify-between">
             <div className="space-y-2">
-              <h2 className={titleClass}>{t(k.title)}</h2>
-              {k.desc ? <p className={descClass}>{t(k.desc)}</p> : null}
+              {/* Title = slideUp */}
+              <Reveal animation="slideUp">
+                <h2 className={titleClass}>{t(k.title)}</h2>
+              </Reveal>
+
+              {/* Desc = fadeIn */}
+              {k.desc ? (
+                <Reveal animation="fadeIn" delay="delay-200">
+                  <p className={descClass}>{t(k.desc)}</p>
+                </Reveal>
+              ) : null}
             </div>
 
-            <EmailLeadForm
-              locale={props.locale}
-              emailPlaceholder={t(k.emailPlaceholder)}
-              buttonLabel={t(k.button)}
-              privacyPrefix={t(k.privacyPrefix)}
-              privacyLink={t(k.privacyLink)}
-              privacyHref={`/${props.locale}/privacy-policy`}
-              variant="brand"
-            />
+            {/* Form = fadeIn */}
+            <Reveal
+              animation="fadeIn"
+              delay="delay-300"
+              className="md:shrink-0"
+            >
+              <EmailLeadForm
+                locale={props.locale}
+                emailPlaceholder={t(k.emailPlaceholder)}
+                buttonLabel={t(k.button)}
+                privacyPrefix={t(k.privacyPrefix)}
+                privacyLink={t(k.privacyLink)}
+                privacyHref={`/${props.locale}/privacy-policy`}
+                variant="brand"
+              />
+            </Reveal>
           </div>
         </div>
       </section>
@@ -98,17 +115,27 @@ export default async function Cta(props: CtaProps) {
       <div className="container">
         <div className="flex flex-col items-center justify-between gap-4 py-12 text-center md:flex-row md:text-left">
           <div className="space-y-2">
-            <h2 className={titleClass}>{t(props.keys.title)}</h2>
+            {/* Title = slideUp */}
+            <Reveal animation="slideUp">
+              <h2 className={titleClass}>{t(props.keys.title)}</h2>
+            </Reveal>
+
+            {/* Desc = fadeIn */}
             {props.keys.desc ? (
-              <p className={descClass}>{t(props.keys.desc)}</p>
+              <Reveal animation="fadeIn" delay="delay-200">
+                <p className={descClass}>{t(props.keys.desc)}</p>
+              </Reveal>
             ) : null}
           </div>
 
-          <ScrollToContactButton
-            locale={props.locale}
-            label={t(props.keys.button)}
-            size="xl"
-          />
+          {/* Button = fadeIn */}
+          <Reveal animation="fadeIn" delay="delay-300" className="md:shrink-0">
+            <ScrollToContactButton
+              locale={props.locale}
+              label={t(props.keys.button)}
+              size="xl"
+            />
+          </Reveal>
         </div>
       </div>
     </section>
