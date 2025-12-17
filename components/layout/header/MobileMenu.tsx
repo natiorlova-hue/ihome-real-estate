@@ -134,11 +134,20 @@ export default function MobileMenu({
                   <Link
                     href={withLocale(locale, "")}
                     aria-label={labels.homeAria}
-                    className="-m-1.5 p-1.5"
+                    className="-m-1.5 p-1.5 flex gap-4"
                     onClick={() => setOpen(false)}
                   >
+                    <Image
+                      src="/logo.svg"
+                      alt=""
+                      width={32}
+                      height={32}
+                      sizes="32px"
+                      priority
+                      className="h-8 w-8 shrink-0"
+                    />
                     <span className="sr-only">{labels.brand}</span>
-                    <span className="text-xl font-serif font-bold text-terracotta-500">
+                    <span className="text-dsm font-sans font-medium text-terracotta-500">
                       {labels.brand}
                     </span>
                   </Link>
