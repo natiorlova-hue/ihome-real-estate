@@ -121,7 +121,6 @@ export default async function FeaturedProperties({
         <div className="mt-4 flex md:mt-8">
           <Button asChild variant="link" className="group ml-auto px-0 py-0">
             <Link href="/properties">
-            <Link href="/coming-soon">
               {tCommon("viewAll")}
               <ArrowRight className="ml-2 text-[#A4A7AE] transition-colors duration-300 group-hover:text-black" />
             </Link>
