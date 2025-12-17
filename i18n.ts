@@ -26,6 +26,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       taxonomy: (await import(`./locales/${locale}/taxonomy.json`)).default,
       comingSoon: (await import(`./locales/${locale}/coming-soon.json`))
         .default,
+      quiz: (await import(`./locales/${locale}/quiz.json`)).default,
     },
   };
 });

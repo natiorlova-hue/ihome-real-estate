@@ -81,7 +81,7 @@
   }
 
   h3 {
-    @apply font-sans text-xl font-semibold text-gray-950;
+    @apply font-sans text-xl font-normal text-gray-950;
   }
 
   h4 {

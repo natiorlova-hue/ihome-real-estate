@@ -2,8 +2,12 @@
   "name": "ihome-real-estate",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "jsdom": "27.0.1"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:studio": "NEXT_DISABLE_TURBOPACK=1 next dev",
     "build": "next build",
     "dev:legacy": "next dev --no-turbo",
     "start": "next start",

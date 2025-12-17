@@ -1,48 +1,27 @@
-// app/api/contact/route.ts
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
+import {
+  asTrimmedString,
+  getEmailErrorCode,
+  getNameErrorCode,
+  getPhoneErrorCode,
+  isHoneypotTripped,
+  type ContactFieldErrorCode,
+  type ContactFormValues,
+} from "@/lib/validation/contact";
+
 export const runtime = "nodejs";
 
-type FieldErrorCode =
-  | "required"
-  | "firstNameLettersOnly"
-  | "emailInvalid"
-  | "phoneDigitsOnly"
-  | "firstNameTooShort"
-  | "firstNameTooLong"
-  | "lastNameTooShort"
-  | "lastNameTooLong"
-  | "emailTooShort"
-  | "emailTooLong"
-  | "phoneTooShort"
-  | "phoneTooLong";
-
-type FormValues = {
-  firstName: string;
-  lastName?: string;
-  email: string;
-  phone?: string;
-  message?: string;
-  privacy?: boolean;
-  company?: string; // honeypot
-};
-
-type FieldErrors = Partial<Record<keyof FormValues, FieldErrorCode>>;
-
-const NAME_ALLOWED = /^[a-zA-ZÀ-ÿ\s'-]+$/;
-const PHONE_ALLOWED = /^[0-9+\s()\-]+$/;
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+type FieldErrors = Partial<
+  Record<keyof ContactFormValues, ContactFieldErrorCode>
+>;
 
 function badRequest(fieldErrors: FieldErrors) {
   return NextResponse.json(
     { ok: false, fieldErrors },
     { status: 400, headers: { "Content-Type": "application/json" } }
   );
-}
-
-function asTrimmedString(v: unknown): string {
-  return typeof v === "string" ? v.trim() : "";
 }
 
 export async function POST(req: Request) {
@@ -57,7 +36,7 @@ export async function POST(req: Request) {
 
     const body = (await req
       .json()
-      .catch(() => null)) as Partial<FormValues> | null;
+      .catch(() => null)) as Partial<ContactFormValues> | null;
     if (!body) return NextResponse.json({ ok: false }, { status: 400 });
 
     const firstName = asTrimmedString(body.firstName);
@@ -69,38 +48,34 @@ export async function POST(req: Request) {
     const company = asTrimmedString(body.company);
 
     // bot trap
-    if (company.length > 0) {
+    if (isHoneypotTripped(company)) {
       return NextResponse.json({ ok: true }, { status: 200 });
     }
 
     const fieldErrors: FieldErrors = {};
 
     // firstName (required)
-    if (!firstName) fieldErrors.firstName = "required";
-    else if (!NAME_ALLOWED.test(firstName))
-      fieldErrors.firstName = "firstNameLettersOnly";
-    else if (firstName.length < 4) fieldErrors.firstName = "firstNameTooShort";
-    else if (firstName.length > 20) fieldErrors.firstName = "firstNameTooLong";
+    {
+      const code = getNameErrorCode(firstName, "firstName");
+      if (code) fieldErrors.firstName = code;
+    }
 
     // lastName (optional)
     if (lastName) {
-      if (!NAME_ALLOWED.test(lastName))
-        fieldErrors.lastName = "firstNameLettersOnly";
-      else if (lastName.length < 4) fieldErrors.lastName = "lastNameTooShort";
-      else if (lastName.length > 20) fieldErrors.lastName = "lastNameTooLong";
+      const code = getNameErrorCode(lastName, "lastName");
+      if (code) fieldErrors.lastName = code;
     }
 
     // email (required)
-    if (!email) fieldErrors.email = "required";
-    else if (email.length < 6) fieldErrors.email = "emailTooShort";
-    else if (email.length > 55) fieldErrors.email = "emailTooLong";
-    else if (!EMAIL_REGEX.test(email)) fieldErrors.email = "emailInvalid";
+    {
+      const code = getEmailErrorCode(email);
+      if (code) fieldErrors.email = code;
+    }
 
     // phone (optional)
     if (phone) {
-      if (!PHONE_ALLOWED.test(phone)) fieldErrors.phone = "phoneDigitsOnly";
-      else if (phone.length < 6) fieldErrors.phone = "phoneTooShort";
-      else if (phone.length > 25) fieldErrors.phone = "phoneTooLong";
+      const code = getPhoneErrorCode(phone);
+      if (code) fieldErrors.phone = code;
     }
 
     if (Object.keys(fieldErrors).length > 0) return badRequest(fieldErrors);

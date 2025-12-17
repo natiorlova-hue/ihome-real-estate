@@ -1,4 +1,8 @@
+//lib/blog.ts
+
+import type { Locale } from "@/lib/locale-path";
 import { client } from "@/sanity/lib/client";
+import type { PortableTextBlock } from "@portabletext/types";
 
 // Helper function to get localized text
 export function getLocalizedText(
@@ -8,12 +12,8 @@ export function getLocalizedText(
     | undefined,
   locale: string = "en"
 ): string {
-  // Handle case where it's already a string (old data structure)
-  if (typeof localizedArray === "string") {
-    return localizedArray;
-  }
+  if (typeof localizedArray === "string") return localizedArray;
 
-  // Handle case where it's not an array or is empty
   if (
     !localizedArray ||
     !Array.isArray(localizedArray) ||
@@ -22,53 +22,29 @@ export function getLocalizedText(
     return "";
   }
 
-  // Try to find the specific locale
   const localizedItem = localizedArray.find(item => item._key === locale);
   if (localizedItem) return localizedItem.value;
 
-  // Fallback to the first available item
   return localizedArray[0]?.value || "";
 }
 
-// Helper function to get localized content
-export function getLocalizedContent(
-  localizedArray:
-    | Array<{ _key: string; _type: string; value: unknown }>
-    | undefined,
-  locale: string = "en"
-): unknown {
-  if (
-    !localizedArray ||
-    !Array.isArray(localizedArray) ||
-    localizedArray.length === 0
-  )
-    return [];
-
-  // Try to find the specific locale
-  const localizedItem = localizedArray.find(item => item._key === locale);
-  if (localizedItem) return localizedItem.value;
-
-  // Fallback to the first available item
-  return localizedArray[0]?.value || [];
-}
+export type LocaleBlock = Partial<Record<Locale, PortableTextBlock[]>>;
 
 // Helper function to get localized rich text content from localeBlock
 export function getLocalizedRichText(
-  localeBlock: { en?: unknown[]; es?: unknown[]; ru?: unknown[] } | undefined,
-  locale: string = "en"
-): unknown[] {
-  if (!localeBlock || typeof localeBlock !== "object") return [];
+  localeBlock: LocaleBlock | undefined,
+  locale: Locale = "en"
+): PortableTextBlock[] {
+  if (!localeBlock) return [];
 
-  // Try to get the specific locale
-  const content = localeBlock[locale as keyof typeof localeBlock];
-  if (content && Array.isArray(content)) return content;
+  const localized = localeBlock[locale];
+  if (Array.isArray(localized)) return localized;
 
-  // Fallback to English
-  if (localeBlock.en && Array.isArray(localeBlock.en)) return localeBlock.en;
+  const fallbackEn = localeBlock.en;
+  if (Array.isArray(fallbackEn)) return fallbackEn;
 
-  // Fallback to any available content
-  const availableContent = Object.values(localeBlock).find(Array.isArray);
-  return Array.isArray(availableContent) ? availableContent : [];
+  const anyAvailable = Object.values(localeBlock).find(Array.isArray);
+  return Array.isArray(anyAvailable) ? anyAvailable : [];
 }
 
 export interface BlogPost {
@@ -94,9 +70,9 @@ export interface BlogPost {
   featured: boolean;
   image?: {
     asset: {
-      _id: string;
+      _id?: string;
       _ref: string;
-      url: string;
+      url?: string;
     };
     alt?: string;
     caption?: string;
@@ -111,59 +87,21 @@ export interface BlogPost {
         }>
       | string;
   }>;
-  content?: {
-    _type: "localeBlock";
-    en?: Array<{
-      _type: string;
-      _key: string;
-      children?: Array<{
-        _type: string;
-        _key: string;
-        text?: string;
-        marks?: string[];
-      }>;
-      asset?: {
-        _ref: string;
-      };
-      alt?: string;
-      caption?: string;
-    }>;
-    es?: Array<{
-      _type: string;
-      _key: string;
-      children?: Array<{
-        _type: string;
-        _key: string;
-        text?: string;
-        marks?: string[];
-      }>;
-      asset?: {
-        _ref: string;
-      };
-      alt?: string;
-      caption?: string;
-    }>;
-    ru?: Array<{
-      _type: string;
-      _key: string;
-      children?: Array<{
-        _type: string;
-        _key: string;
-        text?: string;
-        marks?: string[];
-      }>;
-      asset?: {
-        _ref: string;
-      };
-      alt?: string;
-      caption?: string;
-    }>;
+  content?: LocaleBlock;
+
+  seo?: {
+    metaTitle?: Array<{ _key: string; _type: string; value: string }> | string;
+    metaDescription?:
+      | Array<{ _key: string; _type: string; value: string }>
+      | string;
+    ogImage?: unknown;
+    canonical?: string;
   };
 }
 
-export async function getBlogPosts(): Promise<BlogPost[]> {
+export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
   const query = `
-    *[_type == "post"] | order(publishedAt desc) {
+    *[_type == "post"] | order(publishedAt desc) [0...$limit] {
       _id,
       title,
       description,
@@ -171,50 +109,50 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       publishedAt,
       featured,
       image {
-        asset-> {
-          _id,
-          _ref,
-          url
-        },
+        asset-> { _ref, url },
         alt,
         caption
       },
-      categories[]-> {
-        _ref,
-        title
-      },
-      content
+      categories[]-> { _ref, title }
     }
   `;
 
+  return client.fetch(query, { limit });
+}
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  const query = `
+  *[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    description,
+    slug,
+    publishedAt,
+    featured,
+    image { asset-> { _id, _ref, url }, alt, caption },
+    categories[]-> { _ref, title },
+    content,
+    seo
+  }
+`;
   return await client.fetch(query);
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const query = `
-    *[_type == "post" && slug.current == $slug][0] {
-      _id,
-      title,
-      description,
-      slug,
-      publishedAt,
-      featured,
-      image {
-        asset-> {
-          _id,
-          _ref,
-          url
-        },
-        alt,
-        caption
-      },
-      content,
-      categories[]-> {
-        _ref,
-        title
-      }
-    }
-  `;
+  *[_type == "post" && slug.current == $slug][0] {
+    _id,
+    title,
+    description,
+    slug,
+    publishedAt,
+    featured,
+    image { asset-> { _id, _ref, url }, alt, caption },
+    content,
+    categories[]-> { _ref, title },
+    seo
+  }
+`;
 
   return await client.fetch(query, { slug });
 }

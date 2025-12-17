@@ -1,5 +1,9 @@
 {
   "hero": {
+    "quizBadge": {
+      "label": "Find your home",
+      "text": "Take a 1-minute quiz and see what fits your lifestyle"
+    },
     "titleBefore": "We",
     "titleHighlight": "create spaces",
     "titleAfter": "that make life more beautiful",

@@ -1,184 +1,256 @@
+//app/[locale]/blog/[slug]/page.tsx
+
+import { PortableText } from "@portabletext/react";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
 import {
   getBlogPost,
   getBlogPosts,
   getLocalizedRichText,
   getLocalizedText,
 } from "@/lib/blog";
+import { type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
-import { PortableText } from "@portabletext/react";
-import Image from "next/image";
-import { notFound } from "next/navigation";
 
-interface BlogPostPageProps {
-  params: Promise<{ slug: string; locale: string }>;
+type BlogPostPageProps = {
+  params: Promise<{ slug: string; locale: Locale }>;
+};
+
+function getOriginFromHeaders(h: Headers) {
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  const host = h.get("x-forwarded-host") ?? h.get("host");
+  if (!host) return null;
+  return `${proto}://${host}`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: Locale }>;
+}): Promise<Metadata> {
+  const { slug, locale } = await params;
+
+  const post = await getBlogPost(slug);
+  if (!post) return {};
+
+  const origin = getOriginFromHeaders(await headers());
+  const url = origin ? new URL(`/${locale}/guides/${slug}`, origin) : undefined;
+
+  const title = getLocalizedText(post.title, locale);
+  const description = getLocalizedText(post.description, locale);
+
+  const metaTitle = getLocalizedText(post.seo?.metaTitle, locale) || title;
+  const metaDescription =
+    getLocalizedText(post.seo?.metaDescription, locale) || description;
+
+  const canonical =
+    typeof post.seo?.canonical === "string" && post.seo.canonical.length
+      ? post.seo.canonical
+      : url?.toString();
+
+  const ogImageSource = (post.seo?.ogImage as unknown) ?? post.image;
+  const ogImageUrl = ogImageSource
+    ? urlFor(ogImageSource).width(1200).height(630).url()
+    : undefined;
+
+  return {
+    title: metaTitle,
+    description: metaDescription,
+    alternates: canonical ? { canonical } : undefined,
+    openGraph: {
+      type: "article",
+      title: metaTitle,
+      description: metaDescription,
+      url: canonical,
+      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : [],
+    },
+    twitter: {
+      card: ogImageUrl ? "summary_large_image" : "summary",
+      title: metaTitle,
+      description: metaDescription,
+      images: ogImageUrl ? [ogImageUrl] : [],
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug, locale } = await params;
+
   const post = await getBlogPost(slug);
+  if (!post) notFound();
 
-  if (!post) {
-    notFound();
-  }
-
-  // Get localized content
   const title = getLocalizedText(post.title, locale);
   const description = getLocalizedText(post.description, locale);
   const content = getLocalizedRichText(post.content, locale);
 
+  const featuredImageUrl = post.image
+    ? urlFor(post.image).width(1600).height(900).url()
+    : null;
+
   return (
-    <div>
-      {/* Header */}
-      <div className="flex flex-col md:flex-row">
-        {/* Featured Image */}
-        {post.image && (
-          <div className="w-1/2">
-            {(() => {
-              try {
-                const imageUrl = urlFor(post.image)
-                  .width(800)
-                  .height(400)
-                  .url();
-                return (
-                  <Image
-                    src={imageUrl}
-                    alt={title}
-                    width={800}
-                    height={400}
-                    className="w-full object-cover"
-                    style={{ height: "calc(100vh - 80px)" }}
-                  />
-                );
-              } catch (error) {
-                console.error(
-                  "Error generating image URL:",
-                  error,
-                  "Image data:",
-                  post.image
-                );
-                return (
-                  <div
-                    className="w-full bg-gray-200 rounded-lg shadow-lg flex items-center justify-center"
-                    style={{ height: "calc(100vh - 80px)" }}
-                  >
-                    <p className="text-gray-500">Image not available</p>
-                  </div>
-                );
-              }
-            })()}
+    <article className="bg-white">
+      <header className="border-b border-gray-100">
+        <div className="container">
+          <div className="grid gap-8 py-10 md:grid-cols-2 md:items-stretch md:py-14 lg:gap-12">
+            {featuredImageUrl ? (
+              <div className="overflow-hidden rounded-lg bg-gray-200">
+                <Image
+                  src={featuredImageUrl}
+                  alt={post.image?.alt ?? title}
+                  width={1600}
+                  height={900}
+                  className="h-full w-full object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+                />
+              </div>
+            ) : (
+              <div className="hidden md:block" aria-hidden="true" />
+            )}
+
+            <div className="flex flex-col justify-center gap-4 md:py-6">
+              <h1 className="font-serif text-3xl text-gray-900 md:text-4xl lg:text-5xl">
+                {title}
+              </h1>
+              <p className="max-w-prose text-base text-tertiary-600 md:text-lg">
+                {description}
+              </p>
+            </div>
           </div>
-        )}
-        <div className="w-1/2 py-16 px-16 flex flex-col gap-4">
-          <h1 className="h2">{title}</h1>
-          <p>{description}</p>
         </div>
-      </div>
-      {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="prose prose-lg max-w-none">
-          {content && content.length > 0 && (
-            <PortableText
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              value={content as any}
-              components={{
-                types: {
-                  image: ({ value }) => {
-                    try {
-                      const imageUrl = urlFor(value)
-                        .width(800)
-                        .height(400)
-                        ?.url();
+      </header>
+
+      <section className="container">
+        <div className="mx-auto max-w-4xl py-10 md:py-14">
+          <div className="prose prose-lg max-w-none">
+            {content.length ? (
+              <PortableText
+                value={content}
+                components={{
+                  types: {
+                    image: ({ value }) => {
+                      const src = value
+                        ? urlFor(value).width(1600).height(900).url()
+                        : null;
+
+                      if (!src) return null;
+
                       return (
-                        <div className="my-8">
-                          <Image
-                            src={imageUrl}
-                            alt={value.alt || title}
-                            width={800}
-                            height={400}
-                            className="rounded-lg shadow-lg w-full h-auto mb-4"
-                          />
-                          {value.caption && <p>{value.caption}</p>}
-                        </div>
+                        <figure className="my-8">
+                          <div className="overflow-hidden rounded-lg bg-gray-200">
+                            <Image
+                              src={src}
+                              alt={value.alt || title}
+                              width={1600}
+                              height={900}
+                              className="h-auto w-full"
+                              sizes="(max-width: 768px) 100vw, 768px"
+                              loading="lazy"
+                            />
+                          </div>
+                          {value.caption ? (
+                            <figcaption className="mt-3 text-sm text-tertiary-600">
+                              {value.caption}
+                            </figcaption>
+                          ) : null}
+                        </figure>
                       );
-                    } catch (error) {
-                      console.error(
-                        "Error generating image URL in content:",
-                        error,
-                        "Image data:",
-                        value
-                      );
-                      return (
-                        <div className="my-8 w-full h-48 bg-gray-200 rounded-lg shadow-lg flex items-center justify-center">
-                          <p className="text-gray-500">Image not available</p>
-                        </div>
-                      );
-                    }
+                    },
                   },
-                },
-                block: {
-                  h1: ({ children }) => <h1 className="h2">{children}</h1>,
-                  h2: ({ children }) => <h2>{children}</h2>,
-                  h3: ({ children }) => <h3>{children}</h3>,
-                  normal: ({ children }) => <p className="mb-4">{children}</p>,
-                  blockquote: ({ children }) => (
-                    <blockquote className="font-semibold text-serifsm font-italic">
-                      {children}
-                    </blockquote>
-                  ),
-                },
-                marks: {
-                  strong: ({ children }) => (
-                    <strong className="font-bold text-gray-900">
-                      {children}
-                    </strong>
-                  ),
-                  em: ({ children }) => <em className="italic">{children}</em>,
-                  code: ({ children }) => (
-                    <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">
-                      {children}
-                    </code>
-                  ),
-                  link: ({ children, value }) => (
-                    <a
-                      href={value.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 underline"
-                    >
-                      {children}
-                    </a>
-                  ),
-                },
-                list: {
-                  bullet: ({ children }) => (
-                    <ul className="list-disc list-inside mb-4 space-y-2">
-                      {children}
-                    </ul>
-                  ),
-                  number: ({ children }) => (
-                    <ol className="list-decimal list-inside mb-4 space-y-2">
-                      {children}
-                    </ol>
-                  ),
-                },
-                listItem: {
-                  bullet: ({ children }) => (
-                    <li className="text-gray-700">{children}</li>
-                  ),
-                  number: ({ children }) => (
-                    <li className="text-gray-700">{children}</li>
-                  ),
-                },
-              }}
-            />
-          )}
+                  block: {
+                    h1: ({ children }) => (
+                      <h2 className="font-serif text-2xl text-gray-900 md:text-3xl">
+                        {children}
+                      </h2>
+                    ),
+                    h2: ({ children }) => (
+                      <h2 className="font-serif text-2xl text-gray-900 md:text-3xl">
+                        {children}
+                      </h2>
+                    ),
+                    h3: ({ children }) => (
+                      <h3 className="font-serif text-xl text-gray-900 md:text-2xl">
+                        {children}
+                      </h3>
+                    ),
+                    normal: ({ children }) => (
+                      <p className="text-base text-gray-700 md:text-lg">
+                        {children}
+                      </p>
+                    ),
+                    blockquote: ({ children }) => (
+                      <blockquote className="border-l-2 border-gray-200 pl-4 font-serif text-lg text-gray-900">
+                        {children}
+                      </blockquote>
+                    ),
+                  },
+                  marks: {
+                    strong: ({ children }) => (
+                      <strong className="font-semibold text-gray-900">
+                        {children}
+                      </strong>
+                    ),
+                    em: ({ children }) => (
+                      <em className="italic">{children}</em>
+                    ),
+                    code: ({ children }) => (
+                      <code className="rounded bg-gray-100 px-2 py-1 font-mono text-sm text-gray-900">
+                        {children}
+                      </code>
+                    ),
+                    link: ({ children, value }) => {
+                      const href =
+                        typeof value?.href === "string" ? value.href : "#";
+
+                      const isExternal =
+                        href.startsWith("http://") ||
+                        href.startsWith("https://");
+
+                      return (
+                        <a
+                          href={href}
+                          target={isExternal ? "_blank" : undefined}
+                          rel={isExternal ? "noopener noreferrer" : undefined}
+                          className="text-mediterranean-700 underline underline-offset-4 transition-colors hover:text-gray-900"
+                        >
+                          {children}
+                        </a>
+                      );
+                    },
+                  },
+                  list: {
+                    bullet: ({ children }) => (
+                      <ul className="my-6 list-disc space-y-2 pl-6">
+                        {children}
+                      </ul>
+                    ),
+                    number: ({ children }) => (
+                      <ol className="my-6 list-decimal space-y-2 pl-6">
+                        {children}
+                      </ol>
+                    ),
+                  },
+                  listItem: {
+                    bullet: ({ children }) => (
+                      <li className="text-gray-700">{children}</li>
+                    ),
+                    number: ({ children }) => (
+                      <li className="text-gray-700">{children}</li>
+                    ),
+                  },
+                }}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>{" "}
-    </div>
+      </section>
+    </article>
   );
 }
 
-// Generate static params for all blog posts
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
 

@@ -42,7 +42,19 @@ const nextConfig: NextConfig = {
   },
 
   async redirects() {
-    return [{ source: "/home", destination: "/", permanent: true }];
+    return [
+      {
+        source: "/:locale(en|es|ru)/studio",
+        destination: "/studio",
+        permanent: false,
+      },
+      {
+        source: "/:locale(en|es|ru)/studio/:path*",
+        destination: "/studio/:path*",
+        permanent: false,
+      },
+      { source: "/home", destination: "/", permanent: true },
+    ];
   },
 
   env: {

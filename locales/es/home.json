@@ -1,5 +1,9 @@
 {
   "hero": {
+    "quizBadge": {
+      "label": "Encuentra tu hogar",
+      "text": "Realiza un breve cuestionario y descubre dónde te sentirías cómodo"
+    },
     "titleBefore": "Creamos",
     "titleHighlight": "espacios",
     "titleAfter": "que hacen la vida más bella",

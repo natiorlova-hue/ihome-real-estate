@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   darkMode: ["class"],
@@ -103,13 +104,13 @@ const config: Config = {
         // ====================================
         mediterranean: {
           25: "#F5FEFF",
-          50: "#ECFDFF",
+          50: "#F2F6FC",
           100: "#CFF9FE",
           200: "#A5F0FC",
           300: "#67E3F9",
           400: "#22CCEE",
           500: "#0ea5e9", // 🔥 MAIN BLUE
-          600: "#0E7090",
+          600: "#496EC7",
           700: "#155B75",
           800: "#164C63",
           900: "#134E4A",
@@ -344,15 +345,6 @@ const config: Config = {
       // ====================================
       // ANIMATIONS
       // ====================================
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        fadeIn: "fadeIn 0.6s ease-out",
-        slideUp: "slideUp 0.6s ease-out",
-        slideDown: "slideDown 0.4s ease-out",
-        "pulse-subtle": "pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "bounce-subtle": "bounce-subtle 2s infinite",
-      },
 
       keyframes: {
         "accordion-down": {
@@ -368,8 +360,14 @@ const config: Config = {
           "100%": { opacity: "1" },
         },
         slideUp: {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+          "0%": {
+            opacity: "0",
+            transform: "translateY(24px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
         },
         slideDown: {
           "0%": { opacity: "0", transform: "translateY(-10px)" },
@@ -391,6 +389,27 @@ const config: Config = {
         },
       },
 
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        slideUp: "slideUp 1.5s cubic-bezier(0.30, 1, 0.60, 1) both",
+        fadeIn: "fadeIn 0.6s ease-out both",
+        slideDown: "slideDown 1.5s ease-out both",
+      },
+
+      transitionDelay: {
+        0: "0ms",
+        100: "100ms",
+        200: "200ms",
+        300: "300ms",
+        400: "400ms",
+        500: "500ms",
+        600: "600ms",
+        700: "700ms",
+        800: "800ms",
+        900: "900ms",
+      },
+
       // ====================================
       // Z-INDEX
       // ====================================
@@ -402,7 +421,19 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate,
+    plugin(({ addUtilities, theme }) => {
+      const delays = theme("transitionDelay") as Record<string, string>;
+      const utilities = Object.fromEntries(
+        Object.entries(delays).map(([k, v]) => [
+          `.anim-delay-${k}`,
+          { animationDelay: v },
+        ])
+      );
+      addUtilities(utilities);
+    }),
+  ],
 };
 
 export default config;

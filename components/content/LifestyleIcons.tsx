@@ -238,7 +238,7 @@ const icons: Record<LifestyleIconKey, () => ReactNode> = {
   nomads: NomadsIcon,
   golf: GolfIcon,
   golden: GoldenIcon,
-  sea: SeaIcon,
+  secondHome: SeaIcon,
   investment: InvestmentIcon,
 };
 

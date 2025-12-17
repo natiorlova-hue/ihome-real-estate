@@ -1,16 +1,32 @@
-import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
-export default function HeroVisualSection() {
-  const t = useTranslations("home");
+import ScrollToContactButton from "@/components/layout/header/ScrollToContactButton";
+import HeroQuizBadge from "@/components/home/HeroQuizBadge";
+import { Button } from "@/components/ui/button";
+import { withLocale, type Locale } from "@/lib/locale-path";
+
+type HeroProps = {
+  locale: Locale;
+};
+
+export default async function HeroVisualSection({ locale }: HeroProps) {
+  const t = await getTranslations({ locale, namespace: "home" });
 
   return (
-    <section>
-      {/* Text / CTAs stay inside container */}
+    <section aria-labelledby="hero-heading">
       <div className="container">
-        <div className="flex flex-col gap-12 py-20 text-center md:text-left">
-          <h1 className="leading-[1.1]">
+        <div className="flex flex-col gap-10 py-16 text-center md:gap-12 md:py-20 md:text-left">
+          <div className="flex justify-center md:justify-start">
+            <HeroQuizBadge
+              locale={locale}
+              label={t("hero.quizBadge.label")}
+              text={t("hero.quizBadge.text")}
+            />
+          </div>
+
+          <h1 id="hero-heading" className="leading-[1.1]">
             {t("hero.titleBefore")}{" "}
             <u className="decoration-terracotta-200 decoration-5">
               {t("hero.titleHighlight")}
@@ -26,15 +42,22 @@ export default function HeroVisualSection() {
           </p>
 
           <div className="flex justify-center gap-3 md:justify-start md:gap-4">
-            <Button size="lg">{t("hero.cta.explore")}</Button>
-            <Button variant="outline" size="lg">
-              {t("hero.cta.book")}
+            <Button asChild size="lg">
+              <Link href={withLocale(locale, "/coming-soon")}>
+                {t("hero.cta.explore")}
+              </Link>
             </Button>
+
+            <ScrollToContactButton
+              locale={locale}
+              variant="outline"
+              size="lg"
+              label={t("hero.cta.book")}
+            />
           </div>
         </div>
       </div>
 
-      {/* Full-bleed image: ALWAYS 100vw, even on 4K */}
       <div className="mt-8 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
         <Image
           src="/hero-marbella.jpg"

@@ -1,7 +1,7 @@
 import { type Locale } from "@/lib/locale-path";
 import { mainNavigation } from "@/lib/navigation";
 import { getTranslations } from "next-intl/server";
-import HeaderClient from "./HeaderClient";
+import HeaderClient, { type DropdownStatus } from "./HeaderClient";
 
 interface HeaderProps {
   locale: string;
@@ -18,13 +18,13 @@ type LifestyleKey =
 type NavChild = {
   id: string;
   href: string;
-  status?: string; // Додаємо статус
+  status?: DropdownStatus; // ✅ було string
 };
 
 type LifestyleNavChild = {
   id: LifestyleKey;
   href: string;
-  status?: string;
+  status?: DropdownStatus;
 };
 
 const lifestyleIdToTaxonomyKey = {
@@ -32,27 +32,24 @@ const lifestyleIdToTaxonomyKey = {
   nomads: "nomads",
   golden: "golden",
   golf: "golf",
-  secondHome: "secondHome", // Було "sea", але в common.json ключ "secondHome"
+  secondHome: "secondHome",
   investment: "investment",
-} as const; // Removed 'satisfies' just to keep it simpler if types mismatch
+} as const;
 
 function isLifestyleNavChild(child: NavChild): child is LifestyleNavChild {
   return Object.keys(lifestyleIdToTaxonomyKey).includes(child.id);
 }
 
 export default async function Header({ locale }: HeaderProps) {
-  // Використовуємо common, бо там лежить хедер
   const tNav = await getTranslations({
     locale,
     namespace: "navigation.header",
   });
+
   const tTax = await getTranslations({
     locale,
     namespace: "taxonomy.categoryLifestyle",
   });
-
-  // Якщо taxonomy.json немає, використовуємо common.header.dropdowns
-  // const tax = await getTranslations({ locale, namespace: "taxonomy" });
 
   const forYou = mainNavigation.left.find(i => i.id === "forYou");
   const forYouChildren = (forYou?.children ?? []) as NavChild[];
@@ -64,15 +61,13 @@ export default async function Header({ locale }: HeaderProps) {
 
       return {
         key: child.id,
-        // Беремо переклади з common.json
         title: tTax(`${taxKey}.title`),
         desc: tTax(`${taxKey}.desc`),
-        path: child.href,
-        status: child.status, // Передаємо статус з navigation.ts
+        href: child.href, // ✅ було path
+        status: child.status, // ✅ тепер DropdownStatus | undefined
       };
     });
 
-  // Отримуємо статуси для правих посилань
   const guidesNav = mainNavigation.right.find(i => i.id === "guides");
   const ourWayNav = mainNavigation.right.find(i => i.id === "ourWay");
 
@@ -89,14 +84,13 @@ export default async function Header({ locale }: HeaderProps) {
         method: tNav("actions.method"),
         talk: tNav("actions.talk"),
 
-        // Якщо цих ключів немає в common.json, додайте їх або захардкодьте тимчасово
         openMenu: "Open menu",
         closeMenu: "Close menu",
         homeAria: "Home",
       }}
       navStatuses={{
-        guides: guidesNav?.status || "active",
-        ourWay: ourWayNav?.status || "active",
+        guides: guidesNav?.status ?? "active",
+        ourWay: ourWayNav?.status ?? "active",
       }}
       dropdownForYou={dropdownForYou}
       dropdownProperties={[
@@ -105,7 +99,7 @@ export default async function Header({ locale }: HeaderProps) {
           title: tNav("dropdown.properties.sale.title"),
           desc: tNav("dropdown.properties.sale.desc"),
           href: "properties?type=sale",
-          status: "comingSoon", // Properties теж поки coming soon? Якщо ні - зміни на "active"
+          status: "comingSoon",
         },
         {
           key: "rent",

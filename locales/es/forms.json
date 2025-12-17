@@ -35,6 +35,7 @@
       "emailTooShort": "El correo electrónico debe tener al menos 6 caracteres.",
       "emailTooLong": "El correo electrónico debe tener menos de 55 caracteres.",
       "phoneTooLong": "El teléfono debe tener menos de 25 caracteres.",
+      "phoneTooShort": "El teléfono debe tener al menos 6 caracteres.",
       "messageTooLong": "El mensaje debe tener menos de 2000 caracteres."
     },
     "privacy": {

@@ -1,3 +1,5 @@
+//components/contact/ContactSection.tsx
+
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -38,8 +40,9 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
 
   return (
     <section
+      id="contact"
       aria-labelledby="contact-heading"
-      className="relative overflow-hidden pt-24 pb-16"
+      className="relative overflow-hidden pt-24 pb-16 scroll-mt-24 md:scroll-mt-28"
     >
       {/* background image */}
       <Image

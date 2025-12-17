@@ -1,8 +1,15 @@
 {
   "ctaRow": {
-    "notFound": "Didn’t find what you’re looking for?",
-    "contact": "Contact Us Today",
-    "sendRequest": "Send Request"
+    "title": "Didn’t find what you’re looking for?",
+    "contactBtn": "Contact Us Today",
+    "sendRequestBtn": "Send Request"
+  },
+  "ctaSell": {
+    "title": "Want to sell your property?",
+    "desc": "Submit your details and our agent will contact you shortly",
+    "emailPlaceholder": "Enter your email",
+    "privacyPrefix": "We care about your data in our",
+    "privacyLink": "privacy policy"
   },
   "viewAll": "View All",
   "sellBanner": {

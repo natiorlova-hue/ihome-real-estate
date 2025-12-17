@@ -42,7 +42,7 @@ export default function Logo({
       />
 
       {showWordmark && (
-        <span className="font-serif text-xl font-bold text-terracotta-500">
+        <span className="font-sans text-dsm font-medium text-terracotta-500">
           {wordmark}
         </span>
       )}
