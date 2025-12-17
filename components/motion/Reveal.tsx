@@ -1,4 +1,3 @@
-// components/motion/Reveal.tsx
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -9,7 +8,8 @@ type RevealDelay =
   | "delay-100"
   | "delay-200"
   | "delay-300"
-  | "delay-400";
+  | "delay-400"
+  | "delay-600";
 
 type RevealProps = {
   children: React.ReactNode;
@@ -22,7 +22,7 @@ export default function Reveal({
   children,
   className,
   animation = "slideUp",
-  delay = "delay-0",
+  delay = "delay-100",
 }: RevealProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState(false);
@@ -38,7 +38,10 @@ export default function Reveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      {
+        threshold: 0.2, // було 0.8 — занадто пізно
+        rootMargin: "0px 0px -10% 0px", // трохи раніше доїжджає
+      }
     );
 
     observer.observe(el);
@@ -50,8 +53,10 @@ export default function Reveal({
       ref={ref}
       className={cn(
         "will-change-transform",
+        // базовий прихований стан (на всяк випадок)
         !visible && "opacity-0",
-        visible && cn(`animate-${animation}`, delay),
+        // ВАЖЛИВО: fill-mode BOTH -> під час delay елемент лишається в 0% keyframe
+        visible && cn(`[animation-fill-mode:both] animate-${animation}`, delay),
         className
       )}
     >

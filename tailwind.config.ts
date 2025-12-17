@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
-
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -344,24 +343,6 @@ const config: Config = {
       // ====================================
       // ANIMATIONS
       // ====================================
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        fadeIn: "fadeIn 0.6s ease-out",
-        slideUp: "slideUp 0.6s ease-out",
-        slideDown: "slideDown 0.4s ease-out",
-        "pulse-subtle": "pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "bounce-subtle": "bounce-subtle 2s infinite",
-      },
-
-      transitionDelay: {
-        0: "0ms",
-        100: "100ms",
-        200: "200ms",
-        300: "300ms",
-        400: "400ms",
-        500: "500ms",
-      },
 
       keyframes: {
         "accordion-down": {
@@ -377,8 +358,14 @@ const config: Config = {
           "100%": { opacity: "1" },
         },
         slideUp: {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+          "0%": {
+            opacity: "0",
+            transform: "translateY(24px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
         },
         slideDown: {
           "0%": { opacity: "0", transform: "translateY(-10px)" },
@@ -398,6 +385,29 @@ const config: Config = {
             animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
           },
         },
+      },
+
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        fadeIn: "fadeIn 0.6s ease-out",
+        slideUp: "slideUp 1.5s cubic-bezier(0.30, 1, 0.60, 1) forwards",
+        slideDown: "slideDown 1.5s ease-out",
+        "pulse-subtle": "pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "bounce-subtle": "bounce-subtle 2s infinite",
+      },
+
+      transitionDelay: {
+        0: "0ms",
+        100: "100ms",
+        200: "200ms",
+        300: "300ms",
+        400: "400ms",
+        500: "500ms",
+        600: "600ms",
+        700: "700ms",
+        800: "800ms",
+        900: "900ms",
       },
 
       // ====================================

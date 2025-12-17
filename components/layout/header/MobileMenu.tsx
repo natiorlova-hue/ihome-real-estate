@@ -15,6 +15,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useState } from "react";
 import ScrollToContactButton from "./ScrollToContactButton";
@@ -39,7 +40,7 @@ type MenuItem = {
   desc: string;
   path?: string;
   href?: string;
-  status?: string; // Додаємо статус
+  status?: string;
 };
 
 type MobileMenuProps = {
@@ -52,6 +53,44 @@ type MobileMenuProps = {
     ourWay: string;
   };
 };
+
+/**
+ * SVG icons for mobile menu (NO background, icon only)
+ */
+const MOBILE_NAV_ICONS: Record<string, `/${string}`> = {
+  families: "/icons/nav/Families.svg",
+  nomads: "/icons/nav/Digital.svg",
+  golden: "/icons/nav/Golden.svg",
+  golf: "/icons/nav/Golf.svg",
+  secondHome: "/icons/nav/Second-home.svg",
+  investment: "/icons/nav/Investment.svg",
+
+  sale: "/icons/nav/For-Sale.svg",
+  rent: "/icons/nav/For-Rent.svg",
+  sell: "/icons/nav/Investment.svg",
+};
+
+function MobileMenuRow({ iconKey, title }: { iconKey: string; title: string }) {
+  const src = MOBILE_NAV_ICONS[iconKey];
+
+  return (
+    <div className="flex items-center gap-3">
+      {src ? (
+        <Image
+          src={src}
+          alt=""
+          aria-hidden
+          width={18}
+          height={18}
+          sizes="18px"
+          className="h-[18px] w-[18px]"
+        />
+      ) : null}
+
+      <span>{title}</span>
+    </div>
+  );
+}
 
 export default function MobileMenu({
   locale,
@@ -75,15 +114,7 @@ export default function MobileMenu({
 
       <Transition show={open} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={setOpen}>
-          <TransitionChild
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          <TransitionChild as={Fragment}>
             <div className="fixed inset-0 bg-gray-900/80" />
           </TransitionChild>
 
@@ -98,6 +129,7 @@ export default function MobileMenu({
               leaveTo="translate-x-full"
             >
               <DialogPanel className="relative ml-auto flex h-full w-full max-w-sm flex-col overflow-y-auto bg-white px-6 py-6 shadow-xl">
+                {/* Header */}
                 <div className="flex items-center justify-between">
                   <Link
                     href={withLocale(locale, "")}
@@ -121,6 +153,7 @@ export default function MobileMenu({
                   </button>
                 </div>
 
+                {/* Navigation */}
                 <div className="mt-6 flow-root">
                   <div className="-my-6 divide-y divide-gray-500/10">
                     <div className="space-y-2 py-6">
@@ -139,26 +172,27 @@ export default function MobileMenu({
                               {labels.forYou}
                               <ChevronDown
                                 className={cn(
-                                  isOpen ? "rotate-180" : "",
-                                  "h-5 w-5 flex-none"
+                                  isOpen && "rotate-180",
+                                  "h-5 w-5"
                                 )}
-                                aria-hidden="true"
                               />
                             </DisclosureButton>
 
-                            <DisclosurePanel className="mt-2 space-y-2">
+                            <DisclosurePanel className="mt-2 space-y-1">
                               {dropdownForYou.map(item => (
                                 <Link
                                   key={item.key}
-                                  // ВИКОРИСТОВУЄМО resolveNavHref
                                   href={resolveNavHref(locale, {
                                     href: item.path || "",
                                     status: item.status,
                                   })}
-                                  className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                  className="flex items-center rounded-lg py-2 pl-6 pr-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
-                                  {item.title}
+                                  <MobileMenuRow
+                                    iconKey={item.key}
+                                    title={item.title}
+                                  />
                                 </Link>
                               ))}
                             </DisclosurePanel>
@@ -173,26 +207,27 @@ export default function MobileMenu({
                               {labels.properties}
                               <ChevronDown
                                 className={cn(
-                                  isOpen ? "rotate-180" : "",
-                                  "h-5 w-5 flex-none"
+                                  isOpen && "rotate-180",
+                                  "h-5 w-5"
                                 )}
-                                aria-hidden="true"
                               />
                             </DisclosureButton>
 
-                            <DisclosurePanel className="mt-2 space-y-2">
+                            <DisclosurePanel className="mt-2 space-y-1">
                               {dropdownProperties.map(item => (
                                 <Link
                                   key={item.key}
-                                  // ВИКОРИСТОВУЄМО resolveNavHref
                                   href={resolveNavHref(locale, {
                                     href: item.href || "",
                                     status: item.status,
                                   })}
-                                  className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                  className="flex items-center rounded-lg py-2 pl-6 pr-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
-                                  {item.title}
+                                  <MobileMenuRow
+                                    iconKey={item.key}
+                                    title={item.title}
+                                  />
                                 </Link>
                               ))}
                             </DisclosurePanel>
@@ -205,7 +240,7 @@ export default function MobileMenu({
                           href: "guides",
                           status: navStatuses.guides,
                         })}
-                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
                         {labels.guides}
@@ -216,7 +251,7 @@ export default function MobileMenu({
                           href: "our-way",
                           status: navStatuses.ourWay,
                         })}
-                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
                         {labels.ourWay}
