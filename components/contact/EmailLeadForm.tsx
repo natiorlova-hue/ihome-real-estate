@@ -202,7 +202,7 @@ export default function EmailLeadForm({
 
         <p
           className={cn(
-            "text-sm",
+            "text-sm font-sans",
             isBrand ? "text-white/90" : "text-tertiary-600"
           )}
         >

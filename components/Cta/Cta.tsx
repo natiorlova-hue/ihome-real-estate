@@ -56,7 +56,7 @@ export default async function Cta(props: CtaProps) {
   const isBrand = variant === "brand";
 
   const titleClass = cn(
-    "text-2xl font-serif md:text-3xl",
+    "text-2xl font-sans md:text-3xl",
     isBrand ? "text-white" : "text-gray-900"
   );
 

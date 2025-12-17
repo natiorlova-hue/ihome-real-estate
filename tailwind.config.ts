@@ -354,6 +354,15 @@ const config: Config = {
         "bounce-subtle": "bounce-subtle 2s infinite",
       },
 
+      transitionDelay: {
+        0: "0ms",
+        100: "100ms",
+        200: "200ms",
+        300: "300ms",
+        400: "400ms",
+        500: "500ms",
+      },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

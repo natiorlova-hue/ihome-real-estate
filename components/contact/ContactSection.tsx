@@ -42,7 +42,7 @@ export default async function ContactSection({ locale }: ContactSectionProps) {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative overflow-hidden pt-24 pb-16"
+      className="relative overflow-hidden pt-24 pb-16 scroll-mt-24 md:scroll-mt-28"
     >
       {/* background image */}
       <Image

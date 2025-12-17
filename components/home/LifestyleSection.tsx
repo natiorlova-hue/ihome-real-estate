@@ -2,11 +2,13 @@
 
 import GridContainer from "@/components/GridContainer";
 import ContentCard from "@/components/content/ContentCard";
+import Reveal from "@/components/motion/Reveal";
 import { lifestyleItems } from "@/lib/lifestyle";
 import { lifestyleToTaxonomyKey } from "@/lib/lifestyle-mapping";
 import { type Locale } from "@/lib/locale-path";
 import { resolveNavHref } from "@/lib/nav-href";
 import { getTranslations } from "next-intl/server";
+
 export default async function LifestyleSection({ locale }: { locale: Locale }) {
   const tHome = await getTranslations({ locale, namespace: "home" });
   const tTax = await getTranslations({
@@ -19,10 +21,14 @@ export default async function LifestyleSection({ locale }: { locale: Locale }) {
       <div className="container">
         {/* Section header */}
         <div className="flex flex-col gap-6 items-center text-center mb-12 md:mb-16">
-          <h2>{tHome("lifestyle.title")}</h2>
-          <p className="text-tertiary-600 max-w-[640px]">
-            {tHome("lifestyle.description")}
-          </p>
+          <Reveal>
+            <h2>{tHome("lifestyle.title")}</h2>
+          </Reveal>
+          <Reveal delay="delay-100">
+            <p className="text-tertiary-600 max-w-[640px]">
+              {tHome("lifestyle.description")}
+            </p>
+          </Reveal>
         </div>
 
         {/* Cards */}
