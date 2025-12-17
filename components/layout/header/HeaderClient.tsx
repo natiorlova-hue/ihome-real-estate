@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import Logo from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import { resolveNavHref } from "@/lib/nav-href";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
@@ -33,25 +30,24 @@ type HeaderLabels = {
   homeAria: string;
 };
 
-type DropdownStatus = "active" | "comingSoon";
+export type DropdownStatus = "active" | "comingSoon";
 
-type DropdownItem = {
+export type DropdownItem = {
   key: string;
   title: string;
   desc: string;
-  path?: string;
-  href?: string;
+  href: string;
   status?: DropdownStatus;
 };
 
 type HeaderClientProps = {
   locale: Locale;
   labels: HeaderLabels;
-  dropdownForYou: Array<DropdownItem>;
-  dropdownProperties: Array<DropdownItem>;
+  dropdownForYou: DropdownItem[];
+  dropdownProperties: DropdownItem[];
   navStatuses: {
-    guides: string;
-    ourWay: string;
+    guides: DropdownStatus;
+    ourWay: DropdownStatus;
   };
 };
 
@@ -60,22 +56,16 @@ type SvgIconSpec = {
 };
 
 const NAV_SVG_ICONS: Record<string, SvgIconSpec> = {
-  // Lifestyle (For you)
-  families: {
-    src: "/icons/nav/Families.svg",
-  }, // fallback if you don’t have Families.svg yet
+  families: { src: "/icons/nav/Families.svg" },
   nomads: { src: "/icons/nav/Digital.svg" },
   golden: { src: "/icons/nav/Golden.svg" },
   golf: { src: "/icons/nav/Golf.svg" },
   secondHome: { src: "/icons/nav/Second-home.svg" },
-  investment: {
-    src: "/icons/nav/Investment.svg",
-  },
+  investment: { src: "/icons/nav/Investment.svg" },
 
-  // Properties dropdown
   sale: { src: "/icons/nav/For-Sale.svg" },
   rent: { src: "/icons/nav/For-Rent.svg" },
-  sell: { src: "/icons/nav/Investment.svg" }, // until you add a dedicated Sell.svg
+  sell: { src: "/icons/nav/Investment.svg" },
 };
 
 function DropdownRow({
@@ -92,11 +82,7 @@ function DropdownRow({
   return (
     <div className="flex w-full gap-3">
       {spec ? (
-        <div
-          className={cn(
-            "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-          )}
-        >
+        <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
           <Image
             src={spec.src}
             alt=""
@@ -135,7 +121,7 @@ export default function HeaderClient({
             className="shrink-0"
           />
 
-          <nav className="hidden text-xl items-center gap-6 font-semibold xl:flex text-nowrap">
+          <nav className="hidden items-center gap-6 text-nowrap text-xl font-semibold xl:flex">
             <Link
               href={withLocale(locale, "")}
               className="text-gray-700 transition-colors hover:text-terracotta-500"
@@ -162,7 +148,7 @@ export default function HeaderClient({
                   >
                     <Link
                       href={resolveNavHref(locale, {
-                        href: item.path || "",
+                        href: item.href,
                         status: item.status,
                       })}
                       className="w-full"
@@ -197,7 +183,7 @@ export default function HeaderClient({
                   >
                     <Link
                       href={resolveNavHref(locale, {
-                        href: item.href || "",
+                        href: item.href,
                         status: item.status,
                       })}
                       className="w-full"

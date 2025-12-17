@@ -9,5 +9,9 @@
   "empty": {
     "title": "Aún no hay artículos",
     "subtitle": "Vuelve pronto..."
+  },
+  "meta": {
+    "title": "Guías",
+    "description": "Guías"
   }
 }

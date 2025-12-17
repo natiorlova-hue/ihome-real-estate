@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "blog" });
+  const t = await getTranslations({ locale, namespace: "guides" });
 
   const title = t("meta.title");
   const description = t("meta.description");
@@ -21,13 +21,13 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `/${locale}/blog`,
+      canonical: `/${locale}/guides`,
     },
     openGraph: {
       type: "website",
       title,
       description,
-      url: `/${locale}/blog`,
+      url: `/${locale}/guides`,
     },
   };
 }
