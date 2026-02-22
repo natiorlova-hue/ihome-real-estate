@@ -13,7 +13,11 @@ export const pathnames = {
   "/lifestyle-quiz": "/lifestyle-quiz",
   "/privacy-policy": "/privacy-policy",
   "/live-your-way/[lifestyle]": "/live-your-way/[lifestyle]",
+<<<<<<< HEAD
   "/guides": "/blog",
+=======
+  "/guides": "/guides",
+>>>>>>> 4981c69... fix: post layout
   "/our-way": "/our-way",
   "/properties": "/properties",
   "/properties/[region]": "/properties/[region]",
@@ -21,9 +25,13 @@ export const pathnames = {
   "/blog/[slug]": "/blog/[slug]",
   "/terms-conditions": "/terms-conditions",
   "/cookie-policy": "/cookie-policy",
+<<<<<<< HEAD
   "/services": "/services",
   "/sell": "/sell",
   "/contact": "/contact",
+=======
+  "/sell": "/sell",
+>>>>>>> 4981c69... fix: post layout
 } as const;
 
 export type AppPathname = keyof typeof pathnames;

@@ -1,9 +1,15 @@
 // components/layout/footer/Footer.tsx
 
+<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
+=======
+import { Link } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
+import LanguageSwitcher from "../LanguageSwitcher";
+>>>>>>> 4981c69... fix: post layout
 import FooterLink from "./FooterLink";
 
 export default async function Footer({ locale }: { locale: string }) {
