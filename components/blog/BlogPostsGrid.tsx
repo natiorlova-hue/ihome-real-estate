@@ -1,11 +1,11 @@
 //components/blog/BlogPostsGrid.tsx
 
+import GridContainer from "@/components/GridContainer";
+import Card from "@/components/content/ContentCard";
 import { getLocalizedText } from "@/lib/blog";
 import { withLocale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
 import { useTranslations } from "next-intl";
-import GridContainer from "../GridContainer";
-import Card from "../content/ContentCard";
 
 interface Post {
   _id: string;

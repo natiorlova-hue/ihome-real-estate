@@ -1,6 +1,8 @@
 // components/layout/MegaMenu.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { Link } from "@/i18n/routing";
 import {
   Building2,
   Home,
@@ -12,7 +14,6 @@ import {
   Users,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 
 interface MegaMenuProps {
   type: "lifestyle" | "properties";
@@ -75,7 +76,7 @@ const regions = [
   { id: "sotogrande", count: 19 },
 ];
 
-export default function MegaMenu({ type, locale }: MegaMenuProps) {
+export default function MegaMenu({ type }: MegaMenuProps) {
   const t = useTranslations("megaMenu");
 
   if (type === "lifestyle") {
@@ -92,7 +93,7 @@ export default function MegaMenu({ type, locale }: MegaMenuProps) {
               return (
                 <Link
                   key={category.id}
-                  href={`/${locale}/live-your-way/${category.id}`}
+                  href={`/live-your-way/${category.id}` as any}
                   className="group flex items-center space-x-3 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div
@@ -115,7 +116,7 @@ export default function MegaMenu({ type, locale }: MegaMenuProps) {
 
           <div className="mt-6 pt-4 border-t border-gray-200">
             <Link
-              href={`/${locale}/lifestyle-quiz`}
+              href="/lifestyle-quiz"
               className="text-sm font-medium text-terracotta-500 hover:text-terracotta-600 transition-colors duration-200"
             >
               {t("notSure")} →
@@ -141,7 +142,7 @@ export default function MegaMenu({ type, locale }: MegaMenuProps) {
               {propertyTypes.map(type => (
                 <li key={type.id}>
                   <Link
-                    href={`/${locale}/properties?type=${type.id}`}
+                    href={`/properties?type=${type.id}` as any}
                     className="group flex items-center justify-between text-sm text-gray-700 hover:text-terracotta-500 transition-colors duration-200"
                   >
                     <span>{t(`types.${type.id}`)}</span>
@@ -164,7 +165,7 @@ export default function MegaMenu({ type, locale }: MegaMenuProps) {
               {regions.map(region => (
                 <li key={region.id}>
                   <Link
-                    href={`/${locale}/properties?region=${region.id}`}
+                    href={`/properties?region=${region.id}` as any}
                     className="group flex items-center justify-between text-sm text-gray-700 hover:text-mediterranean-500 transition-colors duration-200"
                   >
                     <span>{t(`regions.${region.id}`)}</span>
@@ -180,7 +181,7 @@ export default function MegaMenu({ type, locale }: MegaMenuProps) {
 
         <div className="mt-6 pt-4 border-t border-gray-200">
           <Link
-            href={`/${locale}/properties`}
+            href="/properties"
             className="text-sm font-medium text-terracotta-500 hover:text-terracotta-600 transition-colors duration-200"
           >
             {t("viewAll")} →

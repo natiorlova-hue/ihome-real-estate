@@ -5,6 +5,7 @@ import { submitQuizAction } from "@/app/actions/quiz";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Link } from "@/i18n/routing";
 import { QUIZ_STEPS } from "@/lib/quiz";
 import { cn } from "@/lib/utils";
 import {
@@ -14,7 +15,6 @@ import {
   type ContactFieldErrorCode,
 } from "@/lib/validation/contact";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 
@@ -122,12 +122,10 @@ export default function QuizShell({ locale }: { locale: string }) {
         <p className="mt-3 text-gray-600">{t("success.subtitle")}</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Button asChild variant="brandBlue" size="lg">
-            <Link href={`/${locale}/properties`}>
-              {t("success.ctaPrimary")}
-            </Link>
+            <Link href="/properties">{t("success.ctaPrimary")}</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href={`/${locale}/`}>{t("success.ctaSecondary")}</Link>
+            <Link href="/">{t("success.ctaSecondary")}</Link>
           </Button>
         </div>
       </div>
@@ -405,7 +403,7 @@ export default function QuizShell({ locale }: { locale: string }) {
                   >
                     {tf("privacy.prefix")}{" "}
                     <Link
-                      href={`/${locale}/privacy-policy`}
+                      href="/privacy-policy"
                       className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
                     >
                       {tf("privacy.link")}

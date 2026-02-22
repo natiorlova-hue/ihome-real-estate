@@ -1,5 +1,5 @@
 // components/home/LifestyleSection.tsx
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import GridContainer from "@/components/GridContainer";
 import ContentCard from "@/components/content/ContentCard";
 import Reveal from "@/components/motion/Reveal";
@@ -7,7 +7,6 @@ import RevealGroup from "@/components/motion/RevealGroup";
 import { lifestyleItems } from "@/lib/lifestyle";
 import { lifestyleToTaxonomyKey } from "@/lib/lifestyle-mapping";
 import { type Locale } from "@/lib/locale-path";
-import { resolveNavHref } from "@/lib/nav-href";
 import { getTranslations } from "next-intl/server";
 
 export default async function LifestyleSection({ locale }: { locale: Locale }) {
@@ -81,10 +80,11 @@ export default async function LifestyleSection({ locale }: { locale: Locale }) {
                   title={title}
                   subtitle={subtitle}
                   description={description}
-                  href={resolveNavHref(locale, {
-                    href: item.path,
-                    status: item.status,
-                  })}
+                  href={
+                    (item.status === "comingSoon"
+                      ? "/coming-soon"
+                      : `/${item.path || ""}`) as any
+                  }
                   image={item.image}
                   imageAlt={title}
                 />

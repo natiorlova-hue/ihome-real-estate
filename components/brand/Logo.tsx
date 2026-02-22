@@ -1,11 +1,10 @@
-// components/brand/Logo.tsx
-import { withLocale, type Locale } from "@/lib/locale-path";
+import { Link } from "@/i18n/routing";
+import { type Locale } from "@/lib/locale-path";
 import Image from "next/image";
-import Link from "next/link";
 
 type LogoProps = {
   locale: Locale;
-  href?: string;
+  href?: React.ComponentProps<typeof Link>["href"];
 
   /** Localized aria-label (e.g. navigation.header.a11y.homeAria) */
   ariaLabel: string;
@@ -18,8 +17,7 @@ type LogoProps = {
 };
 
 export default function Logo({
-  locale,
-  href = "",
+  href = "/",
   ariaLabel,
   wordmark,
   className = "",
@@ -27,7 +25,7 @@ export default function Logo({
 }: LogoProps) {
   return (
     <Link
-      href={withLocale(locale, href)}
+      href={href}
       aria-label={ariaLabel}
       className={`flex items-center gap-3 ${className}`}
     >

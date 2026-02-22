@@ -8,7 +8,7 @@ import { getMessages } from "next-intl/server";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { notFound } from "next/navigation";
 
-import "../globals.css";
+import "@/app/globals.css";
 
 const notoSerif = Noto_Serif({
   subsets: ["latin", "cyrillic"],

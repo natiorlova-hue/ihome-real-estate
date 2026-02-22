@@ -1,9 +1,9 @@
 import Section from "@/components/layout/Section";
+import Reveal from "@/components/motion/Reveal";
+import RevealGroup from "@/components/motion/RevealGroup";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import Reveal from "../motion/Reveal";
-import RevealGroup from "../motion/RevealGroup";
 
 type BenefitsSectionProps = {
   locale: Locale;

@@ -1,5 +1,5 @@
 // components/layout/footer/FooterLink.tsx
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Link, usePathname } from "@/i18n/routing";
 import { cn } from "@/lib/utils";

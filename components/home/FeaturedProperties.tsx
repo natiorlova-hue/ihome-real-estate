@@ -1,7 +1,10 @@
 // components/home/FeaturedProperties.tsx
 import GridContainer from "@/components/GridContainer";
 import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
+import Reveal from "@/components/motion/Reveal";
+import RevealGroup from "@/components/motion/RevealGroup";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import {
   getFeaturedProperties,
@@ -9,9 +12,6 @@ import {
 } from "@/lib/properties";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
-import Reveal from "../motion/Reveal";
-import RevealGroup from "../motion/RevealGroup";
 
 export default async function FeaturedProperties({
   locale,
@@ -119,7 +119,7 @@ export default async function FeaturedProperties({
 
         <div className="mt-4 flex md:mt-8">
           <Button asChild variant="link" className="group ml-auto px-0 py-0">
-            <Link href={withLocale(locale, "coming-soon")}>
+            <Link href="/coming-soon">
               {tCommon("viewAll")}
               <ArrowRight className="ml-2 text-[#A4A7AE] transition-colors duration-300 group-hover:text-black" />
             </Link>

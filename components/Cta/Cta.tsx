@@ -101,7 +101,7 @@ export default async function Cta(props: CtaProps) {
                 buttonLabel={t(k.button)}
                 privacyPrefix={t(k.privacyPrefix)}
                 privacyLink={t(k.privacyLink)}
-                privacyHref={`/${props.locale}/privacy-policy`}
+                privacyHref="/privacy-policy"
                 variant="brand"
               />
             </Reveal>

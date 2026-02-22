@@ -3,6 +3,7 @@ import Badge from "@/components/Badge";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+// eslint-disable-next-line no-restricted-imports
 import Link from "next/link";
 import type { ReactNode } from "react";
 

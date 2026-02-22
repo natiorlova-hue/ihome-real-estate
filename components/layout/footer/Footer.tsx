@@ -1,8 +1,9 @@
 // components/layout/footer/Footer.tsx
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
-import LanguageSwitcher from "../LanguageSwitcher";
 import FooterLink from "./FooterLink";
 
 export default async function Footer({ locale }: { locale: string }) {

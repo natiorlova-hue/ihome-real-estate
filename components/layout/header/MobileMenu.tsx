@@ -1,9 +1,8 @@
-//components/layout/header/MobileMenu.tsx
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { withLocale, type Locale } from "@/lib/locale-path";
-import { resolveNavHref } from "@/lib/nav-href";
+import { Link } from "@/i18n/routing";
+import type { Locale } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -16,7 +15,6 @@ import {
 } from "@headlessui/react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Fragment, useState } from "react";
 import ScrollToContactButton from "./ScrollToContactButton";
 
@@ -132,7 +130,7 @@ export default function MobileMenu({
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <Link
-                    href={withLocale(locale, "")}
+                    href="/"
                     aria-label={labels.homeAria}
                     className="-m-1.5 p-1.5 flex gap-4"
                     onClick={() => setOpen(false)}
@@ -167,7 +165,7 @@ export default function MobileMenu({
                   <div className="-my-6 divide-y divide-gray-500/10">
                     <div className="space-y-2 py-6">
                       <Link
-                        href={withLocale(locale, "")}
+                        href="/"
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
@@ -191,10 +189,11 @@ export default function MobileMenu({
                               {dropdownForYou.map(item => (
                                 <Link
                                   key={item.key}
-                                  href={resolveNavHref(locale, {
-                                    href: item.path || "",
-                                    status: item.status,
-                                  })}
+                                  href={
+                                    (item.status === "comingSoon"
+                                      ? "/coming-soon"
+                                      : `/${item.path || ""}`) as any
+                                  }
                                   className="flex items-center rounded-lg py-2 pl-6 pr-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
@@ -226,10 +225,11 @@ export default function MobileMenu({
                               {dropdownProperties.map(item => (
                                 <Link
                                   key={item.key}
-                                  href={resolveNavHref(locale, {
-                                    href: item.href || "",
-                                    status: item.status,
-                                  })}
+                                  href={
+                                    (item.status === "comingSoon"
+                                      ? "/coming-soon"
+                                      : `/${item.href || ""}`) as any
+                                  }
                                   className="flex items-center rounded-lg py-2 pl-6 pr-3 text-sm font-semibold text-gray-900 hover:bg-gray-50"
                                   onClick={() => setOpen(false)}
                                 >
@@ -245,10 +245,11 @@ export default function MobileMenu({
                       </Disclosure>
 
                       <Link
-                        href={resolveNavHref(locale, {
-                          href: "guides",
-                          status: navStatuses.guides,
-                        })}
+                        href={
+                          navStatuses.guides === "comingSoon"
+                            ? "/coming-soon"
+                            : "/guides"
+                        }
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >
@@ -256,10 +257,11 @@ export default function MobileMenu({
                       </Link>
 
                       <Link
-                        href={resolveNavHref(locale, {
-                          href: "our-way",
-                          status: navStatuses.ourWay,
-                        })}
+                        href={
+                          navStatuses.ourWay === "comingSoon"
+                            ? "/coming-soon"
+                            : "/our-way"
+                        }
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                         onClick={() => setOpen(false)}
                       >

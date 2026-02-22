@@ -1,7 +1,7 @@
 // components/home/AboutUsSection.tsx
+import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
 
 import Section from "@/components/layout/Section";
 import Reveal from "@/components/motion/Reveal";
@@ -70,9 +70,7 @@ export default async function AboutUsSection({ locale }: AboutUsSectionProps) {
             <Reveal animation="fadeIn" delay="delay-300">
               <div className="mt-8">
                 <Button asChild variant="default" size="lg">
-                  <Link href={`/${locale}/coming-soon`}>
-                    {t("approach.cta")}
-                  </Link>
+                  <Link href="/coming-soon">{t("approach.cta")}</Link>
                 </Button>
               </div>
             </Reveal>

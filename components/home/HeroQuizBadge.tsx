@@ -1,25 +1,24 @@
-// components/home/HeroQuizBadge.tsx
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { withLocale, type Locale } from "@/lib/locale-path";
+import type { Locale } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 type HeroQuizBadgeProps = {
-  locale: Locale;
+  locale: Locale; // Залишаємо пропс, щоб не зламати HeroVisualSection, який його передає
   label: string;
   text: string;
   className?: string;
 };
 
 export default function HeroQuizBadge({
-  locale,
   label,
   text,
   className,
 }: HeroQuizBadgeProps) {
-  const href = withLocale(locale, "/lifestyle-quiz");
+  // Більше ніяких withLocale, використовуємо чистий статичний шлях
+  const href = "/lifestyle-quiz";
 
   return (
     <div
