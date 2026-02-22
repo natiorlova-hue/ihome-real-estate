@@ -20,24 +20,19 @@
 
     "members": [
       {
-        "name": "Julia Ivanova",
-        "role": "Founder & Relocation Expert",
-        "bio": "Over 15 years on the Costa del Sol, Julia helps families settle with comfort. She knows every school, clinic, and neighborhood detail."
+        "name": "Nataliya Orlova",
+        "role": "New Developments & Investment Specialist",
+        "bio": "Focused on off-plan opportunities, new-build projects, and strategic investment deals."
       },
       {
-        "name": "Alexey Petrov",
-        "role": "Investment Advisor",
-        "bio": "Alexey specializes in property investments. His expertise ensures your purchase brings not only a home but also a profitable asset."
+        "name": "Eugen Soliciiuc",
+        "role": "Financial Advisor",
+        "bio": "Supporting clients with financial structuring, documentation, international transfers, compliance processes, and smooth coordination of all regulatory and administrative steps related to the purchase."
       },
       {
-        "name": "Elena Sidorova",
-        "role": "Sales Specialist",
-        "bio": "Elena works with families and second-home seekers. She carefully selects homes that combine lifestyle, comfort, and long-term value."
-      },
-      {
-        "name": "Elena Sidorova",
-        "role": "Sales Specialist",
-        "bio": "Elena works with families and second-home seekers. She carefully selects homes that combine lifestyle, comfort, and long-term value."
+        "name": "Emilia Kremleva",
+        "role": "Head of Sales",
+        "bio": "Leading negotiations and guiding clients through each decision with clarity and care."
       }
     ]
   }

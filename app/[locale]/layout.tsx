@@ -2,7 +2,7 @@
 import Footer from "@/components/layout/footer/Footer";
 import Header from "@/components/layout/header/Header";
 import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
@@ -42,15 +42,14 @@ export const metadata: Metadata = {
     icon: "/favicon.ico", // Path relative to public directory
   },
 };
-
-export function generateStaticParams() {
-  return locales.map(locale => ({ locale }));
-}
-
-export const viewport = {
+export const viewport: Viewport = {
+  themeColor: "#EF651A", // Твій фірмовий оранжевий
   width: "device-width",
   initialScale: 1,
 };
+export function generateStaticParams() {
+  return locales.map(locale => ({ locale }));
+}
 
 export default async function RootLayout({
   children,
