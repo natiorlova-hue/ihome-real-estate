@@ -1,4 +1,4 @@
-//sanity/schemaTypes/localeBlock.ts
+// sanity/schemaTypes/localeBlock.ts
 
 import { defineType } from 'sanity';
 
@@ -85,6 +85,38 @@ export const localeBlock = defineType({
           },
         ],
       },
+      // Додаємо новий тип callout сюди
+      {
+        type: "object",
+        name: "callout",
+        title: "Highlight Block (Callout)",
+        fields: [
+          {
+            name: "title",
+            type: "string",
+            title: "Title",
+            description: "Optional heading for the highlighted block",
+          },
+          {
+            name: "text",
+            type: "text", // Використовуємо 'text' для багаторядкового поля
+            title: "Content",
+            validation: Rule => Rule.required(),
+          },
+        ],
+        preview: {
+          select: {
+            title: 'title',
+            subtitle: 'text'
+          },
+          prepare(selection) {
+            return {
+              title: selection.title || 'Highlight Block',
+              subtitle: selection.subtitle
+            }
+          }
+        }
+      }
     ],
     fieldset: lang.isDefault ? undefined : "translations",
     validation: Rule => (lang.isDefault ? Rule.required() : Rule.optional()),

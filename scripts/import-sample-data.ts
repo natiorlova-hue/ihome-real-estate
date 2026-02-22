@@ -1,3 +1,4 @@
+//scripts/import-sample-data.ts
 import { createClient } from "@sanity/client";
 
 // Create client using environment variables from .env file

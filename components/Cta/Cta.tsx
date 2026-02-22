@@ -1,3 +1,5 @@
+//components/Cta/Cta.tsx
+
 import { getTranslations } from "next-intl/server";
 
 import EmailLeadForm from "@/components/contact/EmailLeadForm";

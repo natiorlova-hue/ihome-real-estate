@@ -120,6 +120,32 @@ export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
   return client.fetch(query, { limit });
 }
 
+export async function getRelatedPosts(
+  currentSlug: string,
+  categoryId?: string,
+  limit: number = 3
+): Promise<BlogPost[]> {
+  // Якщо є категорія, шукаємо в ній. Якщо ні - просто беремо останні.
+  const categoryFilter = categoryId
+    ? `&& $categoryId in categories[]._ref`
+    : ``;
+
+  const query = `
+    *[_type == "post" && slug.current != $currentSlug ${categoryFilter}] | order(publishedAt desc)[0...$limit] {
+      _id,
+      title,
+      description,
+      slug,
+      publishedAt,
+      featured,
+      image { asset-> { _id, _ref, url }, alt, caption },
+      categories[]-> { _ref, title }
+    }
+  `;
+
+  return await client.fetch(query, { currentSlug, categoryId, limit });
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const query = `
   *[_type == "post"] | order(publishedAt desc) {

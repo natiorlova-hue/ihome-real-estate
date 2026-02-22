@@ -34,6 +34,7 @@ export default function LanguageSwitcher({
           key={locale.code}
           onClick={() => handleLanguageChange(locale.code)}
           size="sm"
+          className="h-3"
         >
           <span
             className={
