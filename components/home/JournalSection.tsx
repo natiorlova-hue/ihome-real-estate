@@ -1,13 +1,13 @@
 import GridContainer from "@/components/GridContainer";
 import ContentCard from "@/components/content/ContentCard";
 import Section from "@/components/layout/Section";
+import Reveal from "@/components/motion/Reveal";
+import { Link } from "@/i18n/routing";
 import { getLocalizedText, getRecentPosts } from "@/lib/blog";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
-import Reveal from "../motion/Reveal";
 
 type JournalSectionProps = {
   locale: Locale;
@@ -65,7 +65,7 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
 
       <div className="mt-10 flex justify-end md:mt-12">
         <Link
-          href={withLocale(locale, "blog")}
+          href="/blog"
           className="inline-flex items-center gap-2 font-sans text-sm font-medium text-tertiary-600 transition-colors hover:text-gray-900"
         >
           {tCommon("viewAll")}
