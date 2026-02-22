@@ -2,8 +2,8 @@
 
 "use client";
 
+import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -45,7 +45,7 @@ export type EmailLeadFormProps = {
   buttonLabel: string;
   privacyPrefix: string;
   privacyLink: string;
-  privacyHref: string;
+  privacyHref: React.ComponentProps<typeof Link>["href"];
 
   // For API payload
   locale: string;

@@ -1,11 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
-import ScrollToContactButton from "@/components/layout/header/ScrollToContactButton";
 import HeroQuizBadge from "@/components/home/HeroQuizBadge";
+import ScrollToContactButton from "@/components/layout/header/ScrollToContactButton";
 import { Button } from "@/components/ui/button";
-import { withLocale, type Locale } from "@/lib/locale-path";
+import type { Locale } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 
 type HeroProps = {
   locale: Locale;
@@ -43,9 +43,7 @@ export default async function HeroVisualSection({ locale }: HeroProps) {
 
           <div className="flex justify-center gap-3 md:justify-start md:gap-4">
             <Button asChild size="lg">
-              <Link href={withLocale(locale, "/coming-soon")}>
-                {t("hero.cta.explore")}
-              </Link>
+              <Link href="/coming-soon">{t("hero.cta.explore")}</Link>
             </Button>
 
             <ScrollToContactButton

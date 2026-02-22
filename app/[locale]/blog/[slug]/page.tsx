@@ -1,4 +1,5 @@
 // app/[locale]/blog/[slug]/page.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
   PortableText,

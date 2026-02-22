@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Logo from "@/components/brand/Logo";
@@ -8,10 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { withLocale, type Locale } from "@/lib/locale-path";
-import { resolveNavHref } from "@/lib/nav-href";
+import { Link } from "@/i18n/routing";
+import type { Locale } from "@/lib/locale-path";
 import Image from "next/image";
-import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import ScrollToContactButton from "./ScrollToContactButton";
 
@@ -123,7 +123,7 @@ export default function HeaderClient({
 
           <nav className="hidden items-center gap-6 text-nowrap text-xl font-semibold xl:flex">
             <Link
-              href={withLocale(locale, "")}
+              href="/"
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.home}
@@ -147,10 +147,11 @@ export default function HeaderClient({
                     className="px-4 py-2"
                   >
                     <Link
-                      href={resolveNavHref(locale, {
-                        href: item.href,
-                        status: item.status,
-                      })}
+                      href={
+                        (item.status === "comingSoon"
+                          ? "/coming-soon"
+                          : `/${item.href}`) as any
+                      }
                       className="w-full"
                     >
                       <DropdownRow
@@ -182,10 +183,11 @@ export default function HeaderClient({
                     className="px-4 py-2"
                   >
                     <Link
-                      href={resolveNavHref(locale, {
-                        href: item.href,
-                        status: item.status,
-                      })}
+                      href={
+                        (item.status === "comingSoon"
+                          ? "/coming-soon"
+                          : `/${item.href}`) as any
+                      }
                       className="w-full"
                     >
                       <DropdownRow
@@ -200,20 +202,20 @@ export default function HeaderClient({
             </DropdownMenu>
 
             <Link
-              href={resolveNavHref(locale, {
-                href: "guides",
-                status: navStatuses.guides,
-              })}
+              href={
+                navStatuses.guides === "comingSoon" ? "/coming-soon" : "/guides"
+              }
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.guides}
             </Link>
 
             <Link
-              href={resolveNavHref(locale, {
-                href: "our-way",
-                status: navStatuses.ourWay,
-              })}
+              href={
+                navStatuses.ourWay === "comingSoon"
+                  ? "/coming-soon"
+                  : "/our-way"
+              }
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
               {labels.ourWay}
@@ -222,9 +224,7 @@ export default function HeaderClient({
 
           <div className="hidden items-center gap-4 xl:flex">
             <Button asChild variant="outline">
-              <Link href={withLocale(locale, "coming-soon")}>
-                {labels.method}
-              </Link>
+              <Link href="/coming-soon">{labels.method}</Link>
             </Button>
             <ScrollToContactButton locale={locale} label={labels.talk} />
           </div>

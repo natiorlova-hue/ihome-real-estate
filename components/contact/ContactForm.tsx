@@ -1,8 +1,8 @@
 "use client";
 
+import { Link } from "@/i18n/routing";
 import { Mail, Phone, User } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -90,7 +90,6 @@ function getPhoneErrorCode(v: string): FieldErrorCode | undefined {
 
 export default function ContactForm() {
   const t = useTranslations("forms.contact");
-  const locale = useLocale();
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -364,7 +363,7 @@ export default function ContactForm() {
             >
               {t("privacy.prefix")}{" "}
               <Link
-                href={`/${locale}/privacy-policy`}
+                href="/privacy-policy"
                 className="text-brandBlue-500 underline underline-offset-4 hover:text-brandBlue-600"
               >
                 {t("privacy.link")}

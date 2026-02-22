@@ -9,11 +9,11 @@ import HeroVisualSection from "@/components/home/HeroVisualSection";
 import JournalSection from "@/components/home/JournalSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import OurTeamSection from "@/components/home/OurTeamSection";
+import Reveal from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
 import { type Locale } from "@/lib/locale-path";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
-import Reveal from "../../components/motion/Reveal";
 
 type HomePageProps = {
   params: Promise<{ locale: Locale }>;
@@ -75,9 +75,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
             <Reveal animation="fadeIn" delay="delay-300">
               <Button asChild variant="brandBlue" size="lg">
-                <Link href={`/${locale}/lifestyle-quiz`}>
-                  {t("quiz.button")}
-                </Link>
+                <Link href="/lifestyle-quiz">{t("quiz.button")}</Link>
               </Button>
             </Reveal>
           </div>

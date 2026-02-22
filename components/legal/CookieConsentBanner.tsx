@@ -1,11 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { withLocale, type Locale } from "@/lib/locale-path";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { Flag, X } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 type CookieConsentValue = "allow" | "decline";
@@ -34,7 +33,6 @@ function storeConsent(value: CookieConsentValue) {
 
 export default function CookieConsentBanner(): React.ReactNode {
   const t = useTranslations("common.cookies");
-  const locale = useLocale() as Locale;
 
   const [isVisible, setIsVisible] = React.useState(false);
 
@@ -97,7 +95,7 @@ export default function CookieConsentBanner(): React.ReactNode {
             <p className="text-sm leading-5 text-gray-900 sm:text-[15px]">
               <span className="font-medium">{t("text")}</span>{" "}
               <Link
-                href={withLocale(locale, "common.cookies")}
+                href="/cookie-policy"
                 className={cn(
                   "text-gray-600 underline underline-offset-4",
                   "hover:text-gray-900",

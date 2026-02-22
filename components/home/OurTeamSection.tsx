@@ -3,10 +3,10 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 import Section from "@/components/layout/Section";
+import Reveal from "@/components/motion/Reveal";
+import RevealGroup from "@/components/motion/RevealGroup";
 import type { Locale } from "@/lib/locale-path";
 import { TEAM } from "@/lib/team";
-import Reveal from "../motion/Reveal";
-import RevealGroup from "../motion/RevealGroup";
 
 type OurTeamSectionProps = {
   locale: Locale;

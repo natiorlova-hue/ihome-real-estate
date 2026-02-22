@@ -32,12 +32,12 @@ const eslintConfig = [
             },
           ],
           patterns: [
-        {
-          group: ["../*", "./../*"],
-          message:
-            "❌ Avoid relative imports across modules. Use absolute imports (@/...)",
-        },
-      ],
+            {
+              group: ["../*", "./../*"],
+              message:
+                "❌ Avoid relative imports across modules. Use absolute imports (@/...)",
+            },
+          ],
         },
       ],
       "jsx-a11y/anchor-is-valid": [
@@ -46,6 +46,16 @@ const eslintConfig = [
           components: ["Link"],
           specialLink: ["href"],
           aspects: ["noHref", "invalidHref", "preferButton"],
+        },
+      ],
+      // ✅ ПЕРЕНЕСЕНО СЮДИ (всередину об'єкта rules)
+      "no-restricted-syntax": [
+        "warn",
+        {
+          selector:
+            "JSXAttribute[name.name='className'] Literal[value=/\\bmd:hidden\\b/]",
+          message:
+            "⚠️ Avoid desktop-first patterns. Use mobile-first classes (hidden md:block).",
         },
       ],
     },
@@ -65,6 +75,7 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "public/**",
     ],
   },
 ];
