@@ -24,20 +24,20 @@ export const mainNavigation: {
         {
           id: "families",
           href: "live-your-way/families",
-          status: "comingSoon",
+          status: "active",
         },
-        { id: "nomads", href: "live-your-way/nomads", status: "comingSoon" },
-        { id: "golden", href: "live-your-way/golden", status: "comingSoon" },
-        { id: "golf", href: "live-your-way/golf", status: "comingSoon" },
+        { id: "nomads", href: "live-your-way/nomads", status: "active" },
+        { id: "golden", href: "live-your-way/golden", status: "active" },
+        { id: "golf", href: "live-your-way/golf", status: "active" },
         {
           id: "sea",
           href: "live-your-way/second-home",
-          status: "comingSoon",
+          status: "active",
         },
         {
           id: "investment",
           href: "live-your-way/investment",
-          status: "comingSoon",
+          status: "active",
         },
       ],
     },
@@ -52,13 +52,13 @@ export const mainNavigation: {
     {
       id: "services",
       href: "services",
-      status: "comingSoon",
+      status: "active",
     },
   ],
 
   right: [
-    { id: "guides", href: "guides", status: "comingSoon" },
-    { id: "ourWay", href: "our-way", status: "comingSoon" },
+    { id: "guides", href: "blog", status: "active" },
+    { id: "ourWay", href: "our-way", status: "active" },
   ],
 };
 
@@ -67,9 +67,9 @@ export const footerNavigation = {
     { name: "home", href: "", status: "active" },
     { name: "forYou", href: "live-your-way", status: "active" },
     { name: "properties", href: "properties", status: "active" },
-    { name: "services", href: "services", status: "comingSoon" },
-    { name: "guides", href: "guides", status: "comingSoon" },
-    { name: "ourWay", href: "our-way", status: "comingSoon" },
+    { name: "services", href: "services", status: "active" },
+    { name: "guides", href: "blog", status: "active" },
+    { name: "ourWay", href: "our-way", status: "active" },
   ],
   legal: [
     { name: "privacy", href: "privacy-policy", status: "comingSoon" },

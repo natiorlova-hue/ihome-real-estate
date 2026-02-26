@@ -43,7 +43,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   const origin = getOriginFromHeaders(await headers());
-  const url = origin ? new URL(`/${locale}/guides/${slug}`, origin) : undefined;
+  const url = origin ? new URL(`/${locale}/blog/${slug}`, origin) : undefined;
 
   const title = getLocalizedText(post.title, locale);
   const description = getLocalizedText(post.description, locale);
@@ -284,7 +284,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     subtitle={rCategory}
                     href={withLocale(
                       locale,
-                      `guides/${relatedPost.slug.current}`
+                      `blog/${relatedPost.slug.current}`
                     )}
                     image={
                       relatedPost.image

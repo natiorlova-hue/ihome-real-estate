@@ -1,0 +1,66 @@
+{
+  "hero": {
+    "title": "Not an agency. A boutique guide to life by the sea.",
+    "subtitle": "We don’t just show houses — we listen, understand, and guide you through one of the most important decisions of your life.",
+    "cta": "Start your journey"
+  },
+  "quote": {
+    "text": "“I listen before I offer.”",
+    "desc": "At iHome, we believe every client has a story. That's why our first step is listening — to your lifestyle, family needs, dreams, and vision of the future.",
+    "subtext": "We don’t just match you with a property; we match you with a life."
+  },
+  "values": {
+    "title": "Our values",
+    "items": {
+      "trust": {
+        "title": "Trust",
+        "desc": "Transparency and ethics in every step."
+      },
+      "focus": {
+        "title": "Focus",
+        "desc": "We tailor every search to your lifestyle."
+      },
+      "global": {
+        "title": "Global Mindset",
+        "desc": "We speak your language and share your taste."
+      },
+      "ease": {
+        "title": "Ease",
+        "desc": "We make the process stress-free and enjoyable."
+      }
+    }
+  },
+  "work": {
+    "title": "How we work",
+    "steps": {
+      "1": {
+        "title": "Discovery Call",
+        "desc": "Understanding your unique needs."
+      },
+      "2": {
+        "title": "Curated Selection",
+        "desc": "Hand-picked property shortlist."
+      },
+      "3": {
+        "title": "Property Visit",
+        "desc": "Guided tours with local insights."
+      },
+      "4": {
+        "title": "Legal & Purchase",
+        "desc": "Seamless transaction support."
+      },
+      "5": {
+        "title": "Relocation & Setup",
+        "desc": "Welcome to your new life."
+      }
+    },
+    "disclaimer": "Relocation services include school search, car registration, and property management."
+  },
+
+  "closing": {
+    "title": "From the first call to living your dream.",
+    "desc": "We're with you all the way — from the initial consultation through purchase, and settling into your new Mediterranean life. It’s not just about a contract; it’s about a relationship.",
+    "subdesc": "Our full-service approach ensures a seamless transition, allowing you to focus on the joy of starting a new chapter. We handle the complexities so you can start styling your journey.",
+    "cta": "Follow us"
+  }
+}
