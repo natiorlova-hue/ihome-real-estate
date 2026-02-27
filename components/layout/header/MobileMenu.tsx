@@ -246,6 +246,14 @@ export default function MobileMenu({
                       </Disclosure>
 
                       <Link
+                        href={"/services" as any}
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                        onClick={() => setOpen(false)}
+                      >
+                        {labels.services}
+                      </Link>
+
+                      <Link
                         href={
                           navStatuses.guides === "comingSoon"
                             ? "/coming-soon"

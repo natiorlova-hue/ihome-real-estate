@@ -13,7 +13,7 @@ export const pathnames = {
   "/lifestyle-quiz": "/lifestyle-quiz",
   "/privacy-policy": "/privacy-policy",
   "/live-your-way/[lifestyle]": "/live-your-way/[lifestyle]",
-  "/guides": "/guides",
+  "/guides": "/blog",
   "/our-way": "/our-way",
   "/properties": "/properties",
   "/properties/[region]": "/properties/[region]",

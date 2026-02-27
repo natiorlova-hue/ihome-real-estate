@@ -6,7 +6,7 @@ const delays = [
   "delay-100",
   "delay-200",
   "delay-300",
-] as const satisfies RevealDelay[];
+] as const satisfies readonly RevealDelay[];
 
 interface TestimonialsSectionProps {
   locale: Locale;
