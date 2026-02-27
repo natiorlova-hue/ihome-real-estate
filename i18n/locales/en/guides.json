@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "title": "Lifestyle Guides | iHome Real Estate",
+    "description": "Discover the art of Mediterranean living. Expert insights on Spanish property, culture, and coastal lifestyle."
+  },
+  "header": {
+    "title": "Lifestyle Guides",
+    "subtitle": "Engineering emotion through local expertise."
+  },
   "featuredHero": {
     "badge": "Featured",
     "title": "Guide Title",
