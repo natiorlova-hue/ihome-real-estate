@@ -16,7 +16,6 @@ type PropertiesPageProps = {
 export async function generateMetadata({ params }: PropertiesPageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "properties" });
-  const quizT = await getTranslations({ locale, namespace: "home.quiz" });
 
   return {
     title: `iHome | ${t("hero.title")}`,

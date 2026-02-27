@@ -18,6 +18,7 @@ export default function HorizontalArticleCard({
 }: HorizontalArticleCardProps) {
   return (
     <Link
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       href={href as any}
       className="group flex flex-col sm:flex-row gap-4 md:gap-6 bg-white border border-gray-100 rounded-xl p-3 md:p-4 hover:shadow-md transition-all duration-300"
     >

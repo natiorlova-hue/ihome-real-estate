@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ImageIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+
 import Image from "next/image";
 import { useState } from "react";
 
@@ -16,7 +16,6 @@ export default function PropertyGallery({
   title,
 }: PropertyGalleryProps) {
   const [activeIdx, setActiveIdx] = useState(0);
-  const t = useTranslations("properties.details.gallery");
 
   if (!images?.length) return null;
 

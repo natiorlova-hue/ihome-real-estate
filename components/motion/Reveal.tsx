@@ -4,7 +4,7 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
-type RevealDelay =
+export type RevealDelay =
   | "delay-0"
   | "delay-100"
   | "delay-200"

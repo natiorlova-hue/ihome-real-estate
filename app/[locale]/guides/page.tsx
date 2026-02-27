@@ -3,7 +3,7 @@ import BlogPostsGrid from "@/components/blog/BlogPostsGrid";
 import ContactSection from "@/components/contact/ContactSection";
 import ContentCard from "@/components/content/ContentCard";
 import HorizontalArticleCard from "@/components/guides/HorizontalArticleCard";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { type RevealDelay } from "@/components/motion/Reveal";
 import { Link } from "@/i18n/routing";
 import { getBlogPosts } from "@/lib/blog";
 import { type Locale } from "@/lib/locale-path";
@@ -104,6 +104,9 @@ const MOCK_ARTICLES: ArticleMock[] = [
     slug: "golden-visa-2024",
   },
 ];
+
+const storyDelays: RevealDelay[] = ["delay-100", "delay-200", "delay-300"];
+const investDelays: RevealDelay[] = ["delay-100", "delay-200", "delay-300"];
 
 export default async function GuidesPage({ params }: GuidesPageProps) {
   const { locale } = await params;
@@ -272,11 +275,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
                 role: "New Residents in Estepona",
               },
             ].map((story, i) => (
-              <Reveal
-                key={i}
-                animation="slideUp"
-                delay={`delay-${(i + 1) * 100}` as any}
-              >
+              <Reveal key={i} animation="slideUp" delay={storyDelays[i]}>
                 <div className="bg-white rounded-2xl p-8 shadow-xs border border-gray-100 h-full flex flex-col justify-between">
                   <p className="text-gray-700 italic mb-8 leading-relaxed">
                     {story.quote}
@@ -361,7 +360,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
               <Reveal
                 key={article.id}
                 animation="slideUp"
-                delay={`delay-${(i + 1) * 100}` as any}
+                delay={investDelays[i]}
               >
                 <ContentCard
                   title={article.title}

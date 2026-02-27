@@ -2,7 +2,7 @@ import Badge from "@/components/Badge";
 import ContactSection from "@/components/contact/ContactSection";
 import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
 import Cta from "@/components/Cta";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { type RevealDelay } from "@/components/motion/Reveal";
 import PropertyGallery from "@/components/properties/PropertyGallery";
 import PropertyLeadForm from "@/components/properties/PropertyLeadForm";
 import { Link } from "@/i18n/routing";
@@ -15,6 +15,12 @@ import { formatPrice } from "@/lib/utils";
 import { Bath, BedDouble, ChevronLeft, MapPin, Square } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+
+const relatedDelays = [
+  "delay-100",
+  "delay-200",
+  "delay-300",
+] as const satisfies readonly RevealDelay[];
 
 type PropertyDetailsPageProps = {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -241,7 +247,7 @@ export default async function PropertyDetailsPage({
               <Reveal
                 key={property.id}
                 animation="slideUp"
-                delay={`delay-${(idx + 1) * 100}` as any}
+                delay={relatedDelays[idx % 3]}
               >
                 <ContentCard
                   title={property.slug

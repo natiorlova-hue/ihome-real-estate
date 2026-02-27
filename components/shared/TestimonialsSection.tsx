@@ -1,6 +1,12 @@
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { type RevealDelay } from "@/components/motion/Reveal";
 import { type Locale } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
+
+const delays = [
+  "delay-100",
+  "delay-200",
+  "delay-300",
+] as const satisfies RevealDelay[];
 
 interface TestimonialsSectionProps {
   locale: Locale;
@@ -34,11 +40,7 @@ export default async function TestimonialsSection({
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {keys.map((k, i) => (
-            <Reveal
-              key={k}
-              animation="slideUp"
-              delay={`delay-${(i + 1) * 100}` as any}
-            >
+            <Reveal key={k} animation="slideUp" delay={delays[i]}>
               <div className="flex h-full flex-col justify-between rounded-2xl border border-gray-100 bg-white p-8 shadow-xs">
                 <p className="mb-8 leading-relaxed italic text-gray-700">
                   &quot;{t(`stories.items.${k}.quote`)}&quot;

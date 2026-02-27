@@ -171,7 +171,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           className="my-16
         font-serif text-2xl font-medium italic leading-relaxed text-gray-900 md:text-3xl"
         >
-          "{children}"
+          &ldquo;{children}&rdquo;
         </blockquote>
       ),
     },

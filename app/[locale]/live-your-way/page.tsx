@@ -6,10 +6,12 @@ import FeaturedProperties from "@/components/home/FeaturedProperties";
 import JournalSection from "@/components/home/JournalSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import Section from "@/components/layout/Section";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { type RevealDelay } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { Link, type Locale } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
+
+const storyDelays: RevealDelay[] = ["delay-100", "delay-200", "delay-300"];
 
 interface ForYouPageProps {
   params: Promise<{
@@ -111,11 +113,7 @@ export default async function ForYouPage({ params }: ForYouPageProps) {
                 role: "New Residents in Estepona",
               },
             ].map((story, i) => (
-              <Reveal
-                key={i}
-                animation="slideUp"
-                delay={`delay-${(i + 1) * 100}` as any}
-              >
+              <Reveal key={i} animation="slideUp" delay={storyDelays[i]}>
                 <div className="bg-white rounded-2xl p-8 shadow-xs border border-gray-100 h-full flex flex-col justify-between">
                   <p className="text-gray-700 italic mb-8 leading-relaxed">
                     {story.quote}

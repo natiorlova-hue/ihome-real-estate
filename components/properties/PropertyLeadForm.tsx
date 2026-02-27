@@ -42,7 +42,7 @@ export default function PropertyLeadForm({
     "idle" | "submitting" | "success" | "error"
   >("idle");
 
-  const onSubmit = handleSubmit(async data => {
+  const onSubmit = handleSubmit(async () => {
     setStatus("submitting");
     // Тут у майбутньому буде запит до /api/contact, як у ContactForm
     setTimeout(() => {

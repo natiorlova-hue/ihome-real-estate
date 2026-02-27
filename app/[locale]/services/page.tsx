@@ -4,7 +4,7 @@ import FeaturedProperties from "@/components/home/FeaturedProperties";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import Section from "@/components/layout/Section";
 import ScrollToContactButton from "@/components/layout/header/ScrollToContactButton";
-import Reveal from "@/components/motion/Reveal";
+import Reveal, { type RevealDelay } from "@/components/motion/Reveal";
 import ProcessSection from "@/components/shared/ProcessSection";
 import TestimonialsSection from "@/components/shared/TestimonialsSection";
 import { type Locale } from "@/i18n/routing";
@@ -165,6 +165,12 @@ const whyIcons: Record<string, React.ReactNode> = {
   ),
 };
 
+const coreDelays = [
+  "delay-0",
+  "delay-100",
+  "delay-200",
+] as const satisfies readonly RevealDelay[];
+
 export default async function ServicesPage({ params }: ServicesPageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "services" });
@@ -218,7 +224,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
 
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-3">
             {coreKeys.map((key, i) => (
-              <Reveal key={key} delay={`delay-${(i % 3) * 100}` as any}>
+              <Reveal key={key} delay={coreDelays[i % 3]}>
                 <div className="flex flex-col items-center text-center">
                   <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-brandBlue-50 text-brandBlue-600">
                     {coreIcons[key]}
@@ -249,7 +255,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
 
           <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
             {whyKeys.map((key, i) => (
-              <Reveal key={key} delay={`delay-${(i % 3) * 100}` as any}>
+              <Reveal key={key} delay={coreDelays[i % 3]}>
                 <div className="flex flex-col items-center text-center">
                   <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-terracotta-50 text-terracotta-500">
                     {whyIcons[key]}
