@@ -28,7 +28,7 @@ This is **not a marketplace**. This is a **guided lifestyle journey**.
 
 ### ❌ Forbidden
 
-- `import { Link } from "@/i18n/routing"` in feature code
+- `import Link from "next/link"` in feature code
 - Manual locale concatenation like `href=\`/${locale}/...``
 - Hardcoded locale paths `/en/...`, `/es/...`, `/ru/...`
 
