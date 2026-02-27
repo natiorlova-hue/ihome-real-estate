@@ -44,7 +44,6 @@ const eslintConfig = [
           aspects: ["noHref", "invalidHref", "preferButton"],
         },
       ],
-
       "no-restricted-syntax": [
         "warn",
         {

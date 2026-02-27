@@ -1,15 +1,9 @@
 // components/layout/footer/Footer.tsx
 
-<<<<<<< HEAD
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
+import type { AppPathname } from "@/i18n/routing";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
-=======
-import { Link } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
-import LanguageSwitcher from "../LanguageSwitcher";
->>>>>>> 4981c69... fix: post layout
 import FooterLink from "./FooterLink";
 
 export default async function Footer({ locale }: { locale: string }) {
@@ -38,7 +32,10 @@ export default async function Footer({ locale }: { locale: string }) {
             <ul className="flex flex-wrap items-center gap-6 lg:gap-10 text-sm md:text-base">
               {menuConfig.map(item => (
                 <li key={item.id}>
-                  <FooterLink href={item.href} label={tNav(item.id as any)} />
+                  <FooterLink
+                    href={item.href}
+                    label={tNav(item.id as Parameters<typeof tNav>[0])}
+                  />
                 </li>
               ))}
             </ul>
@@ -87,13 +84,18 @@ export default async function Footer({ locale }: { locale: string }) {
               aria-label="Legal"
               className="flex items-center gap-4 lg:gap-6 mt-2"
             >
-              {["privacy", "cookies", "terms"].map(key => (
-                <Link
-                  key={key}
-                  href={`/${key}-policy` as any}
-                  className="hover:text-gray-200"
-                >
-                  {tFooter(`links.${key}` as any)}
+              {(
+                [
+                  { href: "/privacy-policy", tKey: "links.privacy" },
+                  { href: "/cookie-policy", tKey: "links.cookies" },
+                  { href: "/terms-conditions", tKey: "links.terms" },
+                ] as const satisfies ReadonlyArray<{
+                  href: AppPathname;
+                  tKey: Parameters<typeof tFooter>[0];
+                }>
+              ).map(({ href, tKey }) => (
+                <Link key={href} href={href} className="hover:text-gray-200">
+                  {tFooter(tKey)}
                 </Link>
               ))}
             </nav>

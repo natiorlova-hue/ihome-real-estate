@@ -1,9 +1,5 @@
 // app/[locale]/blog/[slug]/page.tsx
-<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-explicit-any */
-=======
->>>>>>> 4981c69... fix: post layout
-
 import {
   PortableText,
   type PortableTextReactComponents,
