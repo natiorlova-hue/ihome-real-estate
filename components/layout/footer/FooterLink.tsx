@@ -1,9 +1,5 @@
 // components/layout/footer/FooterLink.tsx
-<<<<<<< HEAD
 /* eslint-disable @typescript-eslint/no-explicit-any */
-=======
-
->>>>>>> 4981c69... fix: post layout
 "use client";
 import { Link, usePathname } from "@/i18n/routing";
 import { cn } from "@/lib/utils";

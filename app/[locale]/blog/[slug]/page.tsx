@@ -170,11 +170,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           className="my-16
         font-serif text-2xl font-medium italic leading-relaxed text-gray-900 md:text-3xl"
         >
-<<<<<<< HEAD
           &ldquo;{children}&rdquo;
-=======
-          "{children}"
->>>>>>> 4981c69... fix: post layout
         </blockquote>
       ),
     },
@@ -287,11 +283,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     subtitle={rCategory}
                     href={withLocale(
                       locale,
-<<<<<<< HEAD
                       `blog/${relatedPost.slug.current}`
-=======
-                      `guides/${relatedPost.slug.current}`
->>>>>>> 4981c69... fix: post layout
                     )}
                     image={
                       relatedPost.image
