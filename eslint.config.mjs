@@ -60,14 +60,6 @@ const eslintConfig = [
       ],
     },
   },
-  "no-restricted-syntax": [
-    "warn",
-    {
-      selector: "JSXAttribute[name.name='className'] Literal[value=/\\bmd:hidden\\b/]",
-      message:
-        "⚠️ Avoid desktop-first patterns. Use mobile-first classes (hidden md:block).",
-    },
-  ],
   {
     ignores: [
       "node_modules/**",

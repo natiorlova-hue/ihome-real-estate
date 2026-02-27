@@ -26,6 +26,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
       comingSoon: (await import(`./locales/${locale}/coming-soon.json`))
         .default,
       quiz: (await import(`./locales/${locale}/quiz.json`)).default,
+      ourWay: (await import(`./locales/${locale}/our-way.json`)).default,
+      liveYourWay: (await import(`./locales/${locale}/live-your-way.json`))
+        .default,
+      services: (await import(`./locales/${locale}/services.json`)).default,
     },
   };
 });

@@ -1,4 +1,16 @@
 {
+  "hero": {
+    "quizBadge": {
+      "label": "Find your home",
+      "text": "Take a 1-minute quiz and see what fits your lifestyle"
+    },
+    "title": "Find a place that feels like home, not just square meters.",
+    "subtitle": "Browse our handpicked collection of properties on the Costa del Sol or tell us your story — and we'll find the right home for you.",
+    "buttons": {
+      "primary": "See Featured Homes",
+      "secondary": "Get Personal Guidance"
+    }
+  },
   "badges": {
     "roi": "ROI {value}%",
     "new": "New",
@@ -15,7 +27,20 @@
   "filters": {
     "title": "Filters",
     "clear": "Clear all",
-    "apply": "Apply filters"
+    "apply": "Apply filters",
+    "categories": {
+      "all": "All Properties",
+      "featured": "Featured Homes",
+      "newDevelopments": "New Developments",
+      "privateListings": "Private Listings",
+      "investment": "Investment Opportunities"
+    },
+    "dropdowns": {
+      "price": "Price",
+      "beds": "Beds",
+      "baths": "Baths",
+      "sort": "Sort"
+    }
   },
   "featured": {
     "items": {

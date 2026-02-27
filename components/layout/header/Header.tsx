@@ -79,6 +79,7 @@ export default async function Header({ locale }: HeaderProps) {
         home: tNav("nav.home"),
         forYou: tNav("nav.forYou"),
         properties: tNav("nav.properties"),
+        services: tNav("nav.services"),
         guides: tNav("nav.guides"),
         ourWay: tNav("nav.ourWay"),
         method: tNav("actions.method"),
@@ -99,21 +100,21 @@ export default async function Header({ locale }: HeaderProps) {
           title: tNav("dropdown.properties.sale.title"),
           desc: tNav("dropdown.properties.sale.desc"),
           href: "properties?type=sale",
-          status: "comingSoon",
+          status: "active",
         },
         {
           key: "rent",
           title: tNav("dropdown.properties.rent.title"),
           desc: tNav("dropdown.properties.rent.desc"),
           href: "properties?type=rent",
-          status: "comingSoon",
+          status: "active",
         },
         {
           key: "sell",
           title: tNav("dropdown.properties.sell.title"),
           desc: tNav("dropdown.properties.sell.desc"),
           href: "sell",
-          status: "comingSoon",
+          status: "active",
         },
       ]}
     />

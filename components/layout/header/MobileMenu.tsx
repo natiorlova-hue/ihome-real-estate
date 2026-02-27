@@ -23,6 +23,7 @@ type HeaderLabels = {
   home: string;
   forYou: string;
   properties: string;
+  services: string;
   guides: string;
   ourWay: string;
   method: string;

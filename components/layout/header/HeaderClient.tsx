@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@/i18n/routing";
 import type { Locale } from "@/lib/locale-path";
+import type { AppHref } from "@/lib/nav-href";
 import Image from "next/image";
 import MobileMenu from "./MobileMenu";
 import ScrollToContactButton from "./ScrollToContactButton";
@@ -20,6 +21,7 @@ type HeaderLabels = {
   home: string;
   forYou: string;
   properties: string;
+  services: string;
   guides: string;
   ourWay: string;
   method: string;
@@ -147,6 +149,9 @@ export default function HeaderClient({
                     className="px-4 py-2"
                   >
                     <Link
+
+                      href={`/live-your-way?category=${item.key}` as AppHref}
+
                       href={
                         (item.status === "comingSoon"
                           ? "/coming-soon"

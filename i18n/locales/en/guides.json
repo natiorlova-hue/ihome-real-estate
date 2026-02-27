@@ -1,15 +1,36 @@
 {
-  "ui": {
-    "viewAll": "View all",
-    "read": "Read article",
-    "sort": { "mostRecent": "Most recent" }
-  },
-  "empty": {
-    "title": "No articles yet",
-    "subtitle": "Check back soon..."
-  },
   "meta": {
-    "title": "Guides",
-    "description": "Guides"
+    "title": "Lifestyle Guides | iHome Real Estate",
+    "description": "Discover the art of Mediterranean living. Expert insights on Spanish property, culture, and coastal lifestyle."
+  },
+  "header": {
+    "title": "Lifestyle Guides",
+    "subtitle": "Engineering emotion through local expertise."
+  },
+  "featuredHero": {
+    "badge": "Featured",
+    "title": "Guide Title",
+    "excerpt": "Excerpt from the guide...",
+    "meta": "Reading time: 5 min"
+  },
+  "featuredArticles": {
+    "title": "Featured Articles"
+  },
+  "regions": {
+    "title": "Explore Regions"
+  },
+  "stories": {
+    "title": "Client Stories",
+    "subtitle": "Hear from those who found their dream home with us."
+  },
+  "lifestyle": {
+    "title": "Lifestyle Guides"
+  },
+  "investment": {
+    "title": "Investment Insights"
+  },
+  "notFound": {
+    "title": "Guide not found",
+    "button": "Back to guides"
   }
 }

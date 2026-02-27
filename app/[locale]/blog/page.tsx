@@ -21,13 +21,13 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `/${locale}/guides`,
+      canonical: `/${locale}/blog`,
     },
     openGraph: {
       type: "website",
       title,
       description,
-      url: `/${locale}/guides`,
+      url: `/${locale}/blog`,
     },
   };
 }

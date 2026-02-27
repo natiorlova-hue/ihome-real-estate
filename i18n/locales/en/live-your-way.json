@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "title": "Live Your Way | iHome Real Estate",
+    "description": "Choose the lifestyle that matches your story — we'll guide you to the right home, neighborhood, and way of living."
+  },
+  "hero": {
+    "quizBadge": {
+      "label": "Find your home",
+      "text": "Take a 1-minute quiz and see what fits your lifestyle"
+    },
+    "title": "Find yourself on the Costa del Sol.",
+    "subtitle": "Choose the lifestyle that matches your story — we'll guide you to the right home, neighborhood, and way of living.",
+    "buttons": {
+      "explore": "Explore Lifestyles",
+      "guidance": "Get Personal Guidance"
+    }
+  },
+  "categories": {
+    "families": {
+      "title": "Families relocating",
+      "description": "Find the perfect home for your family — with schools, comfort, and safety."
+    },
+    "nomads": {
+      "title": "Digital Nomads",
+      "description": "Live and work by the sea with great Wi-Fi, sunshine, and inspiration."
+    },
+    "golden": {
+      "title": "Golden Years",
+      "description": "Comfort, calm, and sunshine for your next chapter in Spain."
+    },
+    "golf": {
+      "title": "Golf & Slow Life",
+      "description": "Homes surrounded by green views, golf courses, and peaceful mornings."
+    },
+    "investment": {
+      "title": "Investment Seekers",
+      "description": "Properties with solid ROI, trusted developers, and high rental demand."
+    }
+  },
+  "ui": {
+    "viewAll": "View all",
+    "read": "Read article",
+    "sort": {
+      "mostRecent": "Most recent"
+    }
+  },
+  "empty": {
+    "title": "No articles yet",
+    "subtitle": "Check back soon..."
+  },
+  "stories": {
+    "title": "Client Stories",
+    "subtitle": "Real experiences from our clients"
+  }
+}
