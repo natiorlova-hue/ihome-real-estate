@@ -1,4 +1,6 @@
 // components/home/FeaturedProperties.tsx
+
+//test
 import GridContainer from "@/components/GridContainer";
 import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
 import Reveal from "@/components/motion/Reveal";
@@ -116,7 +118,6 @@ export default async function FeaturedProperties({
             })}
           </GridContainer>
         </RevealGroup>
-
         <div className="mt-4 flex md:mt-8">
           <Button asChild variant="link" className="group ml-auto px-0 py-0">
             <Link href="/properties">
