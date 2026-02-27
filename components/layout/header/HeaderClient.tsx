@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Logo from "@/components/brand/Logo";
@@ -149,14 +148,7 @@ export default function HeaderClient({
                     className="px-4 py-2"
                   >
                     <Link
-
                       href={`/live-your-way?category=${item.key}` as AppHref}
-
-                      href={
-                        (item.status === "comingSoon"
-                          ? "/coming-soon"
-                          : `/${item.href}`) as any
-                      }
                       className="w-full"
                     >
                       <DropdownRow
@@ -191,7 +183,7 @@ export default function HeaderClient({
                       href={
                         (item.status === "comingSoon"
                           ? "/coming-soon"
-                          : `/${item.href}`) as any
+                          : `/${item.href}`) as AppHref
                       }
                       className="w-full"
                     >
@@ -207,8 +199,15 @@ export default function HeaderClient({
             </DropdownMenu>
 
             <Link
+              href="/services"
+              className="text-gray-700 transition-colors hover:text-terracotta-500"
+            >
+              {labels.services}
+            </Link>
+
+            <Link
               href={
-                navStatuses.guides === "comingSoon" ? "/coming-soon" : "/guides"
+                navStatuses.guides === "comingSoon" ? "/coming-soon" : "/blog"
               }
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >
