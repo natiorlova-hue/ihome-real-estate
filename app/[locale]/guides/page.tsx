@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: GuidesPageProps) {
   const t = await getTranslations({ locale, namespace: "guides" });
 
   return {
-    title: `iHome | ${t("hero.title")}`,
-    description: t("hero.subtitle"),
+    title: `iHome | ${t("header.title")}`,
+    description: t("header.subtitle"),
   };
 }
 
@@ -125,11 +125,11 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
           </Reveal>
           <Reveal animation="slideUp">
             <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-4">
-              {t("hero.title")}
+              {t("header.title")}
             </h1>
           </Reveal>
           <Reveal animation="fadeIn" delay="delay-100">
-            <p className="text-lg text-tertiary-600">{t("hero.subtitle")}</p>
+            <p className="text-lg text-tertiary-600">{t("header.subtitle")}</p>
           </Reveal>
         </div>
 
