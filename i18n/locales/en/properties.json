@@ -24,8 +24,42 @@
     "bathrooms": "Bathrooms",
     "viewDetails": "View details"
   },
+  "details": {
+    "back": "Back to Properties",
+    "parking": "Parking spaces",
+    "descriptionTitle": "Description",
+    "featuresTitle": "Property Features",
+    "features": {
+      "propertyType": "Property Type",
+      "propertySize": "Size",
+      "terrace": "Terrace:",
+      "yearBuilt": "Year Built:"
+    },
+    "related": {
+      "title": "Featured Homes for You",
+      "subtitle": "Explore other properties that match your interests."
+    },
+    "form": {
+      "title": "Request Details",
+      "whatsapp": "WhatsApp",
+      "bookCall": "Book a Call",
+      "or": "or",
+      "firstName": "First name",
+      "firstNamePlaceholder": "First name",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "Last name",
+      "email": "Email",
+      "phone": "Phone number",
+      "message": "Message",
+      "privacyText": "You agree to our friendly",
+      "privacyLink": "privacy policy",
+      "submitting": "Sending...",
+      "submit": "Send message"
+    }
+  },
   "filters": {
     "title": "Filters",
+    "subtitle": "Refine your search criteria.",
     "clear": "Clear all",
     "apply": "Apply filters",
     "categories": {
@@ -40,6 +74,60 @@
       "beds": "Beds",
       "baths": "Baths",
       "sort": "Sort"
+    },
+    "sections": {
+      "type": "Property Type",
+      "luxury": "Category",
+      "budget": "Budget (€)",
+      "location": "Location",
+      "bedrooms": "Bedrooms",
+      "bathrooms": "Bathrooms",
+      "totalArea": "Total Area",
+      "views": "Views",
+      "condition": "Condition",
+      "features": "Features",
+      "amenities": "Complex Amenities",
+      "lifestyle": "Lifestyle"
+    },
+    "labels": {
+      "luxury": "Luxury / Premium"
+    },
+    "views": {
+      "sea": "Sea View",
+      "mountains": "Mountain View",
+      "garden": "Garden View",
+      "golf": "Golf Course View",
+      "panoramic": "Panoramic View"
+    },
+    "condition": {
+      "new": "New",
+      "excellent": "Excellent",
+      "renovation": "Needs Renovation"
+    },
+    "features": {
+      "terrace": "Terrace",
+      "furniture": "Furnished",
+      "closet": "Walk-in Closet",
+      "storage": "Storage Room",
+      "parking": "Parking Space",
+      "smart_home": "Smart Home System",
+      "ac": "Air Conditioning",
+      "elevator": "Elevator"
+    },
+    "amenities": {
+      "pool": "Swimming Pool",
+      "indoor_pool": "Indoor Pool",
+      "spa": "SPA",
+      "gym": "Gym",
+      "padel": "Padel Court",
+      "coworking": "Co-working",
+      "lounge": "Residents’ Lounge",
+      "bbq": "BBQ Area",
+      "playground": "Playground",
+      "garden": "Garden",
+      "security": "Security 24/7",
+      "gated": "Gated Community",
+      "concierge": "Concierge"
     }
   },
   "featured": {

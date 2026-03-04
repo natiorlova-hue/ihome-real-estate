@@ -1,3 +1,5 @@
+//app/[locale]/properties/[slug]/page.tsx
+
 import Badge from "@/components/Badge";
 import ContactSection from "@/components/contact/ContactSection";
 import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
@@ -177,19 +179,19 @@ export default async function PropertyDetailsPage({
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {[
                   {
-                    label: t("details.features.type"),
+                    label: t("details.features.propertyType"),
                     value: mockProperty.features.type,
                   },
                   {
-                    label: t("details.features.size"),
+                    label: t("details.features.propertySize"),
                     value: `${mockProperty.features.size} m²`,
                   },
                   {
-                    label: t("details.features.bedrooms"),
+                    label: t("card.bedrooms"),
                     value: mockProperty.features.bedrooms,
                   },
                   {
-                    label: t("details.features.bathrooms"),
+                    label: t("card.bathrooms"),
                     value: mockProperty.features.bathrooms,
                   },
                   {
