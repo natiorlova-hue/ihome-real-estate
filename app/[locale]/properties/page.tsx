@@ -1,3 +1,5 @@
+//app/[locale]/properties/page.tsx
+
 import Cta from "@/components/Cta";
 import ContactSection from "@/components/contact/ContactSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
@@ -78,7 +80,9 @@ export default async function PropertiesPage({ params }: PropertiesPageProps) {
                 size="lg"
                 className="rounded-lg border-gray-300"
               >
-                <Link href="/sell">{t("hero.buttons.secondary")}</Link>
+                <Link href="/lifestyle-quiz">
+                  {t("hero.buttons.secondary")}
+                </Link>
               </Button>
             </div>
           </Reveal>

@@ -43,7 +43,7 @@ export default async function HeroVisualSection({ locale }: HeroProps) {
 
           <div className="flex justify-center gap-3 md:justify-start md:gap-4">
             <Button asChild size="lg">
-              <Link href="/coming-soon">{t("hero.cta.explore")}</Link>
+              <Link href="/properties">{t("hero.cta.explore")}</Link>
             </Button>
 
             <ScrollToContactButton

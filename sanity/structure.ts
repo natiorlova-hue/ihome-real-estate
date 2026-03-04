@@ -29,6 +29,6 @@ export const structure = (S: StructureBuilder) =>
 
       // Keep access to future schemas
       ...S.documentTypeListItems().filter(
-        (item) => !["post", "category"].includes(item.getId() ?? "")
+        (item) => !["post", "category", "property", "location", "propertyType", "lifestyle", "amenity"].includes(item.getId() ?? "")
       ),
     ]);
