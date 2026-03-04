@@ -179,7 +179,14 @@ export default function HeaderClient({
                     asChild
                     className="px-4 py-2"
                   >
-                    <Link href={`/#contact` as AppHref} className="w-full">
+                    <Link
+                      href={
+                        (item.status === "comingSoon"
+                          ? "/coming-soon"
+                          : `/${item.href}`) as AppHref
+                      }
+                      className="w-full"
+                    >
                       <DropdownRow
                         iconKey={item.key}
                         title={item.title}

@@ -7,7 +7,7 @@ import { defineConfig } from "sanity";
 import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { structureTool } from "sanity/structure";
 
-import { dataset, projectId } from "./sanity/env.ts";
+import { dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 

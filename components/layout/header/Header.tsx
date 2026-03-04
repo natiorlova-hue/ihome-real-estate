@@ -113,7 +113,7 @@ export default async function Header({ locale }: HeaderProps) {
           key: "sell",
           title: tNav("dropdown.properties.sell.title"),
           desc: tNav("dropdown.properties.sell.desc"),
-          href: "sell",
+          href: "#contact",
           status: "active",
         },
       ]}

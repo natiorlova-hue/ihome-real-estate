@@ -5,6 +5,24 @@ import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const FILTER_KEYS = [
+  "budget",
+  "beds",
+  "baths",
+  "lifestyle",
+  "location",
+  "type",
+  "views",
+  "condition",
+  "features",
+  "amenities",
+  "totalArea",
+  "livingArea",
+  "plotArea",
+  "floor",
+  "luxury",
+];
+
 export interface TaxonomyItem {
   id: string;
   slug: string;
@@ -38,24 +56,7 @@ export default function PropertiesFilter({
   // Локальний стан для відкладеного застосування фільтрів
   const [draftFilters, setDraftFilters] = useState<FilterState>({});
 
-  // Усі ключі, які ми відслідковуємо в URL
-  const FILTER_KEYS = [
-    "budget",
-    "beds",
-    "baths",
-    "lifestyle",
-    "location",
-    "type",
-    "views",
-    "condition",
-    "features",
-    "amenities",
-    "totalArea",
-    "livingArea",
-    "plotArea",
-    "floor",
-    "luxury",
-  ];
+  // Усі ключі, які ми відслідковуємо в URL — визначено на рівні модуля (module-level constant)
 
   // Синхронізація з URL при відкритті дропдауну
   useEffect(() => {
