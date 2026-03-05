@@ -11,11 +11,6 @@
       "secondary": "Get Personal Guidance"
     }
   },
-  "badges": {
-    "roi": "ROI {value}%",
-    "new": "New",
-    "featured": "Featured"
-  },
   "units": {
     "sqm": "m²"
   },
@@ -32,6 +27,8 @@
     "features": {
       "propertyType": "Property Type",
       "propertySize": "Size",
+      "bedrooms": "Bedrooms:",
+      "bathrooms": "Bathrooms:",
       "terrace": "Terrace:",
       "yearBuilt": "Year Built:"
     },

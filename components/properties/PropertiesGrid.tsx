@@ -1,6 +1,6 @@
 "use client";
 
-import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
+import ContentCard from "@/components/content/ContentCard";
 import PropertiesFilter, {
   type TaxonomyItem,
 } from "@/components/properties/PropertiesFilter";
@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { FeaturedProperty, PropertyBadgeData } from "@/lib/properties";
+import type { PropertyCardData } from "@/lib/properties";
 import { cn, formatPrice } from "@/lib/utils";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -19,7 +19,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 
 type PropertiesGridProps = {
-  initialProperties: FeaturedProperty[];
+  initialProperties: PropertyCardData[];
   locations?: TaxonomyItem[];
   propertyTypes?: TaxonomyItem[];
   lifestyles?: TaxonomyItem[];
@@ -33,7 +33,6 @@ const CATEGORIES = [
   "investment",
 ] as const;
 
-// Усі ключі фільтрів, які ми відстежуємо
 const FILTER_KEYS = [
   "budget",
   "beds",
@@ -46,27 +45,8 @@ const FILTER_KEYS = [
   "features",
   "amenities",
   "totalArea",
-  "livingArea",
-  "plotArea",
-  "floor",
   "luxury",
 ];
-
-const formatBadge = (badge?: PropertyBadgeData): CardBadge | undefined => {
-  if (!badge) return undefined;
-  switch (badge.type) {
-    case "roi":
-      return { text: `ROI ${badge.value}%`, variant: badge.variant };
-    case "new":
-      return { text: "New", variant: badge.variant };
-    case "featured":
-      return { text: "Featured", variant: badge.variant };
-    case "area":
-      return { text: `${badge.value} m²`, variant: badge.variant };
-    default:
-      return undefined;
-  }
-};
 
 export default function PropertiesGrid({
   initialProperties,
@@ -74,7 +54,8 @@ export default function PropertiesGrid({
   propertyTypes = [],
   lifestyles = [],
 }: PropertiesGridProps) {
-  const t = useTranslations("properties.filters");
+  // Використовуємо неймспейс "properties", щоб мати доступ до t("filters...") та t("card...")
+  const t = useTranslations("properties");
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -84,44 +65,122 @@ export default function PropertiesGrid({
   const activeCategory = searchParams.get("category") || "all";
   const currentSort = searchParams.get("sort") || "recent";
 
-  const setCategory = (cat: string) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    if (cat === "all") current.delete("category");
-    else current.set("category", cat);
-    current.delete("page");
-    router.replace(`${pathname}?${current.toString()}`, { scroll: false });
-  };
+  // --- 1. ЛОГІКА ФІЛЬТРАЦІЇ ---
+  const filteredProperties = React.useMemo(() => {
+    return initialProperties.filter(item => {
+      // --- ЛОГІКА ВКЛАДОК (TABS) ---
+      if (
+        activeCategory === "newDevelopments" &&
+        !item.listingTypes?.includes("new_development")
+      )
+        return false;
+      if (
+        activeCategory === "privateListings" &&
+        !item.listingTypes?.includes("private_listing")
+      )
+        return false;
+      if (
+        activeCategory === "investment" &&
+        !item.listingTypes?.includes("investment")
+      )
+        return false;
+      if (activeCategory === "featured" && !item.isFeatured) return false;
 
-  const setSort = (sort: string) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    if (sort === "recent") current.delete("sort");
-    else current.set("sort", sort);
-    router.replace(`${pathname}?${current.toString()}`, { scroll: false });
-  };
+      // --- ЛОГІКА Sale / Rent ТА ТИПУ ОБ'ЄКТА (Villa/Apartment) ---
+      const typeParam = searchParams.get("type");
+      if (typeParam) {
+        if (typeParam === "sale" || typeParam === "rent") {
+          // Якщо це тип угоди - шукаємо в масиві
+          if (!item.listingTypes?.includes(typeParam)) return false;
+        } else {
+          // Якщо це вілли та інше - порівнюємо з типом об'єкта
+          if (item.propertyType !== typeParam) return false;
+        }
+      }
 
-  // --- ЛОГІКА ДЛЯ АКТИВНИХ ФІЛЬТРІВ (ЧІПСІВ) ---
-  const removeFilter = (key: string, valueToRemove: string) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    const values = current.get(key)?.split(",") || [];
-    const newValues = values.filter(v => v !== valueToRemove);
+      // Кімнати та ванні (1-4: суворо, 5: мінімум)
+      const bedsParam = searchParams.get("beds");
+      if (bedsParam) {
+        const val = Number(bedsParam);
+        val < 5 ? item.beds !== val && val !== 0 : item.beds < 5 && val !== 0;
+        if (val < 5) {
+          if (item.beds !== val) return false;
+        } else {
+          if (item.beds < 5) return false;
+        }
+      }
 
-    if (newValues.length > 0) {
-      current.set(key, newValues.join(","));
-    } else {
-      current.delete(key);
-    }
+      const bathsParam = searchParams.get("baths");
+      if (bathsParam) {
+        const val = Number(bathsParam);
+        if (val < 5) {
+          if (item.baths !== val) return false;
+        } else {
+          if (item.baths < 5) return false;
+        }
+      }
 
-    current.delete("page");
-    router.replace(`${pathname}?${current.toString()}`, { scroll: false });
-  };
+      // Фільтр Площі
+      const areaParam = searchParams.get("totalArea");
+      if (areaParam) {
+        const [min, maxStr] = areaParam.split("-");
+        const maxVal = maxStr === "plus" ? Infinity : Number(maxStr);
+        if (item.totalArea < Number(min) || item.totalArea > maxVal)
+          return false;
+      }
 
+      // Бюджет
+      const budgetParam = searchParams.get("budget");
+      if (budgetParam && item.price) {
+        const [min, maxStr] = budgetParam.split("-");
+        const maxVal = maxStr === "plus" ? Infinity : Number(maxStr);
+        if (item.price < Number(min) || item.price > maxVal) return false;
+      }
+
+      // Luxury Toggle
+      if (searchParams.get("luxury") === "true") {
+        if (!item.categories?.some(c => c === "luxury" || c === "premium"))
+          return false;
+      }
+
+      const loc = searchParams.get("location");
+      if (loc && item.location !== loc) return false;
+
+      // ТУТ БУВ ДУБЛЬ "type", ЯКИЙ Я ВИДАЛИВ, ЩОБ НЕ БУЛО "ПУСТО"
+
+      const checkMulti = (key: string, itemArr: string[]) => {
+        const p = searchParams.get(key);
+        if (!p || !itemArr) return true;
+        return p.split(",").every(val => itemArr.includes(val));
+      };
+
+      if (!checkMulti("amenities", item.amenities)) return false;
+      if (!checkMulti("views", item.views)) return false;
+      if (!checkMulti("features", item.features)) return false;
+
+      return true;
+    });
+  }, [initialProperties, searchParams, activeCategory]);
+  // --- 2. СОРТУВАННЯ ---
+  const sortedProperties = React.useMemo(() => {
+    const res = [...filteredProperties];
+    if (currentSort === "price_asc")
+      return res.sort((a, b) => (a.price || 0) - (b.price || 0));
+    if (currentSort === "price_desc")
+      return res.sort((a, b) => (b.price || 0) - (a.price || 0));
+    return res;
+  }, [filteredProperties, currentSort]);
+
+  // --- 3. ГЕНЕРАЦІЯ МІТОК ЧІПСІВ (ПРАВИЛЬНІ КЛЮЧІ З JSON) ---
   const getFilterLabel = (key: string, value: string) => {
     if (key === "location")
       return locations.find(l => l.slug === value)?.title || value;
-    if (key === "type")
+
+    if (key === "type") {
+      if (value === "sale") return "For Sale";
+      if (value === "rent") return "For Rent";
       return propertyTypes.find(p => p.slug === value)?.title || value;
-    if (key === "lifestyle")
-      return lifestyles.find(l => l.slug === value)?.title || value;
+    }
 
     if (key === "budget") {
       const budgets: Record<string, string> = {
@@ -134,12 +193,7 @@ export default function PropertiesGrid({
       return budgets[value] || value;
     }
 
-    if (key === "beds")
-      return value === "1" ? "1 Bedroom" : `${value} Bedrooms`;
-    if (key === "baths")
-      return value === "1" ? "1 Bathroom" : `${value} Bathrooms`;
-
-    if (key === "totalArea" || key === "livingArea" || key === "plotArea") {
+    if (key === "totalArea") {
       const areas: Record<string, string> = {
         "0-100": "Up to 100 m²",
         "100-250": "100 - 250 m²",
@@ -149,14 +203,28 @@ export default function PropertiesGrid({
       return areas[value] || value;
     }
 
-    if (key === "luxury")
-      return t("labels.luxury", { fallback: "Luxury / Premium" });
-    if (key === "views") return t(`views.${value}`, { fallback: value });
+    if (key === "beds") {
+      const val = Number(value);
+      return val >= 5
+        ? `5+ ${t("card.bedrooms")}`
+        : `${val} ${t("card.bedrooms")}`;
+    }
+    if (key === "baths") {
+      const val = Number(value);
+      return val >= 5
+        ? `5+ ${t("card.bathrooms")}`
+        : `${val} ${t("card.bathrooms")}`;
+    }
+
+    if (key === "luxury") return t("filters.labels.luxury");
+    if (key === "views")
+      return t(`filters.views.${value}`, { fallback: value });
     if (key === "condition")
-      return t(`condition.${value}`, { fallback: value });
-    if (key === "features") return t(`features.${value}`, { fallback: value });
+      return t(`filters.condition.${value}`, { fallback: value });
+    if (key === "features")
+      return t(`filters.features.${value}`, { fallback: value });
     if (key === "amenities")
-      return t(`amenities.${value}`, { fallback: value });
+      return t(`filters.amenities.${value}`, { fallback: value });
 
     return value;
   };
@@ -179,20 +247,28 @@ export default function PropertiesGrid({
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <h2 className="font-serif text-3xl text-gray-900 md:text-4xl">
-          Featured Properties
+          {t("filters.title")}
         </h2>
       </div>
 
-      {/* Filter Bar */}
       <div className="space-y-4 border-b border-gray-200 pb-4">
-        {/* ROW 1: Tabs */}
         <div className="flex overflow-x-auto pb-2 no-scrollbar">
           <div className="flex w-max items-center gap-6">
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
                 type="button"
-                onClick={() => setCategory(cat)}
+                onClick={() => {
+                  const cur = new URLSearchParams(
+                    Array.from(searchParams.entries())
+                  );
+                  cat === "all"
+                    ? cur.delete("category")
+                    : cur.set("category", cat);
+                  router.replace(`${pathname}?${cur.toString()}`, {
+                    scroll: false,
+                  });
+                }}
                 className={cn(
                   "border-b-2 pb-3 text-sm font-medium transition-colors whitespace-nowrap",
                   activeCategory === cat
@@ -200,29 +276,26 @@ export default function PropertiesGrid({
                     : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-900"
                 )}
               >
-                {t(`categories.${cat}`, { fallback: cat })}
+                {t(`filters.categories.${cat}`)}
               </button>
             ))}
           </div>
         </div>
 
-        {/* ROW 2: Filters Button + Active Chips (Left) & Sort Dropdown (Right) */}
-        <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-4 pt-2">
+        <div className="flex flex-col xl:flex-row justify-between gap-4 pt-2">
           <div className="flex flex-1 flex-wrap items-center gap-3 relative">
-            {/* КНОПКА ВИКЛИКУ ФІЛЬТРА */}
             <Button
               variant="outline"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
               className={cn(
-                "h-10 rounded-md border-gray-200 bg-white px-4 text-gray-700 hover:bg-gray-50 shrink-0",
-                isFilterOpen && "border-brandBlue-300 ring-4 ring-brandBlue-100" // Активний стан
+                "h-10 border-gray-200 bg-white px-4 text-gray-700",
+                isFilterOpen && "ring-4 ring-brandBlue-100"
               )}
             >
-              <SlidersHorizontal className="mr-2 h-4 w-4" />
-              {t("title", { fallback: "Filters" })}
+              <SlidersHorizontal className="mr-2 h-4 w-4" />{" "}
+              {t("filters.title")}
             </Button>
 
-            {/* Рендеримо дропдаун-фільтр прямо тут */}
             <PropertiesFilter
               isOpen={isFilterOpen}
               onClose={() => setIsFilterOpen(false)}
@@ -231,47 +304,64 @@ export default function PropertiesGrid({
               lifestyles={lifestyles}
             />
 
-            {/* ВІДОБРАЖЕННЯ АКТИВНИХ ФІЛЬТРІВ (ЧІПСИ) */}
             {activeFilters.map(filter => (
               <span
                 key={`${filter.key}-${filter.value}`}
-                className="inline-flex items-center gap-1.5 rounded-md border border-blue-light-200 bg-blue-light-50 px-3 py-1.5 text-sm font-medium text-blue-light-700 transition-colors hover:bg-blue-light-100"
+                className="inline-flex items-center gap-1.5 rounded-md border border-blue-light-200 bg-blue-light-50 px-3 py-1.5 text-sm font-medium text-blue-light-700"
               >
                 {filter.label}
                 <X
-                  className="h-3.5 w-3.5 cursor-pointer text-blue-light-400 hover:text-blue-light-700 transition-colors"
-                  onClick={() => removeFilter(filter.key, filter.value)}
-                  strokeWidth={2.5}
+                  className="h-3.5 w-3.5 cursor-pointer"
+                  onClick={() => {
+                    const cur = new URLSearchParams(
+                      Array.from(searchParams.entries())
+                    );
+                    const vals =
+                      cur
+                        .get(filter.key)
+                        ?.split(",")
+                        .filter(v => v !== filter.value) || [];
+                    vals.length > 0
+                      ? cur.set(filter.key, vals.join(","))
+                      : cur.delete(filter.key);
+                    router.replace(`${pathname}?${cur.toString()}`, {
+                      scroll: false,
+                    });
+                  }}
                 />
               </span>
             ))}
           </div>
 
-          {/* СОРТУВАННЯ */}
           <div className="shrink-0">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="h-10 min-w-[140px] justify-between rounded-md border-gray-200 bg-white px-4 text-gray-700 hover:bg-gray-50"
+                  className="h-10 min-w-[140px] justify-between bg-white px-4 text-gray-700"
                 >
-                  {currentSort === "recent" && "Most recent"}
-                  {currentSort === "price_asc" && "Price: Low to High"}
-                  {currentSort === "price_desc" && "Price: High to Low"}
-                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-gray-400" />
+                  {currentSort === "recent"
+                    ? "Most recent"
+                    : currentSort === "price_asc"
+                      ? "Price: Low to High"
+                      : "Price: High to Low"}
+                  <ChevronDown className="ml-2 h-4 w-4 text-gray-400" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="z-dropdown w-48 bg-white"
-              >
-                <DropdownMenuItem onClick={() => setSort("recent")}>
+              <DropdownMenuContent align="end" className="bg-white">
+                <DropdownMenuItem
+                  onClick={() => router.replace(`${pathname}?sort=recent`)}
+                >
                   Most recent
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSort("price_asc")}>
+                <DropdownMenuItem
+                  onClick={() => router.replace(`${pathname}?sort=price_asc`)}
+                >
                   Price: Low to High
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSort("price_desc")}>
+                <DropdownMenuItem
+                  onClick={() => router.replace(`${pathname}?sort=price_desc`)}
+                >
                   Price: High to Low
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -280,59 +370,35 @@ export default function PropertiesGrid({
         </div>
       </div>
 
-      {/* Grid */}
       <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-        {initialProperties.length > 0 ? (
-          initialProperties.map(property => (
+        {sortedProperties.length > 0 ? (
+          sortedProperties.map(prop => (
             <ContentCard
-              key={property.id}
-              title={property.slug
-                .split("-")
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}
-              href={`/properties/${property.slug}`}
-              image={property.image}
-              topBadge={formatBadge(property.topBadge)}
-              bottomBadge={formatBadge(property.bottomBadge)}
-              price={property.price ? formatPrice(property.price) : undefined}
+              key={prop.id}
+              {...prop}
+              price={prop.price ? formatPrice(prop.price) : undefined}
               isLink
-              description={`${property.beds} Beds • ${property.baths} Baths • Beautiful luxury property located in a prime area.`}
+              href={`/properties/${prop.slug}`}
             />
           ))
         ) : (
-          <div className="col-span-full py-12 text-center">
-            <p className="text-lg text-gray-500">
-              No properties match your current filters.
-            </p>
+          <div className="col-span-full py-24 text-center text-gray-500 text-xl">
+            No properties match your current filters.
           </div>
         )}
       </div>
 
-      {/* Pagination */}
-      {initialProperties.length > 0 && (
-        <div className="mt-12 flex items-center justify-between border-t border-gray-200 pt-6">
-          <Button variant="outline" className="bg-white text-gray-600">
-            Previous
-          </Button>
-          <div className="hidden gap-1 text-sm font-medium text-gray-600 md:flex">
-            <span className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 text-gray-900">
-              1
-            </span>
-            <span className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md hover:bg-gray-50">
-              2
-            </span>
-            <span className="flex h-10 w-10 items-center justify-center">
-              ...
-            </span>
-            <span className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-md hover:bg-gray-50">
-              10
-            </span>
-          </div>
-          <Button variant="outline" className="bg-white text-gray-600">
-            Next
-          </Button>
+      <div className="mt-12 flex items-center justify-between border-t border-gray-200 pt-6">
+        <Button variant="outline" className="bg-white text-gray-600">
+          Previous
+        </Button>
+        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 text-sm font-medium text-gray-900">
+          1
         </div>
-      )}
+        <Button variant="outline" className="bg-white text-gray-600">
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

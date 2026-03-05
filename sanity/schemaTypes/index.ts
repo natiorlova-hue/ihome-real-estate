@@ -1,12 +1,12 @@
-//sanity/schemaTypes/index.ts
+// sanity/schemaTypes/index.ts
 
 import { type SchemaTypeDefinition } from 'sanity'
 import { post } from './post'
 import { category } from './category'
 import { localeBlock } from './localeBlock'
 import { property } from './property'
-import { locationTaxonomy, propertyTypeTaxonomy, lifestyleTaxonomy, amenityTaxonomy } from './propertyTaxonomies'
+import { location } from './location'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, category, localeBlock, property, locationTaxonomy, propertyTypeTaxonomy, lifestyleTaxonomy, amenityTaxonomy],
+  types: [post, category, localeBlock, property, location],
 }

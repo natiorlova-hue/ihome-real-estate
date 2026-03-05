@@ -1,4 +1,4 @@
-//app/studio/[[...tool]]/StudioClient.tsxs
+//app/studio/[[...tool]]/StudioClient.tsx
 
 "use client";
 
