@@ -31,7 +31,7 @@ export default async function PropertiesPage({ params }: PropertiesPageProps) {
   const quizT = await getTranslations({ locale, namespace: "home.quiz" });
 
   // Отримуємо мокові дані (або згодом із Sanity)
-  const featuredProperties = await getFeaturedProperties();
+  const featuredProperties = await getFeaturedProperties(locale);
 
   return (
     <div className="bg-white">

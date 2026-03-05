@@ -1,17 +1,14 @@
 // components/home/FeaturedProperties.tsx
 
-//test
 import GridContainer from "@/components/GridContainer";
-import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
+import ContentCard from "@/components/content/ContentCard";
 import Reveal from "@/components/motion/Reveal";
 import RevealGroup from "@/components/motion/RevealGroup";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
-import { withLocale, type Locale } from "@/lib/locale-path";
-import {
-  getFeaturedProperties,
-  type PropertyBadgeData,
-} from "@/lib/properties";
+import { type Locale } from "@/lib/locale-path";
+import { getFeaturedProperties } from "@/lib/properties";
+import { formatPrice } from "@/lib/utils"; // Використовуємо універсальний форматувальник
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -22,41 +19,13 @@ export default async function FeaturedProperties({
 }) {
   const tHome = await getTranslations({ locale, namespace: "home" });
   const tCommon = await getTranslations({ locale, namespace: "common" });
-  const tProps = await getTranslations({ locale, namespace: "properties" });
 
-  const properties = await getFeaturedProperties();
-
-  const formatPrice = (price?: number) => {
-    if (typeof price !== "number") return undefined;
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency: "EUR",
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
-  const toCardBadge = (badge?: PropertyBadgeData): CardBadge | undefined => {
-    if (!badge) return undefined;
-
-    switch (badge.type) {
-      case "roi":
-        return {
-          variant: badge.variant,
-          text: tProps("badges.roi", { value: badge.value }),
-        };
-      case "new":
-        return { variant: badge.variant, text: tProps("badges.new") };
-      case "featured":
-        return { variant: badge.variant, text: tProps("badges.featured") };
-      case "area":
-        return {
-          variant: badge.variant,
-          text: `${badge.value} ${tProps("units.sqm")}`,
-        };
-      default:
-        return undefined;
-    }
-  };
+  // 1. Передаємо locale.
+  // 2. Фільтруємо лише ті, що мають категорію 'luxury' (або 'featured') та беремо перші 3.
+  const allProperties = await getFeaturedProperties(locale);
+  const properties = allProperties
+    .filter(p => p.isFeatured === true)
+    .slice(0, 3);
 
   return (
     <section className="py-8 md:py-16">
@@ -74,48 +43,40 @@ export default async function FeaturedProperties({
         <RevealGroup>
           <GridContainer
             className={[
-              // base hidden for direct children
               "[&>*]:opacity-0 [&>*]:translate-y-3 [&>*]:will-change-transform",
-              // show only after group triggers
               "[[data-reveal=on]_&]:[&>*]:animate-slideUp",
               "[[data-reveal=on]_&]:[&>*]:[animation-fill-mode:both]",
               "motion-reduce:[&>*]:opacity-100 motion-reduce:[&>*]:translate-y-0 motion-reduce:[&>*]:animate-none",
 
-              // stagger 1..6 (під твою кількість карток; якщо 3 — лиши 1..3)
               "[[data-reveal=on]_&]:[&>*:nth-child(1)]:delay-0",
               "[[data-reveal=on]_&]:[&>*:nth-child(2)]:delay-150",
               "[[data-reveal=on]_&]:[&>*:nth-child(3)]:delay-300",
-              "[[data-reveal=on]_&]:[&>*:nth-child(4)]:delay-450",
-              "[[data-reveal=on]_&]:[&>*:nth-child(5)]:delay-600",
-              "[[data-reveal=on]_&]:[&>*:nth-child(6)]:delay-750",
 
-              // desktop wave by columns (3 cols)
               "lg:[[data-reveal=on]_&]:[&>*:nth-child(3n+1)]:delay-0",
               "lg:[[data-reveal=on]_&]:[&>*:nth-child(3n+2)]:delay-200",
               "lg:[[data-reveal=on]_&]:[&>*:nth-child(3n+3)]:delay-400",
             ].join(" ")}
           >
-            {properties.map(item => {
-              const title = tProps(`featured.items.${item.id}.title`);
-              const description = tProps(
-                `featured.items.${item.id}.description`
-              );
-
-              return (
-                <ContentCard
-                  key={item.id}
-                  title={title}
-                  description={description}
-                  href={withLocale(locale, `coming-soon`)}
-                  image={item.image}
-                  imageAlt={title}
-                  topBadge={toCardBadge(item.topBadge)}
-                  bottomBadge={toCardBadge(item.bottomBadge)}
-                  price={formatPrice(item.price)}
-                  isLink
-                />
-              );
-            })}
+            {properties.map(item => (
+              <ContentCard
+                key={item.id}
+                title={item.title} // Синхронізовано: текст вже перекладений у mapToCard
+                description={item.description} // Синхронізовано: перші 2 рядки опису
+                href={`/properties/${item.slug}`}
+                image={item.image}
+                imageAlt={item.title}
+                topBadge={item.topBadge} // Синхронізовано з PropertiesGrid
+                bottomBadge={item.bottomBadge} // Синхронізовано з PropertiesGrid
+                price={
+                  item.priceOnRequest
+                    ? "Price on Request"
+                    : item.price
+                      ? formatPrice(item.price)
+                      : undefined
+                }
+                isLink
+              />
+            ))}
           </GridContainer>
         </RevealGroup>
         <div className="mt-4 flex md:mt-8">

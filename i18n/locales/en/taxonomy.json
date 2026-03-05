@@ -71,5 +71,20 @@
     "fuengirola": { "title": "Fuengirola" },
     "benalmadena": { "title": "Benalmádena" },
     "torremolinos": { "title": "Torremolinos" }
+  },
+  "propertyType": {
+    "apartment": "Apartment",
+    "penthouse": "Penthouse",
+    "townhouse": "Townhouse",
+    "semi-detached-villa": "Semi-detached Villa",
+    "villa": "Villa",
+    "commercial-property": "Commercial Property",
+    "plot": "Plot"
+  },
+  "status": {
+    "resale": "Resale",
+    "new_development": "New Development",
+    "for_rent": "For Rent",
+    "sold": "Sold"
   }
 }

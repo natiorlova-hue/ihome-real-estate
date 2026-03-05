@@ -1,18 +1,13 @@
-//app/[locale]/properties/[slug]/page.tsx
-
 import Badge from "@/components/Badge";
 import ContactSection from "@/components/contact/ContactSection";
-import ContentCard, { type CardBadge } from "@/components/content/ContentCard";
+import ContentCard from "@/components/content/ContentCard";
 import Cta from "@/components/Cta";
 import Reveal, { type RevealDelay } from "@/components/motion/Reveal";
 import PropertyGallery from "@/components/properties/PropertyGallery";
 import PropertyLeadForm from "@/components/properties/PropertyLeadForm";
 import { Link } from "@/i18n/routing";
 import { type Locale } from "@/lib/locale-path";
-import {
-  getFeaturedProperties,
-  type PropertyBadgeData,
-} from "@/lib/properties";
+import { getFeaturedProperties } from "@/lib/properties";
 import { formatPrice } from "@/lib/utils";
 import { Bath, BedDouble, ChevronLeft, MapPin, Square } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -28,147 +23,107 @@ type PropertyDetailsPageProps = {
   params: Promise<{ locale: Locale; slug: string }>;
 };
 
-// Хелпер для бейджів, як на сторінці-каталозі
-const formatBadge = (badge?: PropertyBadgeData): CardBadge | undefined => {
-  if (!badge) return undefined;
-  switch (badge.type) {
-    case "roi":
-      return { text: `ROI ${badge.value}%`, variant: badge.variant };
-    case "new":
-      return { text: "New", variant: badge.variant };
-    case "featured":
-      return { text: "Featured", variant: badge.variant };
-    case "area":
-      return { text: `${badge.value} m²`, variant: badge.variant };
-    default:
-      return undefined;
-  }
-};
-
 export default async function PropertyDetailsPage({
   params,
 }: PropertyDetailsPageProps) {
   const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: "properties" });
 
-  // В майбутньому тут буде await getPropertyBySlug(slug) з Sanity.
-  // Поки мокаємо дані, щоб вони відповідали дизайну.
-  const mockProperty = {
-    id: "p1",
-    slug,
-    title: slug
-      .split("-")
-      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" "),
-    location: "Marbella, Andalusia",
-    price: 2500000,
-    description:
-      "Immerse yourself in the atmosphere of exceptional comfort and luxury in this Mediterranean villa. Natural light creates a sense of freedom and harmony. The open spaces are ideal for family gatherings and entertaining, while the floor-to-ceiling panoramic windows blur the boundary between the interior and the surrounding landscape.",
-    features: {
-      type: "Villa",
-      size: 450,
-      bedrooms: 4,
-      bathrooms: 4,
-      terrace: 120,
-      yearBuilt: 2018,
-    },
-    images: [
-      "/images-property/marbella-hillside-villa.png",
-      "/images-property/sunset-infinity-villa.png",
-      "/images-property/sunset-infinity-villa-new.png",
-      "/images-property/marbella-hillside-villa.png", // extra for +1 indicator
-    ],
-    badges: {
-      top: { type: "roi", value: 6.3, variant: "pink" } as PropertyBadgeData,
-    },
-  };
+  // Отримуємо всі об'єкти з бази (без хардкоду)
+  const allProperties = await getFeaturedProperties(locale);
+  const property = allProperties.find(p => p.slug === slug);
 
-  // Отримуємо схожі об'єкти
-  const allProperties = await getFeaturedProperties();
-  const relatedProperties = allProperties.slice(0, 3);
+  if (!property) notFound();
 
-  if (!mockProperty) notFound();
+  // Виводимо обрані об'єкти, виключаючи поточний, щоб він не дублювався
+  const relatedProperties = allProperties
+    .filter(p => p.slug !== slug)
+    .slice(0, 3);
 
   return (
     <div className="bg-white">
+      {/* 1. ВЕРХНІЙ CTA */}
+      <Cta
+        locale={locale}
+        namespace="common"
+        layout="emailCapture"
+        variant="brand"
+        className="pt-0 pb-0 md:pt-2 md:pb-2 border-b border-terracotta-600"
+        keys={{
+          title: "ctaRow.title",
+          desc: "ctaRow.desc",
+          button: "ctaRow.sendRequestBtn",
+          emailPlaceholder: "ctaRow.emailPlaceholder",
+          privacyPrefix: "ctaRow.privacyPrefix",
+          privacyLink: "ctaRow.privacyLink",
+        }}
+      />
+
       <div className="container pt-6 pb-16 md:pt-10 md:pb-24">
-        {/* Back Link / Breadcrumbs */}
+        {/* Back Link */}
         <Reveal animation="slideDown">
           <Link
             href="/properties"
             className="inline-flex items-center gap-2 text-sm font-medium text-brandBlue-500 hover:text-brandBlue-600 transition-colors mb-6"
           >
-            <ChevronLeft className="h-4 w-4" /> Back to Properties
+            <ChevronLeft className="h-4 w-4" /> {t("details.back")}
           </Link>
         </Reveal>
 
         {/* Gallery */}
         <Reveal animation="fadeIn" delay="delay-100">
-          <PropertyGallery
-            images={mockProperty.images}
-            title={mockProperty.title}
-          />
+          <PropertyGallery images={property.images} title={property.title} />
         </Reveal>
 
         {/* Layout Grid */}
         <div className="mt-10 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:mt-16">
           {/* Left Column (Content) */}
           <div className="lg:col-span-8 space-y-12">
-            {/* Header Info */}
             <Reveal animation="slideUp" className="space-y-5">
-              {mockProperty.badges.top.type === "roi" && (
+              {property.topBadge && (
                 <Badge
-                  variant={mockProperty.badges.top.variant}
-                  text={`ROI ${mockProperty.badges.top.value}%`}
+                  variant={property.topBadge.variant}
+                  text={property.topBadge.text}
                 />
               )}
 
               <h1 className="text-4xl md:text-5xl font-serif text-gray-900 leading-tight">
-                {mockProperty.title}
+                {property.title}
               </h1>
 
               <p className="flex items-center gap-2 text-tertiary-600 text-lg">
-                <MapPin className="h-5 w-5" /> {mockProperty.location}
+                <MapPin className="h-5 w-5" /> Marbella, Andalusia
               </p>
 
-              {/* Quick Info Pills */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
                 <div className="inline-flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700">
-                  <BedDouble className="h-4 w-4" />{" "}
-                  {mockProperty.features.bedrooms} Bedrooms
+                  <BedDouble className="h-4 w-4" /> {property.beds}{" "}
+                  {t("card.bedrooms")}
                 </div>
                 <div className="inline-flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700">
-                  <Bath className="h-4 w-4" /> {mockProperty.features.bathrooms}{" "}
-                  Bathrooms
+                  <Bath className="h-4 w-4" /> {property.baths}{" "}
+                  {t("card.bathrooms")}
                 </div>
                 <div className="inline-flex items-center gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700">
-                  <Square className="h-4 w-4" /> {mockProperty.features.size} m²
+                  <Square className="h-4 w-4" /> {property.totalArea} m²
                 </div>
               </div>
             </Reveal>
 
-            {/* Description & Price */}
             <Reveal animation="fadeIn" className="space-y-6">
               <h2 className="text-2xl font-sans font-semibold text-gray-900">
                 {t("details.descriptionTitle")}
               </h2>
               <div className="prose prose-gray max-w-none text-tertiary-600 leading-relaxed text-lg">
-                <p>{mockProperty.description}</p>
-                <p>
-                  Enjoy panoramic sea views and proximity to all local
-                  amenities, curated directly by iHome&apos;s team of
-                  Mediterranean experts to ensure an impeccable investment or a
-                  perfect forever home.
-                </p>
+                <p>{property.description}</p>
               </div>
               <div className="pt-4">
                 <p className="text-3xl font-serif font-semibold text-gray-900">
-                  {formatPrice(mockProperty.price)}
+                  {formatPrice(property.price ?? 0)}
                 </p>
               </div>
             </Reveal>
 
-            {/* Features Grid */}
             <Reveal
               animation="fadeIn"
               className="space-y-6 pt-8 border-t border-gray-200"
@@ -178,30 +133,15 @@ export default async function PropertyDetailsPage({
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {[
-                  {
-                    label: t("details.features.propertyType"),
-                    value: mockProperty.features.type,
-                  },
+                  { label: t("details.features.propertyType"), value: "Villa" },
                   {
                     label: t("details.features.propertySize"),
-                    value: `${mockProperty.features.size} m²`,
+                    value: `${property.totalArea} m²`,
                   },
-                  {
-                    label: t("card.bedrooms"),
-                    value: mockProperty.features.bedrooms,
-                  },
-                  {
-                    label: t("card.bathrooms"),
-                    value: mockProperty.features.bathrooms,
-                  },
-                  {
-                    label: t("details.features.terrace"),
-                    value: `${mockProperty.features.terrace} m²`,
-                  },
-                  {
-                    label: t("details.features.yearBuilt"),
-                    value: mockProperty.features.yearBuilt,
-                  },
+                  { label: t("card.bedrooms"), value: property.beds },
+                  { label: t("card.bathrooms"), value: property.baths },
+                  { label: t("details.features.terrace"), value: "—" },
+                  { label: t("details.features.yearBuilt"), value: "2025" },
                 ].map((feature, i) => (
                   <div
                     key={i}
@@ -219,14 +159,14 @@ export default async function PropertyDetailsPage({
             </Reveal>
           </div>
 
-          {/* Right Column (Sticky Form Sidebar) */}
+          {/* Form Sidebar */}
           <div className="lg:col-span-4">
             <Reveal
               animation="slideUp"
               delay="delay-200"
               className="sticky top-28"
             >
-              <PropertyLeadForm propertyName={mockProperty.title} />
+              <PropertyLeadForm propertyName={property.title} />
             </Reveal>
           </div>
         </div>
@@ -245,34 +185,37 @@ export default async function PropertyDetailsPage({
           </Reveal>
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-            {relatedProperties.map((property, idx) => (
-              <Reveal
-                key={property.id}
-                animation="slideUp"
-                delay={relatedDelays[idx % 3]}
-              >
-                <ContentCard
-                  title={property.slug
-                    .split("-")
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ")}
-                  href={`/properties/${property.slug}`}
-                  image={property.image}
-                  topBadge={formatBadge(property.topBadge)}
-                  bottomBadge={formatBadge(property.bottomBadge)}
-                  price={
-                    property.price ? formatPrice(property.price) : undefined
-                  }
-                  isLink
-                  description={`${property.beds} Beds • ${property.baths} Baths • Exceptional location.`}
-                />
-              </Reveal>
-            ))}
+            {relatedProperties.length > 0 ? (
+              relatedProperties.map((prop, idx) => (
+                <Reveal
+                  key={prop.id}
+                  animation="slideUp"
+                  delay={relatedDelays[idx % 3]}
+                >
+                  <ContentCard
+                    title={prop.title}
+                    href={`/properties/${prop.slug}`}
+                    image={prop.image}
+                    topBadge={prop.topBadge}
+                    bottomBadge={prop.bottomBadge}
+                    price={formatPrice(prop.price ?? 0)}
+                    isLink
+                    description={
+                      prop.description
+                    } /* ЖОДНОГО ХАРДКОДУ, ТІЛЬКИ ОПИС З БАЗИ */
+                  />
+                </Reveal>
+              ))
+            ) : (
+              <div className="col-span-full py-8 text-center text-gray-500">
+                No related properties available yet.
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Want to sell your property CTA */}
+      {/* 2. НИЖНІЙ CTA */}
       <Cta
         locale={locale}
         namespace="common"
@@ -289,7 +232,6 @@ export default async function PropertyDetailsPage({
         }}
       />
 
-      {/* Let's talk about your next home */}
       <ContactSection locale={locale} />
     </div>
   );
