@@ -24,20 +24,20 @@ export const mainNavigation: {
         {
           id: "families",
           href: "live-your-way/families",
-          status: "active",
+          status: "comingSoon",
         },
-        { id: "nomads", href: "live-your-way/nomads", status: "active" },
-        { id: "golden", href: "live-your-way/golden", status: "active" },
-        { id: "golf", href: "live-your-way/golf", status: "active" },
+        { id: "nomads", href: "live-your-way/nomads", status: "comingSoon" },
+        { id: "golden", href: "live-your-way/golden", status: "comingSoon" },
+        { id: "golf", href: "live-your-way/golf", status: "comingSoon" },
         {
           id: "sea",
           href: "live-your-way/second-home",
-          status: "active",
+          status: "comingSoon",
         },
         {
           id: "investment",
           href: "live-your-way/investment",
-          status: "active",
+          status: "comingSoon",
         },
       ],
     },
@@ -46,7 +46,7 @@ export const mainNavigation: {
       id: "properties",
       href: "properties",
       hasMegaMenu: true,
-      status: "active",
+      status: "comingSoon",
     },
 
     {
@@ -57,7 +57,7 @@ export const mainNavigation: {
   ],
 
   right: [
-    { id: "guides", href: "blog", status: "active" },
+    { id: "guides", href: "guides", status: "comingSoon" },
     { id: "ourWay", href: "our-way", status: "active" },
   ],
 };
@@ -65,10 +65,10 @@ export const mainNavigation: {
 export const footerNavigation = {
   navigation: [
     { name: "home", href: "", status: "active" },
-    { name: "forYou", href: "live-your-way", status: "active" },
-    { name: "properties", href: "properties", status: "active" },
+    { name: "forYou", href: "live-your-way", status: "comingSoon" },
+    { name: "properties", href: "properties", status: "comingSoon" },
     { name: "services", href: "services", status: "active" },
-    { name: "guides", href: "blog", status: "active" },
+    { name: "guides", href: "guides", status: "comingSoon" },
     { name: "ourWay", href: "our-way", status: "active" },
   ],
   legal: [

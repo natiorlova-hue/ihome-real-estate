@@ -100,14 +100,14 @@ export default async function Header({ locale }: HeaderProps) {
           title: tNav("dropdown.properties.sale.title"),
           desc: tNav("dropdown.properties.sale.desc"),
           href: "properties?type=sale",
-          status: "active",
+          status: "comingSoon",
         },
         {
           key: "rent",
           title: tNav("dropdown.properties.rent.title"),
           desc: tNav("dropdown.properties.rent.desc"),
           href: "properties?type=rent",
-          status: "active",
+          status: "comingSoon",
         },
         {
           key: "sell",
