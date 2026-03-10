@@ -1,3 +1,5 @@
+//components/properties/PropertiesFilter.tsx
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { SlidersHorizontal, X } from "lucide-react";
@@ -9,7 +11,6 @@ const FILTER_KEYS = [
   "budget",
   "beds",
   "baths",
-  "lifestyle",
   "location",
   "type",
   "views",
@@ -32,7 +33,6 @@ export interface TaxonomyItem {
 interface PropertiesFilterProps {
   locations?: TaxonomyItem[];
   propertyTypes?: TaxonomyItem[];
-  lifestyles?: TaxonomyItem[];
   isOpen: boolean;
   onClose: () => void;
   className?: string;
@@ -43,7 +43,6 @@ type FilterState = Record<string, string[]>;
 export default function PropertiesFilter({
   locations = [],
   propertyTypes = [],
-  lifestyles = [],
   isOpen,
   onClose,
   className,

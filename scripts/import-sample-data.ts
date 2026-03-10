@@ -1048,6 +1048,379 @@ const posts = [
   },
 ];
 
+// ============================================================
+// LOCATION SEED DATA
+// ============================================================
+const locationDocuments = [
+  {
+    _type: "location" as const,
+    title: [
+      {
+        _key: "en",
+        _type: "internationalizedArrayStringValue",
+        value: "Valencia",
+      },
+      {
+        _key: "es",
+        _type: "internationalizedArrayStringValue",
+        value: "Valencia",
+      },
+      {
+        _key: "ru",
+        _type: "internationalizedArrayStringValue",
+        value: "Валенсия",
+      },
+    ],
+    slug: { _type: "slug", current: "valencia" },
+  },
+];
+
+// ============================================================
+// PROPERTY SEED DATA  (images added manually via Studio)
+// ============================================================
+const propertyDocuments = [
+  {
+    _type: "property" as const,
+    propertyId: "REF-ELBOSQUE-PINECREST",
+    slug: { _type: "slug", current: "villa-pine-crest-el-bosque" },
+    featured: true,
+    title: [
+      {
+        _key: "en",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Pine Crest",
+      },
+      {
+        _key: "es",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Pine Crest",
+      },
+      {
+        _key: "ru",
+        _type: "internationalizedArrayStringValue",
+        value: "Вилла Pine Crest",
+      },
+    ],
+    description: {
+      _type: "localeBlock",
+      en: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Exclusive new construction villa in the prestigious Urbanization El Bosque, Valencia. Designed for harmony with nature, featuring an aerothermal system, premium kitchen, and private pool.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      es: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Exclusiva villa de obra nueva en la prestigiosa Urbanización El Bosque, Valencia. Diseñada para estar en armonía con la naturaleza, cuenta con sistema de aerotermia, cocina premium y piscina privada.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      ru: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Эксклюзивная вилла-новостройка в престижной урбанизации El Bosque, Валенсия. Спроектирована для гармонии с природой, оснащена системой аэротермии, кухней премиум-класса и частным бассейном.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+    },
+    status: "new_development",
+    price: 1000000,
+    priceOnRequest: false,
+    categories: ["luxury", "newDevelopments"],
+    listingTypes: ["sale", "new_development"],
+    propertyType: "villa",
+    condition: "new",
+    views: ["golf", "mountains"],
+    bedrooms: 4,
+    bathrooms: 4,
+    totalArea: 315,
+    features: ["terrace", "parking", "ac"],
+    amenities: ["pool", "garden", "security", "gated"],
+    lifestyles: ["golf"],
+  },
+  {
+    _type: "property" as const,
+    propertyId: "REF-ELBOSQUE-STONEHAVEN",
+    slug: { _type: "slug", current: "villa-stonehaven-el-bosque" },
+    featured: true,
+    title: [
+      {
+        _key: "en",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Stonehaven",
+      },
+      {
+        _key: "es",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Stonehaven",
+      },
+      {
+        _key: "ru",
+        _type: "internationalizedArrayStringValue",
+        value: "Вилла Stonehaven",
+      },
+    ],
+    description: {
+      _type: "localeBlock",
+      en: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Avant-garde luxury villa in Urbanization El Bosque, Valencia. A masterpiece of modern architecture with seamless indoor-outdoor flow, high-end finishes, and stunning views.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      es: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Villa de lujo vanguardista en la Urbanización El Bosque, Valencia. Una obra maestra de la arquitectura moderna con un flujo interior-exterior perfecto, acabados de alta gama e impresionantes vistas.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      ru: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Авангардная роскошная вилла в урбанизации El Bosque, Валенсия. Шедевр современной архитектуры с плавным переходом между внутренним и внешним пространством, высококлассной отделкой и потрясающими видами.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+    },
+    status: "new_development",
+    price: 500000,
+    priceOnRequest: false,
+    categories: ["luxury"],
+    listingTypes: ["sale", "new_development", "investment"],
+    propertyType: "villa",
+    condition: "new",
+    views: ["golf", "mountains"],
+    bedrooms: 4,
+    bathrooms: 3,
+    totalArea: 297,
+    features: ["terrace", "parking", "ac"],
+    amenities: ["pool", "garden", "security", "gated"],
+    lifestyles: ["golf"],
+  },
+  {
+    _type: "property" as const,
+    propertyId: "REF-ELBOSQUE-FORESTBAY",
+    slug: { _type: "slug", current: "villa-forest-bay-el-bosque" },
+    featured: true,
+    title: [
+      {
+        _key: "en",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Forest Bay",
+      },
+      {
+        _key: "es",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Forest Bay",
+      },
+      {
+        _key: "ru",
+        _type: "internationalizedArrayStringValue",
+        value: "Вилла Forest Bay",
+      },
+    ],
+    description: {
+      _type: "localeBlock",
+      en: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Magnificent new construction villa in Urbanization El Bosque, Valencia. Designed to blend seamlessly with its natural surroundings, offering premium amenities, an aerothermal system, and a private pool.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      es: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Magnífica villa de obra nueva en la Urbanización El Bosque, Valencia. Diseñada para integrarse perfectamente con su entorno natural, ofreciendo comodidades premium, sistema de aerotermia y piscina privada.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      ru: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Великолепная вилла-новостройка в урбанизации El Bosque, Валенсия. Спроектирована для идеального слияния с окружающей природой, предлагает первоклассные удобства, систему аэротермии и частный бассейн.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+    },
+    status: "new_development",
+    price: 500000,
+    priceOnRequest: false,
+    categories: ["luxury"],
+    listingTypes: ["sale", "private_listing"],
+    propertyType: "villa",
+    condition: "renovation",
+    views: ["golf", "mountains"],
+    bedrooms: 4,
+    bathrooms: 3,
+    totalArea: 297,
+    features: ["terrace", "parking", "ac"],
+    amenities: ["pool", "garden", "security", "gated"],
+    lifestyles: ["golf"],
+  },
+  {
+    _type: "property" as const,
+    propertyId: "REF-ELBOSQUE-FORESTEDGE",
+    slug: { _type: "slug", current: "villa-forest-edge-el-bosque" },
+    featured: false,
+    title: [
+      {
+        _key: "en",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Forest Edge",
+      },
+      {
+        _key: "es",
+        _type: "internationalizedArrayStringValue",
+        value: "Villa Forest Edge",
+      },
+      {
+        _key: "ru",
+        _type: "internationalizedArrayStringValue",
+        value: "Вилла Forest Edge",
+      },
+    ],
+    description: {
+      _type: "localeBlock",
+      en: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Exclusive modern villa in Urbanization El Bosque, Valencia. Positioned to offer maximum privacy and connection with nature, featuring premium finishes, an aerothermal climate system, and a private pool.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      es: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Exclusiva villa moderna en la Urbanización El Bosque, Valencia. Ubicada para ofrecer la máxima privacidad y conexión con la naturaleza, con acabados de primera calidad, sistema de climatización por aerotermia y piscina privada.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+      ru: [
+        {
+          _type: "block",
+          _key: "desc",
+          style: "normal",
+          children: [
+            {
+              _type: "span",
+              _key: "s",
+              text: "Эксклюзивная современная вилла в урбанизации El Bosque, Валенсия. Расположена так, чтобы обеспечить максимальную приватность и единение с природой, отличается первоклассной отделкой, аэротермической системой климат-контроля и частным бассейном.",
+              marks: [],
+            },
+          ],
+        },
+      ],
+    },
+    status: "new_development",
+    price: 500000,
+    priceOnRequest: false,
+    categories: ["luxury"],
+    listingTypes: ["sale", "new_development"],
+    propertyType: "villa",
+    condition: "new",
+    views: ["golf", "mountains"],
+    bedrooms: 4,
+    bathrooms: 3,
+    totalArea: 297,
+    features: ["terrace", "parking", "ac"],
+    amenities: ["pool", "garden", "security", "gated"],
+    lifestyles: ["golf"],
+  },
+];
+
 async function importAllData() {
   try {
     console.log("🚀 Starting complete data import...");
@@ -1131,6 +1504,69 @@ async function importAllData() {
     console.log(`📊 Summary:`);
     console.log(`   - Categories: ${createdCategories.length}`);
     console.log(`   - Posts: ${posts.length}`);
+
+    // ----------------------------------------------------------
+    // Step 3: Delete and re-create Locations
+    // ----------------------------------------------------------
+    console.log("🗑️  Deleting existing locations...");
+    const existingLocations = await client.fetch<string[]>(
+      `*[_type == "location"]._id`
+    );
+    if (existingLocations.length > 0) {
+      await client.delete({ query: `*[_type == "location"]` });
+      console.log(`✅ Deleted ${existingLocations.length} existing locations`);
+    }
+
+    console.log("📍 Importing locations...");
+    const createdLocations: Record<string, string> = {}; // slug → _id
+
+    for (const loc of locationDocuments) {
+      const result = await client.create(loc);
+      createdLocations[loc.slug.current] = result._id;
+      const label =
+        loc.title.find(t => t._key === "en")?.value ?? loc.slug.current;
+      console.log(`✅ Created location: ${label} (ID: ${result._id})`);
+    }
+
+    // ----------------------------------------------------------
+    // Step 4: Delete and re-create Properties
+    // ----------------------------------------------------------
+    console.log("🗑️  Deleting existing properties...");
+    const existingProperties = await client.fetch<string[]>(
+      `*[_type == "property"]._id`
+    );
+    if (existingProperties.length > 0) {
+      await client.delete({ query: `*[_type == "property"]` });
+      console.log(
+        `✅ Deleted ${existingProperties.length} existing properties`
+      );
+    }
+
+    console.log("🏠 Importing properties...");
+
+    for (const prop of propertyDocuments) {
+      const locationId = createdLocations["valencia"];
+      if (!locationId) {
+        console.error(
+          `❌ Location 'valencia' not found — skipping ${prop.propertyId}`
+        );
+        continue;
+      }
+
+      const doc = {
+        ...prop,
+        location: { _type: "reference" as const, _ref: locationId },
+      };
+
+      const result = await client.create(doc);
+      const label =
+        prop.title.find(t => t._key === "en")?.value ?? prop.propertyId;
+      console.log(`✅ Created property: ${label} (ID: ${result._id})`);
+    }
+
+    console.log(`   - Locations: ${Object.keys(createdLocations).length}`);
+    console.log(`   - Properties: ${propertyDocuments.length}`);
+    console.log("⚠️  NOTE: Images must be added manually in Sanity Studio.");
   } catch (error) {
     console.error("❌ Error importing data:", error);
   }

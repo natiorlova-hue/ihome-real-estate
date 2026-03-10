@@ -207,7 +207,7 @@ export default function HeaderClient({
 
             <Link
               href={
-                navStatuses.guides === "comingSoon" ? "/coming-soon" : "/blog"
+                navStatuses.guides === "comingSoon" ? "/coming-soon" : "/guides"
               }
               className="text-gray-700 transition-colors hover:text-terracotta-500"
             >

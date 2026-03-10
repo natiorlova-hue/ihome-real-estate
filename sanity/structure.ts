@@ -1,6 +1,6 @@
 //sanity/structure.ts
 
-import { StarIcon } from "@sanity/icons";
+import { HomeIcon, MasterDetailIcon, StarIcon } from "@sanity/icons";
 import type { StructureBuilder } from "sanity/structure";
 
 export const structure = (S: StructureBuilder) =>
@@ -27,7 +27,15 @@ export const structure = (S: StructureBuilder) =>
 
       S.divider(),
 
-      // Keep access to future schemas
+      // Properties
+      S.documentTypeListItem("property").title("Properties").icon(HomeIcon),
+
+      // Locations / Areas
+      S.documentTypeListItem("location").title("Locations / Areas").icon(MasterDetailIcon),
+
+      S.divider(),
+
+      // Keep access to future schemas (excluding already-listed types)
       ...S.documentTypeListItems().filter(
         (item) => !["post", "category", "property", "location", "propertyType", "lifestyle", "amenity"].includes(item.getId() ?? "")
       ),

@@ -90,6 +90,14 @@ options: {
       initialValue: false,
     }),
     defineField({
+      name: "featured",
+      title: "Featured Property",
+      type: "boolean",
+      group: "general",
+      initialValue: false,
+      description: "Show in the Featured Homes section on the homepage",
+    }),
+    defineField({
       name: "categories",
       title: "Category / Segment",
       type: "array" as const,
@@ -99,6 +107,22 @@ options: {
         list: [
           { title: "Luxury", value: "luxury" },
           { title: "Premium", value: "premium" },
+        ],
+      },
+    }),
+    defineField({
+      name: "listingTypes",
+      title: "Listing Types",
+      type: "array" as const,
+      group: "general",
+      of: [defineArrayMember({ type: "string" })],
+      options: {
+        list: [
+          { title: "For Sale", value: "sale" },
+          { title: "For Rent", value: "rent" },
+          { title: "New Development", value: "new_development" },
+          { title: "Private Listing", value: "private_listing" },
+          { title: "Investment", value: "investment" },
         ],
       },
     }),
