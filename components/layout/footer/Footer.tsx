@@ -17,9 +17,9 @@ export default async function Footer({ locale }: { locale: string }) {
   // СУВОРО: Тільки ці 5 пунктів, як ти просив
   const menuConfig = [
     { id: "home", href: "/" },
-    { id: "forYou", href: "/coming-soon" },
-    { id: "properties", href: "/coming-soon" },
-    { id: "guides", href: "/coming-soon" },
+    { id: "forYou", href: "/live-your-way" },
+    { id: "properties", href: "/properties" },
+    { id: "guides", href: "/blog" },
     { id: "ourWay", href: "/our-way" },
   ] as const;
 

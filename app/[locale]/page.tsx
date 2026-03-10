@@ -4,9 +4,9 @@ import Cta from "@/components/Cta";
 import ContactSection from "@/components/contact/ContactSection";
 import AboutUsSection from "@/components/home/AboutUsSection";
 import BenefitsSection from "@/components/home/BenefitsSection";
-// import FeaturedProperties from "@/components/home/FeaturedProperties";
+import FeaturedProperties from "@/components/home/FeaturedProperties";
 import HeroVisualSection from "@/components/home/HeroVisualSection";
-// import JournalSection from "@/components/home/JournalSection";
+import JournalSection from "@/components/home/JournalSection";
 import LifestyleSection from "@/components/home/LifestyleSection";
 import OurTeamSection from "@/components/home/OurTeamSection";
 import Reveal from "@/components/motion/Reveal";
@@ -39,7 +39,7 @@ export default async function HomePage({ params }: HomePageProps) {
         }}
       />
 
-      {/* <FeaturedProperties locale={locale} /> */}
+      <FeaturedProperties locale={locale} />
 
       <Cta
         locale={locale}
@@ -58,7 +58,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <BenefitsSection locale={locale} />
 
-      {/* <JournalSection locale={locale} /> */}
+      <JournalSection locale={locale} />
 
       <section className="bg-gray-50" aria-labelledby="quiz-heading">
         <div className="container">
