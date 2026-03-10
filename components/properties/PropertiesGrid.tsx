@@ -1,3 +1,5 @@
+// components/properties/PropertiesGrid.tsx
+
 "use client";
 
 import ContentCard from "@/components/content/ContentCard";
@@ -22,7 +24,6 @@ type PropertiesGridProps = {
   initialProperties: PropertyCardData[];
   locations?: TaxonomyItem[];
   propertyTypes?: TaxonomyItem[];
-  lifestyles?: TaxonomyItem[];
 };
 
 const CATEGORIES = [
@@ -52,9 +53,7 @@ export default function PropertiesGrid({
   initialProperties,
   locations = [],
   propertyTypes = [],
-  lifestyles = [],
 }: PropertiesGridProps) {
-  // Використовуємо неймспейс "properties", щоб мати доступ до t("filters...") та t("card...")
   const t = useTranslations("properties");
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -65,10 +64,8 @@ export default function PropertiesGrid({
   const activeCategory = searchParams.get("category") || "all";
   const currentSort = searchParams.get("sort") || "recent";
 
-  // --- 1. ЛОГІКА ФІЛЬТРАЦІЇ ---
   const filteredProperties = React.useMemo(() => {
     return initialProperties.filter(item => {
-      // --- ЛОГІКА ВКЛАДОК (TABS) ---
       if (
         activeCategory === "newDevelopments" &&
         !item.listingTypes?.includes("new_development")
@@ -86,23 +83,18 @@ export default function PropertiesGrid({
         return false;
       if (activeCategory === "featured" && !item.isFeatured) return false;
 
-      // --- ЛОГІКА Sale / Rent ТА ТИПУ ОБ'ЄКТА (Villa/Apartment) ---
       const typeParam = searchParams.get("type");
       if (typeParam) {
         if (typeParam === "sale" || typeParam === "rent") {
-          // Якщо це тип угоди - шукаємо в масиві
           if (!item.listingTypes?.includes(typeParam)) return false;
         } else {
-          // Якщо це вілли та інше - порівнюємо з типом об'єкта
           if (item.propertyType !== typeParam) return false;
         }
       }
 
-      // Кімнати та ванні (1-4: суворо, 5: мінімум)
       const bedsParam = searchParams.get("beds");
       if (bedsParam) {
         const val = Number(bedsParam);
-        val < 5 ? item.beds !== val && val !== 0 : item.beds < 5 && val !== 0;
         if (val < 5) {
           if (item.beds !== val) return false;
         } else {
@@ -120,7 +112,6 @@ export default function PropertiesGrid({
         }
       }
 
-      // Фільтр Площі
       const areaParam = searchParams.get("totalArea");
       if (areaParam) {
         const [min, maxStr] = areaParam.split("-");
@@ -129,7 +120,6 @@ export default function PropertiesGrid({
           return false;
       }
 
-      // Бюджет
       const budgetParam = searchParams.get("budget");
       if (budgetParam && item.price) {
         const [min, maxStr] = budgetParam.split("-");
@@ -137,7 +127,6 @@ export default function PropertiesGrid({
         if (item.price < Number(min) || item.price > maxVal) return false;
       }
 
-      // Luxury Toggle
       if (searchParams.get("luxury") === "true") {
         if (!item.categories?.some(c => c === "luxury" || c === "premium"))
           return false;
@@ -146,8 +135,7 @@ export default function PropertiesGrid({
       const loc = searchParams.get("location");
       if (loc && item.location !== loc) return false;
 
-      // ТУТ БУВ ДУБЛЬ "type", ЯКИЙ Я ВИДАЛИВ, ЩОБ НЕ БУЛО "ПУСТО"
-
+      // Функція перевірки чекбоксів (множинний вибір)
       const checkMulti = (key: string, itemArr: string[]) => {
         const p = searchParams.get(key);
         if (!p || !itemArr) return true;
@@ -158,10 +146,13 @@ export default function PropertiesGrid({
       if (!checkMulti("views", item.views)) return false;
       if (!checkMulti("features", item.features)) return false;
 
+      // ДОДАНО ЛОГІКУ ДЛЯ ЛАЙФСТАЙЛУ
+      if (!checkMulti("lifestyle", item.lifestyles)) return false;
+
       return true;
     });
   }, [initialProperties, searchParams, activeCategory]);
-  // --- 2. СОРТУВАННЯ ---
+
   const sortedProperties = React.useMemo(() => {
     const res = [...filteredProperties];
     if (currentSort === "price_asc")
@@ -171,7 +162,6 @@ export default function PropertiesGrid({
     return res;
   }, [filteredProperties, currentSort]);
 
-  // --- 3. ГЕНЕРАЦІЯ МІТОК ЧІПСІВ (ПРАВИЛЬНІ КЛЮЧІ З JSON) ---
   const getFilterLabel = (key: string, value: string) => {
     if (key === "location")
       return locations.find(l => l.slug === value)?.title || value;
@@ -217,6 +207,10 @@ export default function PropertiesGrid({
     }
 
     if (key === "luxury") return t("filters.labels.luxury");
+
+    // ПІДТЯГУЄМО ПЕРЕКЛАДИ
+    if (key === "lifestyle")
+      return t(`filters.lifestyle.${value}`, { fallback: value });
     if (key === "views")
       return t(`filters.views.${value}`, { fallback: value });
     if (key === "condition")
@@ -262,9 +256,11 @@ export default function PropertiesGrid({
                   const cur = new URLSearchParams(
                     Array.from(searchParams.entries())
                   );
-                  cat === "all"
-                    ? cur.delete("category")
-                    : cur.set("category", cat);
+                  if (cat === "all") {
+                    cur.delete("category");
+                  } else {
+                    cur.set("category", cat);
+                  }
                   router.replace(`${pathname}?${cur.toString()}`, {
                     scroll: false,
                   });
@@ -301,7 +297,6 @@ export default function PropertiesGrid({
               onClose={() => setIsFilterOpen(false)}
               locations={locations}
               propertyTypes={propertyTypes}
-              lifestyles={lifestyles}
             />
 
             {activeFilters.map(filter => (
@@ -321,9 +316,13 @@ export default function PropertiesGrid({
                         .get(filter.key)
                         ?.split(",")
                         .filter(v => v !== filter.value) || [];
-                    vals.length > 0
-                      ? cur.set(filter.key, vals.join(","))
-                      : cur.delete(filter.key);
+
+                    if (vals.length > 0) {
+                      cur.set(filter.key, vals.join(","));
+                    } else {
+                      cur.delete(filter.key);
+                    }
+
                     router.replace(`${pathname}?${cur.toString()}`, {
                       scroll: false,
                     });
@@ -386,18 +385,6 @@ export default function PropertiesGrid({
             No properties match your current filters.
           </div>
         )}
-      </div>
-
-      <div className="mt-12 flex items-center justify-between border-t border-gray-200 pt-6">
-        <Button variant="outline" className="bg-white text-gray-600">
-          Previous
-        </Button>
-        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 text-sm font-medium text-gray-900">
-          1
-        </div>
-        <Button variant="outline" className="bg-white text-gray-600">
-          Next
-        </Button>
       </div>
     </div>
   );

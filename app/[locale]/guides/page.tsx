@@ -137,7 +137,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
         <Reveal animation="fadeIn" delay="delay-200">
           <Link
             href={{
-              pathname: "/blog/[slug]",
+              pathname: "/guides/[slug]",
               params: { slug: "guide-to-marbella" },
             }}
             className="group relative block w-full aspect-[4/3] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-sm"

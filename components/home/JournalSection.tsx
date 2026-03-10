@@ -65,7 +65,7 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
 
       <div className="mt-10 flex justify-end md:mt-12">
         <Link
-          href="/blog"
+          href="/guides"
           className="inline-flex items-center gap-2 font-sans text-sm font-medium text-tertiary-600 transition-colors hover:text-gray-900"
         >
           {tCommon("viewAll")}

@@ -57,9 +57,9 @@ export default function BlogPostsGrid({ posts, locale }: BlogPostsGridProps) {
     <div className="py-8 md:py-16">
       <div className="container">
         <div className="mb-12 flex flex-col items-center gap-6 text-center md:mb-16">
-          <h2>{t("hero.title")}</h2>
+          <h2>{t("header.title")}</h2>
           <p className="max-w-[640px] text-tertiary-600">
-            {t("hero.subtitle")}
+            {t("header.subtitle")}
           </p>
         </div>
 
