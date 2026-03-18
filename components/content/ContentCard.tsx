@@ -21,7 +21,7 @@ export interface ContentCardProps {
 
   href: string;
 
-  image: string;
+  image?: string | null;
   imageAlt?: string;
 
   icon?: ReactNode;
@@ -52,15 +52,17 @@ export default function ContentCard({
   return (
     <Link href={href} className={cn("group relative bg-white", className)}>
       <div className="aspect-video overflow-hidden rounded-lg bg-gray-200">
-        <Image
-          width={400}
-          height={225}
-          src={image}
-          alt={imageAlt ?? title}
-          className="h-full w-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-105"
-          loading="lazy"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {image ? (
+          <Image
+            width={400}
+            height={225}
+            src={image}
+            alt={imageAlt ?? title}
+            className="h-full w-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-105"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : null}
       </div>
 
       <div className="flex flex-col items-start gap-1 pt-4">

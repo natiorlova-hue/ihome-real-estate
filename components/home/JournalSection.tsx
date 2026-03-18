@@ -45,7 +45,7 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
 
           const imageUrl = post.image
             ? urlFor(post.image).width(800).height(450).url()
-            : "";
+            : null;
 
           return (
             <ContentCard

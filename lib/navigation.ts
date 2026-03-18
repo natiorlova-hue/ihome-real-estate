@@ -57,7 +57,7 @@ export const mainNavigation: {
   ],
 
   right: [
-    { id: "guides", href: "blog", status: "active" },
+    { id: "guides", href: "guides", status: "active" },
     { id: "ourWay", href: "our-way", status: "active" },
   ],
 };
