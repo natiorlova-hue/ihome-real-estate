@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:staged": "prettier --write --ignore-unknown",
-    "import-sample": "tsx scripts/import-sample-data.ts"
+    "import-sample": "node --env-file=.env.local node_modules/.bin/tsx scripts/import-sample-data.ts"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",

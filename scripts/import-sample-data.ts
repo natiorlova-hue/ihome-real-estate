@@ -1,4 +1,5 @@
 //scripts/import-sample-data.ts
+import { locationDocuments } from "@/sanity/lib/locations";
 import { createClient } from "@sanity/client";
 
 // Create client using environment variables from .env file
@@ -1049,33 +1050,6 @@ const posts = [
 ];
 
 // ============================================================
-// LOCATION SEED DATA
-// ============================================================
-const locationDocuments = [
-  {
-    _type: "location" as const,
-    title: [
-      {
-        _key: "en",
-        _type: "internationalizedArrayStringValue",
-        value: "Valencia",
-      },
-      {
-        _key: "es",
-        _type: "internationalizedArrayStringValue",
-        value: "Valencia",
-      },
-      {
-        _key: "ru",
-        _type: "internationalizedArrayStringValue",
-        value: "Валенсия",
-      },
-    ],
-    slug: { _type: "slug", current: "valencia" },
-  },
-];
-
-// ============================================================
 // PROPERTY SEED DATA  (images added manually via Studio)
 // ============================================================
 const propertyDocuments = [
@@ -1506,7 +1480,21 @@ async function importAllData() {
     console.log(`   - Posts: ${posts.length}`);
 
     // ----------------------------------------------------------
-    // Step 3: Delete and re-create Locations
+    // Step 3: Delete existing Properties first (they reference locations)
+    // ----------------------------------------------------------
+    console.log("🗑️  Deleting existing properties...");
+    const existingProperties = await client.fetch<string[]>(
+      `*[_type == "property"]._id`
+    );
+    if (existingProperties.length > 0) {
+      await client.delete({ query: `*[_type == "property"]` });
+      console.log(
+        `✅ Deleted ${existingProperties.length} existing properties`
+      );
+    }
+
+    // ----------------------------------------------------------
+    // Step 4: Delete and re-create Locations
     // ----------------------------------------------------------
     console.log("🗑️  Deleting existing locations...");
     const existingLocations = await client.fetch<string[]>(
@@ -1529,19 +1517,8 @@ async function importAllData() {
     }
 
     // ----------------------------------------------------------
-    // Step 4: Delete and re-create Properties
+    // Step 5: Re-create Properties
     // ----------------------------------------------------------
-    console.log("🗑️  Deleting existing properties...");
-    const existingProperties = await client.fetch<string[]>(
-      `*[_type == "property"]._id`
-    );
-    if (existingProperties.length > 0) {
-      await client.delete({ query: `*[_type == "property"]` });
-      console.log(
-        `✅ Deleted ${existingProperties.length} existing properties`
-      );
-    }
-
     console.log("🏠 Importing properties...");
 
     for (const prop of propertyDocuments) {
