@@ -34,7 +34,8 @@
     },
     "related": {
       "title": "Featured Homes for You",
-      "subtitle": "Explore other properties that match your interests."
+      "subtitle": "Explore other properties that match your interests.",
+      "empty": "No related properties available yet."
     },
     "form": {
       "title": "Request Details",

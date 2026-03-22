@@ -32,5 +32,8 @@
   "notFound": {
     "title": "Guide not found",
     "button": "Back to guides"
+  },
+  "detail": {
+    "relatedArticles": "Related Articles"
   }
 }

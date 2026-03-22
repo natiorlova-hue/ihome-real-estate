@@ -315,7 +315,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
               subtitle="Lifestyle"
               description="From morning coffee by the sea to sunset dining in the old town, explore what makes everyday life here so special."
               image="https://images.unsplash.com/photo-1534008897995-27a23e859048?q=80&w=1000&auto=format&fit=crop"
-              href="/blog/mediterranean-bliss"
+              href="/guides/mediterranean-bliss"
               isLink
             />
           </Reveal>
@@ -328,7 +328,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
                 category="Sports & Leisure"
                 excerpt="A comprehensive review of championship courses for enthusiasts of all levels."
                 image="https://images.unsplash.com/photo-1587329310686-91414b8e3cb7?q=80&w=600&auto=format&fit=crop"
-                href="/blog/best-golf-courses"
+                href="/guides/best-golf-courses"
               />
             </Reveal>
             <Reveal animation="slideUp" delay="delay-300">
@@ -337,7 +337,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
                 category="Gastronomy"
                 excerpt="Discover the culinary masterpieces hidden along the golden mile."
                 image="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=600&auto=format&fit=crop"
-                href="/blog/michelin-dining"
+                href="/guides/michelin-dining"
               />
             </Reveal>
           </div>
@@ -366,7 +366,7 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
                   title={article.title}
                   subtitle={article.categoryLabel}
                   description={article.excerpt}
-                  href={`/blog/${article.slug}`}
+                  href={`/guides/${article.slug}`}
                   image={article.image}
                   isLink
                 />

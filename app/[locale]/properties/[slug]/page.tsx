@@ -208,7 +208,7 @@ export default async function PropertyDetailsPage({
               ))
             ) : (
               <div className="col-span-full py-8 text-center text-gray-500">
-                No related properties available yet.
+                {t("details.related.empty")}
               </div>
             )}
           </div>

@@ -1,3 +1,5 @@
+//sanity/schemaTypes/post.ts
+
 import type { PreviewValue } from "sanity";
 import { defineType } from "sanity";
 import { I18nStringItem } from "./_types";

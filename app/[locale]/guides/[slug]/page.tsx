@@ -1,5 +1,4 @@
-// app/[locale]/blog/[slug]/page.tsx
-/* eslint-disable @typescript-eslint/no-explicit-any */
+//app/[locale]/guides/[slug]/page.tsx
 import {
   PortableText,
   type PortableTextReactComponents,
@@ -21,6 +20,8 @@ import {
 } from "@/lib/blog";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string; locale: Locale }>;
@@ -42,7 +43,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   const origin = getOriginFromHeaders(await headers());
-  const url = origin ? new URL(`/${locale}/blog/${slug}`, origin) : undefined;
+  const url = origin ? new URL(`/${locale}/guides/${slug}`, origin) : undefined;
 
   const title = getLocalizedText(post.title, locale);
   const description = getLocalizedText(post.description, locale);
@@ -83,6 +84,7 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "guides" });
 
   const post = await getBlogPost(slug);
   if (!post) notFound();
@@ -98,18 +100,29 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const firstCategoryId = post.categories?.[0]?._ref;
   const relatedPosts = await getRelatedPosts(slug, firstCategoryId, 3);
 
+  // Typed value shapes for PortableText custom block types
+  type PtImageValue = {
+    _type: string;
+    alt?: string;
+    caption?: string;
+    asset?: { _ref: string };
+  };
+  type PtCalloutValue = { _type: string; title?: string; text?: string };
+  type PtLinkValue = { _type: string; href?: string };
+  type PtBlockValue = { _type: string };
+
   // 1. Програмно відокремлюємо callout від основного тексту
   const mainContent = content.filter(
-    block => (block as any)._type !== "callout"
+    block => (block as PtBlockValue)._type !== "callout"
   );
   const calloutBlocks = content.filter(
-    block => (block as any)._type === "callout"
+    block => (block as PtBlockValue)._type === "callout"
   );
 
   // 2. Виносимо компоненти в окрему константу, щоб перевикористати
   const ptComponents: Partial<PortableTextReactComponents> = {
     types: {
-      image: ({ value }: any) => {
+      image: ({ value }: { value: PtImageValue }) => {
         const src = value ? urlFor(value).width(1200).height(675).url() : null;
         if (!src) return null;
         return (
@@ -133,7 +146,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </figure>
         );
       },
-      callout: ({ value }: any) => (
+      callout: ({ value }: { value: PtCalloutValue }) => (
         <div className="my-12 rounded-2xl bg-gray-50 p-8 md:p-10">
           {value.title ? (
             <h4 className="mb-4 font-sans text-xl font-semibold text-gray-900">
@@ -145,27 +158,27 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       ),
     },
     block: {
-      h1: ({ children }: any) => (
+      h1: ({ children }: { children?: ReactNode }) => (
         <h2 className="mt-12 mb-6 font-serif text-3xl text-gray-900 md:text-4xl">
           {children}
         </h2>
       ),
-      h2: ({ children }: any) => (
+      h2: ({ children }: { children?: ReactNode }) => (
         <h2 className="mt-12 mb-6 font-serif text-3xl text-gray-900 md:text-4xl">
           {children}
         </h2>
       ),
-      h3: ({ children }: any) => (
+      h3: ({ children }: { children?: ReactNode }) => (
         <h3 className="mt-8 mb-4 font-serif text-2xl text-gray-900 md:text-3xl">
           {children}
         </h3>
       ),
-      normal: ({ children }: any) => (
+      normal: ({ children }: { children?: ReactNode }) => (
         <p className="mb-6 text-base leading-relaxed text-gray-700 md:text-lg">
           {children}
         </p>
       ),
-      blockquote: ({ children }: any) => (
+      blockquote: ({ children }: { children?: ReactNode }) => (
         <blockquote
           className="my-16
         font-serif text-2xl font-medium italic leading-relaxed text-gray-900 md:text-3xl"
@@ -175,16 +188,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       ),
     },
     marks: {
-      strong: ({ children }: any) => (
+      strong: ({ children }: { children?: ReactNode }) => (
         <strong className="font-semibold text-gray-900">{children}</strong>
       ),
-      em: ({ children }: any) => <em className="italic">{children}</em>,
-      code: ({ children }: any) => (
+      em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
+      code: ({ children }: { children?: ReactNode }) => (
         <code className="rounded bg-gray-100 px-2 py-1 font-mono text-sm text-gray-900">
           {children}
         </code>
       ),
-      link: ({ children, value }: any) => {
+      link: ({ children, value }: { children?: ReactNode; value?: PtLinkValue }) => {
         const href = typeof value?.href === "string" ? value.href : "#";
         const isExternal =
           href.startsWith("http://") || href.startsWith("https://");
@@ -201,10 +214,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       },
     },
     list: {
-      bullet: ({ children }: any) => (
+      bullet: ({ children }: { children?: ReactNode }) => (
         <ul className="my-8 list-disc space-y-2 pl-6">{children}</ul>
       ),
-      number: ({ children }: any) => (
+      number: ({ children }: { children?: ReactNode }) => (
         <ol className="my-8 list-decimal space-y-2 pl-6">{children}</ol>
       ),
     },
@@ -267,7 +280,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <section className="border-t border-gray-100 py-16 md:py-24">
           <div className="container">
             <h2 className="mb-10 font-serif text-3xl text-gray-900 md:text-4xl">
-              Related Articles
+              {t("detail.relatedArticles")}
             </h2>
             <GridContainer>
               {relatedPosts.map(relatedPost => {
