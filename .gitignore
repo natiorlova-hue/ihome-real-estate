@@ -47,3 +47,7 @@ next-env.d.ts
 Next.js i18n Code Audit.md
 ref-figma/
 .claude/
+
+public/sw.js
+public/*worker*.js
+public/workbox-*.js
