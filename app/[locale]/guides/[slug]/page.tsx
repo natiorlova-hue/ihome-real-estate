@@ -181,7 +181,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       blockquote: ({ children }: { children?: ReactNode }) => (
         <blockquote
           className="my-16
-        font-serif text-2xl font-medium italic leading-relaxed text-gray-900 md:text-3xl"
+          font-serif text-2xl font-medium italic leading-relaxed text-gray-900 md:text-3xl"
         >
           &ldquo;{children}&rdquo;
         </blockquote>
@@ -191,13 +191,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       strong: ({ children }: { children?: ReactNode }) => (
         <strong className="font-semibold text-gray-900">{children}</strong>
       ),
-      em: ({ children }: { children?: ReactNode }) => <em className="italic">{children}</em>,
+      em: ({ children }: { children?: ReactNode }) => (
+        <em className="italic">{children}</em>
+      ),
       code: ({ children }: { children?: ReactNode }) => (
         <code className="rounded bg-gray-100 px-2 py-1 font-mono text-sm text-gray-900">
           {children}
         </code>
       ),
-      link: ({ children, value }: { children?: ReactNode; value?: PtLinkValue }) => {
+      link: ({
+        children,
+        value,
+      }: {
+        children?: ReactNode;
+        value?: PtLinkValue;
+      }) => {
         const href = typeof value?.href === "string" ? value.href : "#";
         const isExternal =
           href.startsWith("http://") || href.startsWith("https://");
@@ -296,7 +304,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     subtitle={rCategory}
                     href={withLocale(
                       locale,
-                      `blog/${relatedPost.slug.current}`
+                      `guides/${relatedPost.slug.current}`
                     )}
                     image={
                       relatedPost.image

@@ -3,7 +3,7 @@ import ContentCard from "@/components/content/ContentCard";
 import Section from "@/components/layout/Section";
 import Reveal from "@/components/motion/Reveal";
 import { Link } from "@/i18n/routing";
-import { getLocalizedText, getRecentPosts } from "@/lib/blog";
+import { getLocalizedText, getLatestPostsByCategory } from "@/lib/blog";
 import { withLocale, type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
 import { ArrowRight } from "lucide-react";
@@ -17,7 +17,7 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
   const tHome = await getTranslations({ locale, namespace: "home" });
   const tCommon = await getTranslations({ locale, namespace: "common" });
 
-  const posts = await getRecentPosts(6);
+  const posts = await getLatestPostsByCategory(6);
 
   return (
     <Section className="bg-white" ariaLabelledby="journal-ihome-heading">
@@ -41,7 +41,7 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
             ? getLocalizedText(post.categories[0].title, locale)
             : undefined;
 
-          const href = withLocale(locale, `blog/${post.slug.current}`);
+          const href = withLocale(locale, `guides/${post.slug.current}`);
 
           const imageUrl = post.image
             ? urlFor(post.image).width(800).height(450).url()

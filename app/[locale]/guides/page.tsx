@@ -1,3 +1,5 @@
+//app/[locale]/guides/page.tsx
+
 import Cta from "@/components/Cta";
 import BlogPostsGrid from "@/components/blog/BlogPostsGrid";
 import ContactSection from "@/components/contact/ContactSection";

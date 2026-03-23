@@ -19,7 +19,7 @@ export default async function Footer({ locale }: { locale: string }) {
     { id: "home", href: "/" },
     { id: "forYou", href: "/live-your-way" },
     { id: "properties", href: "/properties" },
-    { id: "guides", href: "/blog" },
+    { id: "guides", href: "/guides" },
     { id: "ourWay", href: "/our-way" },
   ] as const;
 

@@ -75,7 +75,7 @@ export default function BlogPostsGrid({ posts, locale }: BlogPostsGridProps) {
                 key={post._id}
                 title={title}
                 subtitle={category}
-                href={withLocale(locale, `blog/${post.slug.current}`)}
+                href={withLocale(locale, `guides/${post.slug.current}`)}
                 image={
                   post.image
                     ? urlFor(post.image).width(400).height(225).url()
