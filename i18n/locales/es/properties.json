@@ -32,5 +32,10 @@
         "description": "Residencia espaciosa con panorámicas a la montaña y jardín privado. Espíritu andaluz combinado con un toque de..."
       }
     }
+  },
+  "details": {
+    "related": {
+      "empty": "Aún no hay propiedades relacionadas."
+    }
   }
 }

@@ -13,5 +13,8 @@
   "meta": {
     "title": "Guías",
     "description": "Guías"
+  },
+  "detail": {
+    "relatedArticles": "Artículos Relacionados"
   }
 }

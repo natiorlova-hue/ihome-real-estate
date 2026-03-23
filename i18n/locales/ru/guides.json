@@ -13,5 +13,8 @@
   "meta": {
     "title": "Руководства",
     "description": "Руководства"
+  },
+  "detail": {
+    "relatedArticles": "Похожие Статьи"
   }
 }
