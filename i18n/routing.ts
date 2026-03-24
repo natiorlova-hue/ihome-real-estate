@@ -18,6 +18,7 @@ export const pathnames = {
   "/our-way": "/our-way",
   "/properties": "/properties",
   "/properties/[region]": "/properties/[region]",
+  "/properties/[slug]": "/properties/[slug]",
   "/terms-conditions": "/terms-conditions",
   "/cookie-policy": "/cookie-policy",
   "/services": "/services",

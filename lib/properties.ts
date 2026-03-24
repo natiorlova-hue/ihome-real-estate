@@ -1,3 +1,5 @@
+//lib/properties.ts
+
 import { createClient as createSanityClient } from "@sanity/client";
 import { CardBadge } from "@/components/content/ContentCard";
 import { I18nText, Property, PropertyStatus } from "@/lib/types/property";
@@ -138,7 +140,5 @@ export async function getFeaturedProperties(
 
   const sanityProperties = await readClient.fetch<Property[]>(query);
 
-  console.log("🏠 readClient returned:", sanityProperties.length, "properties");
-
-  return sanityProperties.map(p => mapToCard(p, locale));
+  return sanityProperties.map(property => mapToCard(property, locale));
 }
