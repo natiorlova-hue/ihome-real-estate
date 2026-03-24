@@ -3,8 +3,8 @@ import ContentCard from "@/components/content/ContentCard";
 import Section from "@/components/layout/Section";
 import Reveal from "@/components/motion/Reveal";
 import { Link } from "@/i18n/routing";
-import { getLocalizedText, getLatestPostsByCategory } from "@/lib/blog";
-import { withLocale, type Locale } from "@/lib/locale-path";
+import { getLatestPostsByCategory, getLocalizedText } from "@/lib/blog";
+import { type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -41,8 +41,6 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
             ? getLocalizedText(post.categories[0].title, locale)
             : undefined;
 
-          const href = withLocale(locale, `guides/${post.slug.current}`);
-
           const imageUrl = post.image
             ? urlFor(post.image).width(800).height(450).url()
             : null;
@@ -53,7 +51,10 @@ export default async function JournalSection({ locale }: JournalSectionProps) {
               title={title}
               subtitle={categoryTitle}
               description={description}
-              href={href}
+              href={{
+                pathname: "/guides/[slug]",
+                params: { slug: post.slug.current },
+              }}
               image={imageUrl}
               imageAlt={post.image?.alt ?? title}
               isLink={true}

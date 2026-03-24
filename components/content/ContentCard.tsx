@@ -3,8 +3,8 @@ import Badge from "@/components/Badge";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-// eslint-disable-next-line no-restricted-imports
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import type { AppHref } from "@/lib/nav-href";
 import type { ReactNode } from "react";
 
 export type BadgeVariant = "pink" | "yellow" | "red" | "area";
@@ -19,7 +19,7 @@ export interface ContentCardProps {
   subtitle?: string;
   description?: string;
 
-  href: string;
+  href: AppHref;
 
   image?: string | null;
   imageAlt?: string;
