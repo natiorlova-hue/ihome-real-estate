@@ -69,7 +69,7 @@ export default async function PropertiesPage({ params }: PropertiesPageProps) {
             <div className="flex flex-wrap gap-4 pt-4">
               <Button asChild size="lg" className="rounded-lg">
                 <Link
-                  href={{ pathname: "/properties", query: { type: "buy" } }}
+                  href={{ pathname: "/properties", query: { type: "sale" } }}
                 >
                   {t("hero.buttons.primary")}
                 </Link>

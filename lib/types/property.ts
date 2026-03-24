@@ -26,31 +26,25 @@ export interface I18nText {
 }
 
 export interface Property {
-  // 1. Ідентифікатори
   id: string;
   propertyId: string;
   slug: string;
   featured: boolean;
 
-  // 2. Мультимовний контент (ЗМІНЕНО з string на I18nText)
   title: I18nText;
   description: I18nText;
 
-  // 3. Статус та Ціна
   status: PropertyStatus;
   price: number | null;
   priceOnRequest: boolean;
 
-  // 4. Категорії (ЗМІНЕНО з luxury: boolean на масив categories)
   categories: ("luxury" | "premium" | string)[];
 
-  // 5. Локація та Тип
   location: string;
   urbanizacion?: string;
   propertyType: string;
   listingTypes: ListingType[];
 
-  // 6. Характеристики
   condition: ConditionSlug;
   views: string[];
 
@@ -59,15 +53,61 @@ export interface Property {
   totalArea: number;
   livingArea?: number;
   plotArea?: number;
-  terraceArea?: number; // Додано для відповідності JSON
+  terraceArea?: number;
   floor?: string;
   yearBuilt?: number;
 
-  // 7. Списки таксономій
   features: string[];
   amenities: string[];
   lifestyles: string[];
 
-  // 8. Медіа
   images: string[];
 }
+
+export type PropertySeedDoc = {
+  _id?: string;
+  _type: "property";
+  propertyId: string;
+  slug: { _type: "slug"; current: string };
+  featured: boolean;
+
+  /**
+   * На рівні seed-масиву зберігаємо slug локації.
+   * Під час імпорту він конвертується у reference.
+   * Приклади: "valencia", "mijas", "guadalmansa"
+   */
+  location?: string;
+  urbanizacion?: string;
+
+  title: {
+    _key: string;
+    _type: "internationalizedArrayStringValue";
+    value: string;
+  }[];
+
+  description: unknown;
+
+  status: PropertyStatus;
+  priceOnRequest: boolean;
+  price?: number;
+
+  categories: readonly string[];
+  listingTypes: readonly ListingType[];
+
+  propertyType: string;
+  condition: ConditionSlug;
+  views: readonly string[];
+
+  bedrooms: number;
+  bathrooms: number;
+  totalArea: number;
+  livingArea?: number;
+  plotArea?: number;
+  terraceArea?: number;
+  floor?: string;
+  yearBuilt?: number;
+
+  features: readonly string[];
+  amenities: readonly string[];
+  lifestyles: readonly string[];
+};
