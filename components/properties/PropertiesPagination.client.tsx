@@ -51,14 +51,14 @@ export default function PropertiesPagination({
   return (
     <nav
       aria-label="Pagination"
-      className="flex flex-col gap-4 border-t border-black/10 pt-6 sm:flex-row sm:items-center sm:justify-between"
+      className="flex flex-col gap-4 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between"
     >
       <Button
         type="button"
         variant="ghost"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="min-h-11 justify-start px-0 text-sm text-black/55 hover:bg-transparent hover:text-black disabled:opacity-40"
+        className="min-h-11 justify-start px-0 text-sm text-gray-500 hover:bg-transparent hover:text-gray-900 disabled:opacity-40"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Previous
@@ -69,7 +69,7 @@ export default function PropertiesPagination({
           page === "ellipsis" ? (
             <span
               key={`ellipsis-${index}`}
-              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-sm text-black/35"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-sm text-gray-400"
             >
               ...
             </span>
@@ -82,8 +82,8 @@ export default function PropertiesPagination({
               className={cn(
                 "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm transition-colors",
                 currentPage === page
-                  ? "bg-black/5 font-medium text-black"
-                  : "text-black/50 hover:bg-black/[0.03] hover:text-black"
+                  ? "bg-gray-100 font-medium text-gray-900"
+                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
               )}
             >
               {page}
@@ -97,7 +97,7 @@ export default function PropertiesPagination({
         variant="ghost"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="min-h-11 justify-end px-0 text-sm text-black/55 hover:bg-transparent hover:text-black disabled:opacity-40"
+        className="min-h-11 justify-end px-0 text-sm text-gray-500 hover:bg-transparent hover:text-gray-900 disabled:opacity-40"
       >
         Next
         <ArrowRight className="ml-2 h-4 w-4" />

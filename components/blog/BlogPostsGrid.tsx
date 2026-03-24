@@ -3,7 +3,6 @@
 import GridContainer from "@/components/GridContainer";
 import Card from "@/components/content/ContentCard";
 import { getLocalizedText } from "@/lib/blog";
-import { withLocale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
 import { useTranslations } from "next-intl";
 
@@ -75,7 +74,10 @@ export default function BlogPostsGrid({ posts, locale }: BlogPostsGridProps) {
                 key={post._id}
                 title={title}
                 subtitle={category}
-                href={withLocale(locale, `guides/${post.slug.current}`)}
+                href={{
+                  pathname: "/guides/[slug]",
+                  params: { slug: post.slug.current },
+                }}
                 image={
                   post.image
                     ? urlFor(post.image).width(400).height(225).url()

@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import * as React from "react";
 
 import ContentCard from "@/components/content/ContentCard";
 import PropertiesFilter, {
@@ -17,6 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "@/i18n/routing";
 import type { PropertyCardData } from "@/lib/properties";
 import { cn, formatPrice } from "@/lib/utils";
 
@@ -51,6 +52,7 @@ const FILTER_KEYS = [
 
 const MOBILE_MAX = 767;
 const TABLET_MAX = 1279;
+const PROPERTIES_PATHNAME = "/properties" as const;
 
 function getItemsPerPage(width: number): number {
   if (width <= MOBILE_MAX) return 6;
@@ -66,7 +68,6 @@ export default function PropertiesGrid({
   const t = useTranslations("properties");
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
 
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const [itemsPerPage, setItemsPerPage] = React.useState(12);
@@ -102,10 +103,16 @@ export default function PropertiesGrid({
 
       const queryEntries = Array.from(params.entries());
 
-      const queryString = params.toString();
-      return queryString ? `${pathname}?${queryString}` : pathname;
+      return queryEntries.length > 0
+        ? {
+            pathname: PROPERTIES_PATHNAME,
+            query: Object.fromEntries(queryEntries),
+          }
+        : {
+            pathname: PROPERTIES_PATHNAME,
+          };
     },
-    [pathname, searchParams]
+    [searchParams]
   );
 
   const filteredProperties = React.useMemo(() => {
@@ -346,8 +353,8 @@ export default function PropertiesGrid({
                 className={cn(
                   "min-h-11 border-b-2 pb-3 text-left text-sm font-medium transition-colors",
                   activeCategory === category
-                    ? "border-[#C98B6B] text-[#C98B6B]"
-                    : "border-transparent text-black/55 hover:border-black/20 hover:text-black"
+                    ? "border-terracotta-500 text-terracotta-500"
+                    : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-900"
                 )}
               >
                 {t(`filters.categories.${category}`)}
@@ -362,8 +369,8 @@ export default function PropertiesGrid({
               variant="outline"
               onClick={() => setIsFilterOpen(prev => !prev)}
               className={cn(
-                "min-h-11 border-black/10 bg-white px-4 text-black",
-                isFilterOpen && "ring-4 ring-black/5"
+                "min-h-11 border-gray-200 bg-white px-4 text-gray-700",
+                isFilterOpen && "ring-4 ring-brandBlue-100"
               )}
             >
               <SlidersHorizontal className="mr-2 h-4 w-4" />
@@ -402,7 +409,7 @@ export default function PropertiesGrid({
                     { scroll: false }
                   );
                 }}
-                className="inline-flex min-h-11 items-center gap-1.5 rounded-md border border-black/10 bg-black/[0.02] px-3 py-2 text-sm text-black"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-md border border-blue-light-200 bg-blue-light-50 px-3 py-2 text-sm font-medium text-blue-light-700"
               >
                 <span>{filter.label}</span>
                 <X className="h-4 w-4" />
@@ -415,18 +422,21 @@ export default function PropertiesGrid({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="min-h-11 min-w-[180px] justify-between bg-white px-4 text-black"
+                  className="min-h-11 min-w-[180px] justify-between border-gray-200 bg-white px-4 text-gray-700"
                 >
                   {currentSort === "recent"
                     ? "Most recent"
                     : currentSort === "price_asc"
                       ? "Price: Low to High"
                       : "Price: High to Low"}
-                  <ChevronDown className="ml-2 h-4 w-4 text-black/40" />
+                  <ChevronDown className="ml-2 h-4 w-4 text-gray-400" />
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent align="end" className="bg-white">
+              <DropdownMenuContent
+                align="end"
+                className="border-gray-200 bg-white"
+              >
                 <DropdownMenuItem
                   onClick={() => {
                     router.replace(

@@ -18,7 +18,7 @@ import {
   getLocalizedText,
   getRelatedPosts,
 } from "@/lib/blog";
-import { withLocale, type Locale } from "@/lib/locale-path";
+import { type Locale } from "@/lib/locale-path";
 import { urlFor } from "@/sanity/lib/image";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
@@ -302,10 +302,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     key={relatedPost._id}
                     title={rTitle}
                     subtitle={rCategory}
-                    href={withLocale(
-                      locale,
-                      `guides/${relatedPost.slug.current}`
-                    )}
+                    href={{
+                      pathname: "/guides/[slug]",
+                      params: { slug: relatedPost.slug.current }
+                    }}
                     image={
                       relatedPost.image
                         ? urlFor(relatedPost.image).width(400).height(225).url()

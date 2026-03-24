@@ -194,7 +194,10 @@ export default async function PropertyDetailsPage({
                 >
                   <ContentCard
                     title={prop.title}
-                    href={`/properties/${prop.slug}`}
+                    href={{
+                      pathname: "/properties/[slug]",
+                      params: { slug: prop.slug },
+                    }}
                     image={prop.image}
                     topBadge={prop.topBadge}
                     bottomBadge={prop.bottomBadge}

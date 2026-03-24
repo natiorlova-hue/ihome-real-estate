@@ -13,7 +13,7 @@ const eslintConfig = [
   {
     rules: {
       // Engineering serves emotion: clean code only
-      "no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-explicit-any": "error", // Hard Rule
 
       "no-restricted-imports": [

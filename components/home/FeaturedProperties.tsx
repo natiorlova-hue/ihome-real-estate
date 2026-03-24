@@ -62,7 +62,10 @@ export default async function FeaturedProperties({
                 key={item.id}
                 title={item.title} // Синхронізовано: текст вже перекладений у mapToCard
                 description={item.description} // Синхронізовано: перші 2 рядки опису
-                href={`/properties/${item.slug}`}
+                href={{
+                  pathname: "/properties/[slug]",
+                  params: { slug: item.slug },
+                }}
                 image={item.image}
                 imageAlt={item.title}
                 topBadge={item.topBadge} // Синхронізовано з PropertiesGrid

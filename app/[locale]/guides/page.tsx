@@ -317,7 +317,10 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
               subtitle="Lifestyle"
               description="From morning coffee by the sea to sunset dining in the old town, explore what makes everyday life here so special."
               image="https://images.unsplash.com/photo-1534008897995-27a23e859048?q=80&w=1000&auto=format&fit=crop"
-              href="/guides/mediterranean-bliss"
+              href={{
+                pathname: "/guides/[slug]",
+                params: { slug: "mediterranean-bliss" },
+              }}
               isLink
             />
           </Reveal>
@@ -368,7 +371,10 @@ export default async function GuidesPage({ params }: GuidesPageProps) {
                   title={article.title}
                   subtitle={article.categoryLabel}
                   description={article.excerpt}
-                  href={`/guides/${article.slug}`}
+                  href={{
+                    pathname: "/guides/[slug]",
+                    params: { slug: article.slug },
+                  }}
                   image={article.image}
                   isLink
                 />
