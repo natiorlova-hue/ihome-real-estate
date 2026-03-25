@@ -1,17 +1,6 @@
-//lib/properties.ts
-
-import { createClient as createSanityClient } from "@sanity/client";
 import { CardBadge } from "@/components/content/ContentCard";
 import { I18nText, Property, PropertyStatus } from "@/lib/types/property";
-
-const readClient = createSanityClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  apiVersion: "2024-01-01",
-  useCdn: false,
-  token: process.env.SANITY_API_TOKEN,
-  perspective: "drafts",
-});
+import { serverClient } from "@/sanity/lib/client";
 
 export interface PropertyCardData {
   id: string;
@@ -26,7 +15,6 @@ export interface PropertyCardData {
   baths: number;
   totalArea: number;
   isFeatured: boolean;
-
   categories: string[];
   location: string;
   propertyType: string;
@@ -37,7 +25,6 @@ export interface PropertyCardData {
   condition: string;
   status: PropertyStatus;
   listingTypes: string[];
-
   topBadge?: CardBadge;
   bottomBadge?: CardBadge;
 }
@@ -72,7 +59,6 @@ export function mapToCard(prop: Property, locale: string): PropertyCardData {
     beds: prop.bedrooms || 0,
     baths: prop.bathrooms || 0,
     totalArea: prop.totalArea || 0,
-
     categories: prop.categories || [],
     location: prop.location || "",
     propertyType: prop.propertyType || "",
@@ -83,7 +69,6 @@ export function mapToCard(prop: Property, locale: string): PropertyCardData {
     condition: prop.condition || "new",
     status: prop.status || "resale",
     listingTypes: prop.listingTypes || [],
-
     topBadge: prop.status
       ? {
           text: statusTranslations[prop.status]?.text || prop.status,
@@ -100,7 +85,7 @@ export function mapToCard(prop: Property, locale: string): PropertyCardData {
 export async function getFeaturedProperties(
   locale: string
 ): Promise<PropertyCardData[]> {
-  const query = `*[_type == "property"] | order(_createdAt desc) {
+  const propertiesQuery = `*[_type == "property"] | order(_createdAt desc) {
     "id": _id,
     propertyId,
     "slug": slug.current,
@@ -138,7 +123,8 @@ export async function getFeaturedProperties(
     "images": images[].asset->url
   }`;
 
-  const sanityProperties = await readClient.fetch<Property[]>(query);
+  const sanityProperties =
+    await serverClient.fetch<Property[]>(propertiesQuery);
 
   return sanityProperties.map(property => mapToCard(property, locale));
 }

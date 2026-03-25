@@ -4,6 +4,7 @@
  * Sanity Studio configuration (mounted at /studio)
  */
 import { defineConfig } from "sanity";
+
 import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { structureTool } from "sanity/structure";
 

@@ -1,7 +1,7 @@
 //lib/blog.ts
 
 import type { Locale } from "@/lib/locale-path";
-import { client } from "@/sanity/lib/client";
+import { serverClient } from "@/sanity/lib/client";
 import type { PortableTextBlock } from "@portabletext/types";
 
 // Helper function to get localized text
@@ -117,7 +117,7 @@ export async function getRecentPosts(limit: number = 6): Promise<BlogPost[]> {
     }
   `;
 
-  return client.fetch(query, { limit });
+  return serverClient.fetch(query, { limit });
 }
 
 export async function getLatestPostsByCategory(
@@ -145,7 +145,7 @@ export async function getLatestPostsByCategory(
     }.latestPost
   `;
 
-  const posts = await client.fetch<(BlogPost | null)[]>(query, { limit });
+  const posts = await serverClient.fetch<(BlogPost | null)[]>(query, { limit });
 
   return posts.filter((post): post is BlogPost => Boolean(post?._id));
 }
@@ -155,7 +155,6 @@ export async function getRelatedPosts(
   categoryId?: string,
   limit: number = 3
 ): Promise<BlogPost[]> {
-  // Якщо є категорія, шукаємо в ній. Якщо ні - просто беремо останні.
   const categoryFilter = categoryId
     ? `&& $categoryId in categories[]._ref`
     : ``;
@@ -173,7 +172,7 @@ export async function getRelatedPosts(
     }
   `;
 
-  return await client.fetch(query, { currentSlug, categoryId, limit });
+  return await serverClient.fetch(query, { currentSlug, categoryId, limit });
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
@@ -191,7 +190,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     seo
   }
 `;
-  return await client.fetch(query);
+  return await serverClient.fetch(query);
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -210,7 +209,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   }
 `;
 
-  return await client.fetch(query, { slug });
+  return await serverClient.fetch(query, { slug });
 }
 
 export async function getFeaturedPosts(): Promise<BlogPost[]> {
@@ -239,5 +238,5 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
     }
   `;
 
-  return await client.fetch(query);
+  return await serverClient.fetch(query);
 }
