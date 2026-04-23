@@ -42,7 +42,7 @@ export default async function AboutUsSection({ locale }: AboutUsSectionProps) {
           <Reveal animation="slideUp" delay="delay-200">
             <div className="relative flex justify-center md:justify-start">
               <Image
-                src="/images-team/about-main.png"
+                src="/images-team/about-team-cover.png"
                 alt={t("about.title")}
                 width={680}
                 height={460}
