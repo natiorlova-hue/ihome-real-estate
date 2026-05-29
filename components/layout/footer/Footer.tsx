@@ -63,7 +63,7 @@ export default async function Footer({ locale }: { locale: string }) {
                   </svg>
                 </a>
                 <a
-                  href="https://t.me/ihome_realty"
+                  href="https://t.me/orlovanati"
                   target="_blank"
                   rel="noreferrer"
                   className="hover:opacity-80 transition-opacity"

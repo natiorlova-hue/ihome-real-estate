@@ -5,22 +5,23 @@
       "home": "Inicio",
       "forYou": "Para ti",
       "properties": "Propiedades",
+      "services": "Servicios",
       "guides": "Guías e historias",
-      "ourWay": "Nuestra forma de trabajar"
+      "ourWay": "Nuestro enfoque"
     },
     "actions": {
       "method": "Método Coastal Clarity",
-      "talk": "¡Hablemos!"
+      "talk": "Hablemos"
     },
     "dropdown": {
       "properties": {
         "sale": {
           "title": "En venta",
-          "desc": "Descubre viviendas y villas cuidadosamente seleccionadas en toda la Costa del Sol."
+          "desc": "Explora casas y villas cuidadosamente seleccionadas en la Costa del Sol."
         },
         "rent": {
           "title": "En alquiler",
-          "desc": "Encuentra alquileres de larga duración y estancias de temporada junto al mar."
+          "desc": "Encuentra alquileres elegantes de larga estancia y estancias de temporada junto al mar."
         },
         "sell": {
           "title": "Vende tu propiedad",
@@ -31,7 +32,7 @@
     "a11y": {
       "openMenu": "Abrir menú principal",
       "closeMenu": "Cerrar menú",
-      "homeAria": "Ir a la página principal"
+      "homeAria": "Ir a la página de inicio"
     }
   }
 }
