@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "title": "No somos una agencia. Somos una guía boutique para vivir junto al mar.",
+    "subtitle": "No solo enseñamos casas: escuchamos, entendemos y te guiamos en una de las decisiones más importantes de tu vida.",
+    "cta": "Empieza tu camino"
+  },
+  "quote": {
+    "text": "“Escucho antes de ofrecer.”",
+    "desc": "En iHome creemos que cada cliente tiene una historia. Por eso nuestro primer paso es escuchar: tu estilo de vida, las necesidades de tu familia, tus sueños y tu visión del futuro.",
+    "subtext": "No solo conectamos una persona con una propiedad; conectamos una persona con una forma de vivir."
+  },
+  "values": {
+    "title": "Nuestros valores",
+    "items": {
+      "trust": {
+        "title": "Confianza",
+        "desc": "Transparencia y ética en cada paso."
+      },
+      "focus": {
+        "title": "Enfoque",
+        "desc": "Adaptamos cada búsqueda a tu estilo de vida."
+      },
+      "global": {
+        "title": "Mentalidad global",
+        "desc": "Hablamos tu idioma y entendemos tu gusto."
+      },
+      "ease": {
+        "title": "Tranquilidad",
+        "desc": "Hacemos que el proceso sea claro, agradable y sin estrés."
+      }
+    }
+  },
+  "work": {
+    "title": "Cómo trabajamos",
+    "steps": {
+      "1": {
+        "title": "Llamada de descubrimiento",
+        "desc": "Entendemos tus necesidades únicas."
+      },
+      "2": {
+        "title": "Selección curada",
+        "desc": "Una lista breve de propiedades elegidas con intención."
+      },
+      "3": {
+        "title": "Visita a la propiedad",
+        "desc": "Recorridos guiados con contexto local."
+      },
+      "4": {
+        "title": "Parte legal y compra",
+        "desc": "Acompañamiento fluido durante toda la transacción."
+      },
+      "5": {
+        "title": "Relocación y preparación",
+        "desc": "Bienvenido a tu nueva vida."
+      }
+    },
+    "disclaimer": "Los servicios de relocación incluyen búsqueda de colegios, registro del coche y gestión de la propiedad."
+  },
+  "closing": {
+    "title": "Desde la primera llamada hasta vivir tu sueño.",
+    "desc": "Te acompañamos en todo el camino: desde la primera consulta hasta la compra y la llegada a tu nueva vida mediterránea. Se trata de una relación, no solo de un contrato.",
+    "subdesc": "Nuestro enfoque integral asegura una transición fluida, para que puedas centrarte en la alegría de empezar un nuevo capítulo. Nosotros gestionamos la complejidad para que tú puedas empezar a dar forma a tu camino.",
+    "cta": "Síguenos"
+  }
+}

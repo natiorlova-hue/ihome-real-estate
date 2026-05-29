@@ -1,0 +1,100 @@
+{
+  "hero": {
+    "title": "Más que inmobiliaria: apoyo completo para tu nueva vida.",
+    "subtitle": "Desde la primera visita hasta la gestión de tu propiedad. Estamos a tu lado en cada paso, con nuestro equipo dedicado.",
+    "cta": "Reservar una consulta"
+  },
+  "coreServices": {
+    "title": "Nuestros servicios principales",
+    "items": {
+      "search": {
+        "title": "Búsqueda y selección de propiedades",
+        "desc": "Seleccionamos las mejores propiedades según tus criterios y necesidades."
+      },
+      "legal": {
+        "title": "Apoyo legal y financiero",
+        "desc": "Nos encargamos de la documentación y te ayudamos con la financiación hipotecaria."
+      },
+      "relocation": {
+        "title": "Asistencia en la relocación",
+        "desc": "Hacemos que tu mudanza sea lo más fluida posible, ayudándote con todo lo que necesites."
+      },
+      "management": {
+        "title": "Gestión de la propiedad",
+        "desc": "Cuidamos tu propiedad cuando no estás, para que tengas tranquilidad."
+      },
+      "concierge": {
+        "title": "Concierge y apoyo de lifestyle",
+        "desc": "Recomendaciones locales y asistencia personalizada para tu estilo de vida."
+      },
+      "renovation": {
+        "title": "Reforma e interiores",
+        "desc": "Te ayudamos a transformar tu propiedad en la casa que imaginas."
+      }
+    }
+  },
+  "whyChoose": {
+    "title": "¿Por qué elegir iHome?",
+    "items": {
+      "approach": {
+        "title": "Enfoque personal",
+        "desc": "Tratamos a cada cliente como nuestro único cliente, priorizando su visión."
+      },
+      "network": {
+        "title": "Red de confianza",
+        "desc": "Trabajamos con los mejores profesionales y expertos locales de la zona."
+      },
+      "team": {
+        "title": "Equipo multilingüe",
+        "desc": "Hablamos tu idioma y entendemos tus preferencias culturales."
+      }
+    }
+  },
+  "work": {
+    "title": "Resumen del proceso",
+    "steps": {
+      "1": {
+        "title": "Llamada de descubrimiento",
+        "desc": "Empezamos entendiendo tus necesidades, preferencias de lifestyle y objetivos de inversión."
+      },
+      "2": {
+        "title": "Selección de propiedades",
+        "desc": "Nuestro equipo prepara una cartera personalizada de propiedades que encajan con tus criterios exactos."
+      },
+      "3": {
+        "title": "Visita a la propiedad",
+        "desc": "Organizamos visitas privadas, presenciales o mediante recorridos virtuales detallados."
+      },
+      "4": {
+        "title": "Parte legal y compra",
+        "desc": "Nuestros socios legales garantizan un proceso de compra seguro, transparente y fluido."
+      },
+      "5": {
+        "title": "Mudanza y preparación de lifestyle",
+        "desc": "Desde el diseño interior hasta la búsqueda de colegios, te acompañamos en toda la relocación."
+      }
+    },
+    "disclaimer": "Garantizamos transparencia y apoyo completo en cada etapa del proceso."
+  },
+  "stories": {
+    "title": "Lo que dicen nuestros clientes",
+    "subtitle": "Experiencias reales de familias, inversores y nuevos residentes en España.",
+    "items": {
+      "1": {
+        "quote": "El equipo de iHome hizo que nuestra relocación fuera completamente fluida. Su conocimiento local es excepcional y realmente escucharon nuestras necesidades.",
+        "author": "Sarah y Mark Davies",
+        "role": "Se mudaron desde Londres"
+      },
+      "2": {
+        "quote": "Encontramos nuestra propiedad de inversión ideal en dos semanas. Las proyecciones de ROI fueron precisas y el proceso de compra fue transparente.",
+        "author": "Elena Rodriguez",
+        "role": "Inversora inmobiliaria"
+      },
+      "3": {
+        "quote": "Un servicio verdaderamente personalizado. No solo nos vendieron una casa, nos presentaron el estilo de vida, los colegios y la comunidad local.",
+        "author": "La familia Thompson",
+        "role": "Nuevos residentes en Estepona"
+      }
+    }
+  }
+}

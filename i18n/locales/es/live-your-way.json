@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "title": "Vive a tu manera | iHome Real Estate",
+    "description": "Elige el estilo de vida que encaja con tu historia: te guiaremos hacia la casa, el barrio y la forma de vivir adecuados."
+  },
+  "hero": {
+    "quizBadge": {
+      "label": "Encuentra tu hogar",
+      "text": "Haz un quiz de 1 minuto y descubre qué encaja con tu estilo de vida"
+    },
+    "title": "Encuéntrate en la Costa del Sol.",
+    "subtitle": "Elige el estilo de vida que encaja con tu historia: te guiaremos hacia la casa, el barrio y la forma de vivir adecuados.",
+    "buttons": {
+      "explore": "Explorar estilos de vida",
+      "guidance": "Recibir orientación personal"
+    }
+  },
+  "categories": {
+    "families": {
+      "title": "Familias que se mudan",
+      "description": "Encuentra el hogar perfecto para tu familia, con colegios, comodidad y seguridad."
+    },
+    "nomads": {
+      "title": "Nómadas digitales",
+      "description": "Vive y trabaja junto al mar, con buen Wi-Fi, sol e inspiración."
+    },
+    "golden": {
+      "title": "Años dorados",
+      "description": "Comodidad, calma y sol para tu próximo capítulo en España."
+    },
+    "golf": {
+      "title": "Golf y vida tranquila",
+      "description": "Hogares rodeados de vistas verdes, campos de golf y mañanas serenas."
+    },
+    "investment": {
+      "title": "Inversores",
+      "description": "Propiedades con ROI sólido, promotores de confianza y alta demanda de alquiler."
+    }
+  },
+  "ui": {
+    "viewAll": "Ver todo",
+    "read": "Leer artículo",
+    "sort": {
+      "mostRecent": "Más reciente"
+    }
+  },
+  "empty": {
+    "title": "Aún no hay artículos",
+    "subtitle": "Vuelve pronto..."
+  },
+  "stories": {
+    "title": "Historias de clientes",
+    "subtitle": "Experiencias reales de nuestros clientes"
+  }
+}
