@@ -17,6 +17,9 @@ importers:
       '@portabletext/react':
         specifier: ^4.0.3
         version: 4.0.3(react@19.1.0)
+      '@portabletext/types':
+        specifier: ^4.0.2
+        version: 4.0.2
       '@radix-ui/react-checkbox':
         specifier: ^1.3.3
         version: 1.3.3(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
